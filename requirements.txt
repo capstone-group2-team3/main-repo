@@ -6,3 +6,5 @@ gradio
 qdrant-client
 sentence-transformers
 python-multipart
+pytest
+httpx
