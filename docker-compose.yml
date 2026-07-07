@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: meddx_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/meddx.db
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
