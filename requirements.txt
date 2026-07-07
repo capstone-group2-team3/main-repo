@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic
+sqlalchemy
+gradio
+qdrant-client
+sentence-transformers
+python-multipart
