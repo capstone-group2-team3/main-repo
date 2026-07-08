@@ -1,0 +1,20 @@
+{"case_id": "CASE_001", "age": 35, "gender": "Male", "lab_results": {"Hemoglobin": 14.5, "WBC": 6.5, "Glucose": 85, "Creatinine": 0.9, "Sodium": 140}, "expected_patterns": ["normal_pattern"], "severity_label": "Routine"}
+{"case_id": "CASE_002", "age": 28, "gender": "Female", "lab_results": {"Hemoglobin": 9.2, "WBC": 7.0, "Platelets": 250}, "expected_patterns": ["anemia_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_003", "age": 60, "gender": "Male", "lab_results": {"Glucose": 195, "HbA1c": 8.5, "Creatinine": 1.7}, "expected_patterns": ["hyperglycemia_pattern", "kidney_dysfunction_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_004", "age": 45, "gender": "Female", "lab_results": {"WBC": 16.5, "CRP": 28, "Calcium": 9.5}, "expected_patterns": ["infection_inflammation_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_005", "age": 55, "gender": "Male", "lab_results": {"TSH": 6.5, "Sodium": 128, "Potassium": 5.8}, "expected_patterns": ["thyroid_imbalance_pattern", "electrolyte_imbalance_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_006", "age": 42, "gender": "Female", "lab_results": {"Hemoglobin": 13.0, "WBC": 5.5, "Platelets": 300, "Glucose": 90, "Creatinine": 0.8}, "expected_patterns": ["normal_pattern"], "severity_label": "Routine"}
+{"case_id": "CASE_007", "age": 50, "gender": "Male", "lab_results": {"HbA1c": 6.8, "Glucose": 140, "LDL": 150}, "expected_patterns": ["hyperglycemia_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_008", "age": 65, "gender": "Female", "lab_results": {"Creatinine": 2.1, "Potassium": 5.9, "Sodium": 130}, "expected_patterns": ["kidney_dysfunction_pattern", "electrolyte_imbalance_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_009", "age": 22, "gender": "Male", "lab_results": {"TSH": 0.1, "WBC": 4.5}, "expected_patterns": ["thyroid_imbalance_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_010", "age": 70, "gender": "Male", "lab_results": {"Hemoglobin": 8.5, "CRP": 45, "Albumin": 2.8}, "expected_patterns": ["anemia_pattern", "infection_inflammation_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_011", "age": 30, "gender": "Female", "lab_results": {"LDL": 130, "HDL": 35, "Glucose": 95}, "expected_patterns": ["normal_pattern"], "severity_label": "Routine"}
+{"case_id": "CASE_012", "age": 48, "gender": "Male", "lab_results": {"Glucose": 350, "Sodium": 125, "Potassium": 3.0}, "expected_patterns": ["hyperglycemia_pattern", "electrolyte_imbalance_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_013", "age": 38, "gender": "Female", "lab_results": {"TSH": 15.0, "LDL": 160}, "expected_patterns": ["thyroid_imbalance_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_014", "age": 55, "gender": "Male", "lab_results": {"WBC": 18.0, "CRP": 110, "Glucose": 160}, "expected_patterns": ["infection_inflammation_pattern", "hyperglycemia_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_015", "age": 29, "gender": "Female", "lab_results": {"Hemoglobin": 10.5, "Platelets": 120}, "expected_patterns": ["anemia_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_016", "age": 62, "gender": "Male", "lab_results": {"Creatinine": 1.1, "HbA1c": 5.4, "TSH": 2.5}, "expected_patterns": ["normal_pattern"], "severity_label": "Routine"}
+{"case_id": "CASE_017", "age": 80, "gender": "Female", "lab_results": {"Albumin": 2.5, "Calcium": 7.5, "Hemoglobin": 9.0}, "expected_patterns": ["anemia_pattern"], "severity_label": "Critical"}
+{"case_id": "CASE_018", "age": 45, "gender": "Male", "lab_results": {"LDL": 190, "HbA1c": 7.2}, "expected_patterns": ["hyperglycemia_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_019", "age": 33, "gender": "Female", "lab_results": {"WBC": 12.5, "CRP": 15, "TSH": 3.0}, "expected_patterns": ["infection_inflammation_pattern"], "severity_label": "Urgent"}
+{"case_id": "CASE_020", "age": 58, "gender": "Male", "lab_results": {"Potassium": 6.5, "Creatinine": 3.0, "Glucose": 210}, "expected_patterns": ["electrolyte_imbalance_pattern", "kidney_dysfunction_pattern", "hyperglycemia_pattern"], "severity_label": "Critical"}

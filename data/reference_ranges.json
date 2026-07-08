@@ -1,15 +1,16 @@
 {
-  "key_disclaimer": "These reference ranges are simplified for educational evaluation only and may differ by lab, age, sex, and clinical context.",
-  "ranges": {
-    "Hemoglobin": {"low": 13.5, "high": 17.5, "critical_low": 7.0, "critical_high": 20.0, "unit": "g/dL"},
-    "WBC": {"low": 4.5, "high": 11.0, "critical_low": 2.0, "critical_high": 30.0, "unit": "10^9/L"},
-    "Platelets": {"low": 150.0, "high": 450.0, "critical_low": 50.0, "critical_high": 1000.0, "unit": "10^9/L"},
-    "Glucose": {"low": 70.0, "high": 99.0, "critical_low": 40.0, "critical_high": 400.0, "unit": "mg/dL"},
-    "HbA1c": {"low": 4.0, "high": 5.6, "critical_low": null, "critical_high": 10.0, "unit": "%"},
-    "Creatinine": {"low": 0.74, "high": 1.35, "critical_low": null, "critical_high": 5.0, "unit": "mg/dL"},
-    "TSH": {"low": 0.4, "high": 4.0, "critical_low": 0.1, "critical_high": 20.0, "unit": "mIU/L"},
-    "LDL": {"low": 0.0, "high": 99.0, "critical_low": null, "critical_high": 190.0, "unit": "mg/dL"},
-    "HDL": {"low": 40.0, "high": 100.0, "critical_low": 20.0, "critical_high": null, "unit": "mg/dL"},
-    "CRP": {"low": 0.0, "high": 10.0, "critical_low": null, "critical_high": 50.0, "unit": "mg/L"}
-  }
+  "Hemoglobin": {"min": 12.0, "max": 16.0, "unit": "g/dL"},
+  "WBC": {"min": 4.0, "max": 11.0, "unit": "10^9/L"},
+  "Platelets": {"min": 150, "max": 450, "unit": "10^9/L"},
+  "Glucose": {"min": 70, "max": 100, "unit": "mg/dL"},
+  "HbA1c": {"min": 4.0, "max": 5.6, "unit": "%"},
+  "Creatinine": {"min": 0.6, "max": 1.2, "unit": "mg/dL"},
+  "TSH": {"min": 0.4, "max": 4.0, "unit": "mIU/L"},
+  "LDL": {"min": 0, "max": 100, "unit": "mg/dL"},
+  "HDL": {"min": 40, "max": 100, "unit": "mg/dL"},
+  "CRP": {"min": 0, "max": 10, "unit": "mg/L"},
+  "Sodium": {"min": 135, "max": 145, "unit": "mEq/L"},
+  "Potassium": {"min": 3.5, "max": 5.0, "unit": "mEq/L"},
+  "Calcium": {"min": 8.5, "max": 10.5, "unit": "mg/dL"},
+  "Albumin": {"min": 3.4, "max": 5.4, "unit": "g/dL"}
 }
