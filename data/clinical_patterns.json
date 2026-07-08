@@ -1,0 +1,74 @@
+{
+  "patterns": [
+    {
+      "pattern_code": "anemia_related_pattern",
+      "pattern_name": "Anemia-related pattern",
+      "panel": "CBC Panel",
+      "required_abnormal_labs": [{"lab": "Hemoglobin", "status": "Low"}],
+      "supporting_symptoms": ["fatigue", "dizziness", "weakness", "shortness of breath"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["Iron panel", "Ferritin", "Vitamin B12", "Folate"],
+      "recommended_clinician_review": ["Evaluate for potential sources of blood loss.", "Review dietary history."]
+    },
+    {
+      "pattern_code": "infection_inflammation_pattern",
+      "pattern_name": "Infection / inflammation pattern",
+      "panel": "CBC Panel",
+      "required_abnormal_labs": [{"lab": "WBC", "status": "High"}],
+      "supporting_symptoms": ["fever", "fatigue", "body pain"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["Blood cultures", "Urinalysis", "Chest X-ray"],
+      "recommended_clinician_review": ["Assess for active infection sites.", "Consider broad-spectrum diagnostics if patient is febrile."]
+    },
+    {
+      "pattern_code": "hyperglycemia_diabetes_pattern",
+      "pattern_name": "Hyperglycemia / diabetes workup pattern",
+      "panel": "Diabetic / Rapid Glucose Panel",
+      "required_abnormal_labs": [{"lab": "Glucose", "status": "High"}, {"lab": "HbA1c", "status": "High"}],
+      "supporting_symptoms": ["frequent urination", "increased thirst", "weight loss", "fatigue"],
+      "confidence_rules": {"high_if_both_labs_abnormal": true},
+      "missing_evidence_template": ["Fasting confirmation", "Urine ketones", "C-peptide"],
+      "recommended_clinician_review": ["Review glycemic control history.", "Evaluate for microvascular complications."]
+    },
+    {
+      "pattern_code": "kidney_function_concern",
+      "pattern_name": "Kidney function concern",
+      "panel": "Renal & Thyroid Panel",
+      "required_abnormal_labs": [{"lab": "Creatinine", "status": "High"}],
+      "supporting_symptoms": ["reduced urination", "swelling", "fatigue", "nausea"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["BUN", "Urinalysis", "Renal ultrasound"],
+      "recommended_clinician_review": ["Assess hydration status.", "Review potentially nephrotoxic medications."]
+    },
+    {
+      "pattern_code": "hypothyroid_pattern",
+      "pattern_name": "Hypothyroid pattern",
+      "panel": "Renal & Thyroid Panel",
+      "required_abnormal_labs": [{"lab": "TSH", "status": "High"}],
+      "supporting_symptoms": ["fatigue", "weight gain", "cold intolerance", "constipation"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["Free T4", "Free T3", "Thyroid autoantibodies"],
+      "recommended_clinician_review": ["Evaluate need for thyroid hormone replacement.", "Check for autoimmune markers."]
+    },
+    {
+      "pattern_code": "lipid_abnormality_pattern",
+      "pattern_name": "Lipid abnormality pattern",
+      "panel": "Lipids & Inflammation Panel",
+      "required_abnormal_labs": [{"lab": "LDL", "status": "High"}],
+      "supporting_symptoms": ["chest pain", "family history of heart disease"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["Triglycerides", "Total Cholesterol", "ECG"],
+      "recommended_clinician_review": ["Calculate 10-year ASCVD risk score.", "Review diet and lifestyle."]
+    },
+    {
+      "pattern_code": "non_specific_inflammation_concern",
+      "pattern_name": "Non-specific inflammation concern",
+      "panel": "Lipids & Inflammation Panel",
+      "required_abnormal_labs": [{"lab": "CRP", "status": "High"}],
+      "supporting_symptoms": ["fever", "joint pain", "fatigue"],
+      "confidence_rules": {"high_if_symptoms_present": true},
+      "missing_evidence_template": ["ESR", "Autoimmune panel", "Detailed physical exam"],
+      "recommended_clinician_review": ["Differentiate between acute infection and chronic inflammatory conditions."]
+    }
+  ]
+}

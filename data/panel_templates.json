@@ -1,0 +1,85 @@
+{
+  "CBC Panel": {
+    "display_name": "CBC Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Hemoglobin", "unit": "g/dL", "required": true},
+      {"name": "WBC", "unit": "10^9/L", "required": true},
+      {"name": "Platelets", "unit": "10^9/L", "required": true}
+    ],
+    "suggested_symptoms": ["fatigue", "dizziness", "weakness", "fever", "infection symptoms", "bleeding", "bruising", "shortness of breath"]
+  },
+  "Diabetic / Rapid Glucose Panel": {
+    "display_name": "Diabetic / Rapid Glucose Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Glucose", "unit": "mg/dL", "required": true},
+      {"name": "HbA1c", "unit": "%", "required": true}
+    ],
+    "suggested_symptoms": ["frequent urination", "increased thirst", "weight loss", "fatigue", "blurred vision", "sweating", "confusion", "coma"]
+  },
+  "Renal & Thyroid Panel": {
+    "display_name": "Renal & Thyroid Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Creatinine", "unit": "mg/dL", "required": true},
+      {"name": "TSH", "unit": "mIU/L", "required": true}
+    ],
+    "suggested_symptoms": ["reduced urination", "swelling", "fatigue", "nausea", "weight gain", "cold intolerance", "palpitations", "weight loss"]
+  },
+  "Lipids & Inflammation Panel": {
+     "display_name": "Lipids & Inflammation Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "LDL", "unit": "mg/dL", "required": true},
+       {"name": "HDL", "unit": "mg/dL", "required": true},
+       {"name": "CRP", "unit": "mg/L", "required": true}
+     ],
+     "suggested_symptoms": ["chest pain", "family history of heart disease", "fever", "body pain", "joint pain"]
+  },
+  "Cardiac Enzymes Panel": {
+     "display_name": "Cardiac Enzymes Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "Troponin", "unit": "ng/L", "required": true},
+       {"name": "CPK", "unit": "U/L", "required": true}
+     ],
+     "suggested_symptoms": ["chest pain", "shortness of breath", "sweating", "left arm pain", "jaw pain"]
+  },
+  "Electrolytes & Calcium Panel": {
+     "display_name": "Electrolytes & Calcium Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "Sodium", "unit": "mmol/L", "required": true},
+       {"name": "Potassium", "unit": "mmol/L", "required": true},
+       {"name": "Calcium", "unit": "mg/dL", "required": true}
+     ],
+     "suggested_symptoms": ["weakness", "confusion", "seizure", "muscle cramps", "palpitations", "vomiting"]
+  },
+  "Coagulation Panel": {
+     "display_name": "Coagulation Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "PT", "unit": "seconds", "required": true},
+       {"name": "PTT", "unit": "seconds", "required": true},
+       {"name": "INR", "unit": "ratio", "required": true}
+     ],
+     "suggested_symptoms": ["bleeding", "bruising", "nosebleeds", "heavy bleeding", "planned surgery"]
+  },
+  "Protein / Albumin Panel": {
+     "display_name": "Protein / Albumin Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "Albumin", "unit": "g/dL", "required": true}
+     ],
+     "suggested_symptoms": ["swelling", "edema", "abdominal distension", "ascites", "foamy urine"]
+  },
+  "Pancreatic / Salivary Enzyme Panel": {
+     "display_name": "Pancreatic / Salivary Enzyme Panel",
+     "required_patient_fields": ["age", "sex", "symptoms"],
+     "tests": [
+       {"name": "Amylase", "unit": "U/L", "required": true}
+     ],
+     "suggested_symptoms": ["upper abdominal pain", "severe abdominal pain", "nausea", "vomiting", "salivary gland swelling"]
+  }
+}
