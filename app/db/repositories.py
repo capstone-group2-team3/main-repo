@@ -124,13 +124,26 @@ def get_generated_report_by_id(db: Session, report_id: int) -> GeneratedReport |
 
 
 def save_knowledge_doc_metadata(db: Session, data: dict) -> KnowledgeDocMetadata:
-    metadata = KnowledgeDocMetadata(
-        source_id=data["source_id"],
-        title=data["title"],
-        file_path=data["file_path"],
-        panel=data.get("panel"),
-        chunk_count=data.get("chunk_count"),
+    metadata = (
+        db.query(KnowledgeDocMetadata)
+        .filter(KnowledgeDocMetadata.source_id == data["source_id"])
+        .first()
     )
+
+    if metadata is None:
+        metadata = KnowledgeDocMetadata(
+            source_id=data["source_id"],
+            title=data["title"],
+            file_path=data["file_path"],
+            panel=data.get("panel"),
+            chunk_count=data.get("chunk_count"),
+        )
+    else:
+        metadata.title = data["title"]
+        metadata.file_path = data["file_path"]
+        metadata.panel = data.get("panel")
+        metadata.chunk_count = data.get("chunk_count")
+
     return _save(db, metadata)
 
 
