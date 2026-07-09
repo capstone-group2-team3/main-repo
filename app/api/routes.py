@@ -6,12 +6,12 @@ from app.db.repositories import get_generated_report_by_id, get_report_case_by_i
 from app.models.schemas import ReportRequest
 from app.services.agent_orchestrator import AgentOrchestrator, SAFETY_NOTICE
 from app.services.panel_template_service import PanelTemplateService
-
+from app.services.knowledge_indexer import KnowledgeIndexer
 router = APIRouter()
 
 orchestrator = AgentOrchestrator()
 panel_template_service = PanelTemplateService()
-
+knowledge_indexer = KnowledgeIndexer()
 
 @router.get("/health")
 def health():
@@ -25,6 +25,16 @@ def get_templates():
         "templates": panel_template_service.get_all_templates(),
     }
 
+@router.post("/index/medical-knowledge")
+def index_medical_knowledge(db: Session = Depends(get_db)):
+    try:
+        return knowledge_indexer.index_medical_knowledge(db)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    except RuntimeError as error:
+        raise HTTPException(status_code=500, detail=str(error)) from error
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=str(error)) from error
 
 @router.get("/templates/{panel_name:path}")
 def get_template(panel_name: str):
