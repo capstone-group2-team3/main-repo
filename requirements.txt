@@ -1,10 +1,11 @@
+# Machine Learning & NLP
+torch
+transformers
+datasets
+scikit-learn
+tqdm
+
+# API & Backend 
 fastapi
-uvicorn[standard]
+uvicorn
 pydantic
-sqlalchemy
-gradio
-qdrant-client
-sentence-transformers
-python-multipart
-pytest
-httpx

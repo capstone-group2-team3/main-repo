@@ -52,10 +52,10 @@ class ClinicalPatternScorer:
 
         return actual == expected
 
-    def _confidence_level(self, score: float, matched_symptoms: list[str]) -> str:
-        if score >= 3.0 and matched_symptoms:
-            return "high"
-        if score >= 2.0:
+    def _confidence_level(self, required_matched: int, required_total: int, matched_symptoms: list[str]) -> str:
+        if required_total > 0 and required_matched == required_total:
+            if matched_symptoms:
+                return "high"
             return "moderate"
         return "low"
 
@@ -102,9 +102,6 @@ class ClinicalPatternScorer:
                     required_matched_count += 1
                     evidence_for.append(f"{lab_name} is {actual_status}")
 
-            if required_total > 0 and required_matched_count < required_total:
-                continue
-
             matched_symptoms: list[str] = []
             for symptom in supporting_symptoms:
                 normalized_symptom = self.normalizer.normalize_symptom(symptom)
@@ -118,7 +115,7 @@ class ClinicalPatternScorer:
             if score <= 0:
                 continue
 
-            confidence = self._confidence_level(score, matched_symptoms)
+            confidence = self._confidence_level(required_matched_count, required_total, matched_symptoms)
 
             warnings = []
             pattern_code = pattern.get("pattern_code", "")
