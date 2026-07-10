@@ -21,6 +21,16 @@ def _save(db: Session, obj: Any):
     return obj
 
 
+def _text_or_none(value: Any) -> str | None:
+    if value is None:
+        return None
+
+    if isinstance(value, list):
+        return "\n".join(str(item) for item in value)
+
+    return str(value)
+
+
 def create_report_case(db: Session, data: dict) -> ReportCase:
     case = ReportCase(
         age=data["age"],
@@ -75,7 +85,7 @@ def add_pattern_results(db: Session, case_id: int, patterns: list[dict]) -> list
             confidence_level=item.get("confidence_level"),
             evidence_for=item.get("evidence_for", []),
             missing_evidence=item.get("missing_evidence", []),
-            warnings=item.get("warnings"),
+            warnings=_text_or_none(item.get("warnings")),
         )
         db.add(pattern)
         saved_patterns.append(pattern)
@@ -121,6 +131,15 @@ def save_generated_report(db: Session, case_id: int, report_markdown: str, repor
 
 def get_generated_report_by_id(db: Session, report_id: int) -> GeneratedReport | None:
     return db.query(GeneratedReport).filter(GeneratedReport.id == report_id).first()
+
+
+def get_latest_generated_report_by_case_id(db: Session, case_id: int) -> GeneratedReport | None:
+    return (
+        db.query(GeneratedReport)
+        .filter(GeneratedReport.report_case_id == case_id)
+        .order_by(GeneratedReport.created_at.desc(), GeneratedReport.id.desc())
+        .first()
+    )
 
 
 def save_knowledge_doc_metadata(db: Session, data: dict) -> KnowledgeDocMetadata:

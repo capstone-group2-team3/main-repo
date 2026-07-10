@@ -3,10 +3,18 @@ import type { AnalyzePayload, AnalyzeResponse, PanelTemplate, TemplateOption } f
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
+export function buildApiUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
+
+  const base = API_BASE_URL.replace(/\/+$/, "");
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${cleanPath}`;
+}
+
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    response = await fetch(buildApiUrl(path), {
       ...init,
       headers: { Accept: "application/json", ...init?.headers },
     });
