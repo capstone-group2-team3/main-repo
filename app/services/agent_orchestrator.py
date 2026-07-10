@@ -3,7 +3,8 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from app.db.repositories import add_lab_results, add_pattern_results, create_report_case
-from app.services.clinical_pattern_scorer import ClinicalPatternScorer
+from app.services.pattern_scorer import ClinicalPatternScorer
+from app.services.evidence_retrieval_agent import EvidenceRetrievalAgent
 from app.services.lab_analysis_agent import LabAnalysisAgent
 from app.services.lab_normalizer import LabNormalizer
 from app.services.panel_template_service import PanelTemplateService
@@ -21,6 +22,7 @@ class AgentOrchestrator:
         self.panel_template_service = PanelTemplateService()
         self.lab_analysis_agent = LabAnalysisAgent(normalizer=self.normalizer)
         self.clinical_pattern_scorer = ClinicalPatternScorer(normalizer=self.normalizer)
+        self.evidence_retrieval_agent = EvidenceRetrievalAgent()
 
     def _build_abnormal_findings(self, lab_results: list[dict[str, Any]]) -> list[dict[str, Any]]:
         return [
@@ -103,6 +105,11 @@ class AgentOrchestrator:
 
         add_pattern_results(db, case.id, clinical_patterns)
 
+        retrieved_evidence = self.evidence_retrieval_agent.retrieve_for_patterns(
+            clinical_patterns,
+            top_k=3
+        )
+
         abnormal_findings = self._build_abnormal_findings(lab_results)
         clinical_warnings = self._build_clinical_warnings(
             lab_results,
@@ -137,7 +144,7 @@ class AgentOrchestrator:
                 }
                 for pattern in clinical_patterns
             ],
-            "retrieved_sources": [],
+            "retrieved_sources": retrieved_evidence,
             "missing_required_labs": missing_required_labs,
             "safety_notice": SAFETY_NOTICE,
         }
