@@ -1,3 +1,5 @@
+"""Legacy duplicate only; production code uses app.services.lab_analysis_agent."""
+
 import json
 import os
 from typing import Dict, Any

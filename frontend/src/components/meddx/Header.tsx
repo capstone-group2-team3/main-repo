@@ -11,7 +11,6 @@ const navLinks = [
   ["Analysis", "#analysis"],
   ["Dashboard", "#dashboard"],
   ["Safety", "#safety"],
-  ["Technical Details", "#technical-details"],
 ] as const;
 
 export function Header({ backendOnline }: HeaderProps) {

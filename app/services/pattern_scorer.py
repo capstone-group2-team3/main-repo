@@ -1,3 +1,5 @@
+"""Legacy duplicate only; production code uses app.services.clinical_pattern_scorer."""
+
 import json
 from pathlib import Path
 

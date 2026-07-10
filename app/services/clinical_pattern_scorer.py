@@ -27,7 +27,18 @@ class ClinicalPatternScorer:
         patterns = raw.get("patterns", raw)
 
         if isinstance(patterns, dict):
-            return list(patterns.values())
+            normalized_patterns = []
+            for pattern_code, pattern in patterns.items():
+                if not isinstance(pattern, dict):
+                    continue
+                pattern_copy = dict(pattern)
+                pattern_copy.setdefault("pattern_code", pattern_code)
+                pattern_copy.setdefault(
+                    "pattern_name",
+                    pattern.get("description", pattern_code.replace("_", " ").title()),
+                )
+                normalized_patterns.append(pattern_copy)
+            return normalized_patterns
 
         if isinstance(patterns, list):
             return patterns
@@ -42,13 +53,13 @@ class ClinicalPatternScorer:
             return actual not in {"normal", "unknown"}
 
         if expected == "high":
-            return actual in {"high", "critical"}
+            return actual in {"high", "critical", "critical high"}
 
         if expected == "low":
-            return actual in {"low", "critical"}
+            return actual in {"low", "critical", "critical low"}
 
         if expected == "critical":
-            return actual == "critical"
+            return actual in {"critical", "critical high", "critical low"}
 
         return actual == expected
 
@@ -58,6 +69,29 @@ class ClinicalPatternScorer:
                 return "high"
             return "moderate"
         return "low"
+
+    def _pattern_requirements(self, pattern: dict[str, Any]) -> tuple[list[dict[str, Any]], str]:
+        required_abnormal_labs = pattern.get("required_abnormal_labs")
+
+        if isinstance(required_abnormal_labs, list):
+            return required_abnormal_labs, "AND"
+
+        conditions = pattern.get("conditions")
+        logic = str(pattern.get("logic", "AND")).upper()
+
+        if isinstance(conditions, list):
+            return conditions, logic
+
+        return [], "AND"
+
+    def _pattern_triggered(self, matched_count: int, required_total: int, logic: str) -> bool:
+        if required_total == 0:
+            return False
+
+        if logic == "OR":
+            return matched_count >= 1
+
+        return matched_count == required_total
 
     def score_patterns(
         self,
@@ -81,7 +115,7 @@ class ClinicalPatternScorer:
             if pattern_panel and pattern_panel != selected_panel:
                 continue
 
-            required_abnormal_labs = pattern.get("required_abnormal_labs", [])
+            required_abnormal_labs, logic = self._pattern_requirements(pattern)
             supporting_symptoms = pattern.get("supporting_symptoms", [])
 
             score = 0.0
@@ -112,7 +146,7 @@ class ClinicalPatternScorer:
                 score += min(len(matched_symptoms) * 0.5, 2.0)
                 evidence_for.extend([f"Symptom present: {symptom}" for symptom in matched_symptoms])
 
-            if score <= 0:
+            if not self._pattern_triggered(required_matched_count, required_total, logic):
                 continue
 
             confidence = self._confidence_level(required_matched_count, required_total, matched_symptoms)
