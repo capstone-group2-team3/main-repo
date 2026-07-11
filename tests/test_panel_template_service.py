@@ -23,6 +23,11 @@ def test_get_cbc_template():
     assert template is not None
     assert template["panel_name"] == "CBC_Panel"
     assert template["display_name"] == "Complete Blood Count (CBC)"
+    hemoglobin = template["tests"][0]
+    assert hemoglobin["reference_low"] == 12.0
+    assert hemoglobin["reference_high"] == 16.0
+    assert hemoglobin["unit"] == "g/dL"
+    assert "educational" in template["educational_disclaimer"].lower()
 
 
 def test_get_required_test_names_for_cbc():

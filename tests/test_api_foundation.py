@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
@@ -202,6 +204,9 @@ def test_analyze_report_accepts_name_aliases_persists_and_encodes(client, test_d
     assert [lab["test_name"] for lab in data["lab_results"]] == ["Troponin", "CPK"]
     assert data["lab_results"][0]["status"] == "Critical"
     assert data["lab_results"][1]["status"] == "High"
+    assert data["report"]["pdf_path"].endswith(".pdf")
+    assert data["report"]["pdf_download_url"] == f"/reports/{data['report_case_id']}/download/pdf"
+    assert Path(data["report"]["pdf_path"]).read_bytes().startswith(b"%PDF-")
     assert jsonable_encoder(data)
 
     db = test_db()
@@ -279,11 +284,14 @@ def test_report_download_endpoints_return_latest_files(client):
 
     markdown_response = api_routes.download_markdown_report(1, client.db)
     html_response = api_routes.download_html_report(1, client.db)
+    pdf_response = api_routes.download_pdf_report(1, client.db)
 
     assert isinstance(markdown_response, FileResponse)
     assert isinstance(html_response, FileResponse)
     assert markdown_response.media_type == "text/markdown"
     assert html_response.media_type == "text/html"
+    assert isinstance(pdf_response, FileResponse)
+    assert pdf_response.media_type == "application/pdf"
 
 
 def test_report_download_invalid_case_id_returns_404(client):
@@ -291,3 +299,10 @@ def test_report_download_invalid_case_id_returns_404(client):
 
     assert response.status_code == 404
     assert "No generated report found" in response.json()["detail"]
+
+
+def test_pdf_download_missing_case_and_path_traversal_return_404(client):
+    missing = client._call(api_routes.download_pdf_report, 9999, client.db)
+    assert missing.status_code == 404
+
+    assert api_routes._safe_report_path("../../etc/passwd", ".pdf") is None

@@ -9,3 +9,4 @@ tqdm
 fastapi
 uvicorn
 pydantic
+reportlab==4.4.10

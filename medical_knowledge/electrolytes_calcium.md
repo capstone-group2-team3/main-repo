@@ -1,67 +1,31 @@
-# electrolytes_calcium.md
+# Electrolytes and Calcium Clinical Review
 
-## 1. Related Tests
-- Creatinine
-- TSH (Thyroid-Stimulating Hormone)
+## Related Tests
 
-## 2. What High Values May Suggest
+- Sodium
+- Potassium
+- Calcium
 
-### High Creatinine
-- May indicate reduced kidney function or impaired renal filtration.
-- Can also be associated with dehydration, increased muscle mass, or muscle injury.
-- Results should be interpreted within the patient's clinical context.
+## Abnormal Sodium
 
-### High TSH
-- Most commonly suggests primary hypothyroidism.
-- May indicate inadequate thyroid hormone replacement therapy.
-- Persistent elevation should be assessed together with clinical symptoms and history.
+Low or high sodium supports review of fluid balance, intake and losses, medication exposure, renal context, glucose, osmolality, and symptom severity. Sodium abnormalities require interpretation with timing and the full clinical picture.
 
-## 3. What Low Values May Suggest
+## Abnormal Potassium
 
-### Low Creatinine
-- May reflect reduced muscle mass, malnutrition, or decreased creatinine production.
-- Can also occur during pregnancy.
+Low or high potassium supports prompt review of sampling quality, renal context, gastrointestinal losses, medication exposure, acid-base context, symptoms, and ECG findings when available.
 
-### Low TSH
-- May suggest hyperthyroidism due to suppression of pituitary TSH secretion.
-- May also occur with pituitary dysfunction or excessive thyroid hormone replacement.
+## Abnormal Calcium
 
-## 4. Common Supporting Symptoms
+Low or high total calcium supports review with albumin, renal context, relevant endocrine evidence, medication exposure, and repeat or ionized calcium when available.
 
-### Kidney-Related
-- Fatigue
-- Swelling of the legs or ankles
-- Reduced urine output
-- Nausea
-- Loss of appetite
-- Fluid retention
+## Supporting Symptoms
 
-### Thyroid-Related
-- Fatigue
-- Weight changes
-- Cold or heat intolerance
-- Dry skin
-- Constipation or frequent bowel movements
-- Palpitations
-- Tremor
-- Mood or concentration changes
+Weakness, cramps, confusion, or an irregular heartbeat may provide context but do not determine the cause of an electrolyte abnormality.
 
-## 5. Missing Evidence
+## Missing Evidence
 
-Additional evaluation may be needed, including:
-- Comprehensive medical history
-- Physical examination
-- Medication review
-- Appropriate diagnostic investigations based on the clinical presentation
+Useful evidence may include repeat measurements, sampling quality, fluid balance, medication history, ECG findings, renal measurements, albumin, and symptom timing.
 
-## 6. Suggested Follow-up
+## Safety Note
 
-- Review symptoms and relevant medical history.
-- Repeat abnormal results if clinically appropriate.
-- Evaluate for underlying kidney or thyroid disorders.
-- Refer to an appropriate specialist when indicated.
-- Base further management on the complete clinical assessment.
-
-## 7. Safety Note
-
-This information is intended for clinical decision support and educational purposes only. Laboratory results should always be interpreted by a qualified healthcare professional in the context of the patient's history, physical examination, and overall clinical presentation. Diagnosis and treatment decisions should not be based on these findings alone.
+This material is educational clinical decision support. It supports clinician review and does not provide a final diagnosis or prescribing instruction.

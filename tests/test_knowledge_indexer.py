@@ -58,9 +58,17 @@ def test_build_chunks_from_file(tmp_path):
     assert metadata["source_id"] == "cbc_interpretation"
     assert metadata["title"] == "CBC Interpretation"
     assert metadata["panel"] == "CBC Panel"
+    assert metadata["canonical_panel"] == "CBC_Panel"
+    assert metadata["file_name"] == "cbc_interpretation.md"
+    assert metadata["source_type"] == "internal_medical_knowledge"
     assert metadata["chunk_count"] == len(chunks)
     assert len(chunks) >= 1
     assert chunks[0]["source_id"] == "cbc_interpretation"
+    assert chunks[0]["section_title"] == "CBC Interpretation"
+    assert chunks[0]["canonical_panel"] == "CBC_Panel"
+    assert "Hemoglobin" in chunks[0]["related_tests"]
+    assert "anemia_pattern" in chunks[0]["pattern_codes"]
+    assert "hemoglobin" in chunks[0]["normalized_terms"]
 
 
 def test_get_markdown_files_only_returns_md_files(tmp_path):
@@ -85,3 +93,4 @@ def test_infer_panel_from_filename():
     assert indexer._infer_panel_from_filename("diabetic_rapid_glucose.md") == "Diabetic / Rapid Glucose Panel"
     assert indexer._infer_panel_from_filename("renal_thyroid.md") == "Renal & Thyroid Panel"
     assert indexer._infer_panel_from_filename("safety_guidelines.md") == "Safety Guidelines"
+    assert indexer._infer_canonical_panel("cardiac_enzymes.md") == "Cardiac_Enzymes_Panel"

@@ -116,6 +116,11 @@ def download_html_report(case_id: int, db: Session = Depends(get_db)):
     return _download_generated_report(case_id, ".html", "text/html", db)
 
 
+@router.get("/reports/{case_id}/download/pdf")
+def download_pdf_report(case_id: int, db: Session = Depends(get_db)):
+    return _download_generated_report(case_id, ".pdf", "application/pdf", db)
+
+
 @router.get("/reports/{report_id}")
 def get_report_placeholder(report_id: int, db: Session = Depends(get_db)):
     report = get_generated_report_by_id(db, report_id)

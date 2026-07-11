@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 
 from app.api.routes import _safe_report_path
@@ -79,6 +80,15 @@ def _sample_dashboard(generator: ReportGeneratorAgent) -> dict:
     )
 
 
+def test_build_dashboard_emits_timezone_aware_generated_at():
+    generator = ReportGeneratorAgent()
+    dashboard = _sample_dashboard(generator)
+
+    parsed = datetime.fromisoformat(dashboard["generated_at"])
+
+    assert parsed.tzinfo is not None
+
+
 def test_report_generator_builds_markdown_html_and_saves(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     generator = ReportGeneratorAgent()
@@ -88,6 +98,7 @@ def test_report_generator_builds_markdown_html_and_saves(tmp_path, monkeypatch):
     html_report = generator.render_html(dashboard)
     report_path = generator.save_markdown_report(123, markdown)
     html_path = generator.save_html_report(123, html_report)
+    pdf_path = generator.render_pdf({**dashboard, "report_case_id": 123}, tmp_path / "report.pdf")
 
     assert dashboard["safety_notice"] == SAFETY_NOTICE
     assert "# MedDx Clinical Review Report" in markdown
@@ -105,6 +116,10 @@ def test_report_generator_builds_markdown_html_and_saves(tmp_path, monkeypatch):
     assert Path(html_path).read_text(encoding="utf-8") == html_report
     assert report_path.endswith(".md")
     assert html_path.endswith(".html")
+    pdf_bytes = Path(pdf_path).read_bytes()
+    assert pdf_bytes.startswith(b"%PDF-")
+    assert len(pdf_bytes) > 1000
+    assert b"For clinicians only" in pdf_bytes
 
 
 def test_report_generator_uses_unique_file_names(tmp_path, monkeypatch):
@@ -117,6 +132,48 @@ def test_report_generator_uses_unique_file_names(tmp_path, monkeypatch):
     assert first != second
     assert Path(first).name == "meddx_case_13_2026-07-10_191311.md"
     assert Path(second).name == "meddx_case_13_2026-07-10_191311_2.md"
+
+
+def test_report_paths_keep_pdf_unique_with_matching_basename(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    generator = ReportGeneratorAgent()
+
+    markdown, html = generator.build_report_paths(17, "2026-07-10T19:54:09")
+    pdf = generator.pdf_path_from_markdown_path(markdown)
+    Path(pdf).parent.mkdir(parents=True, exist_ok=True)
+    Path(pdf).write_bytes(b"%PDF-existing")
+    next_markdown, next_html = generator.build_report_paths(17, "2026-07-10T19:54:09")
+
+    assert Path(markdown).stem == Path(html).stem == Path(pdf).stem
+    assert Path(markdown).name == "meddx_case_17_2026-07-10_195409.md"
+    assert next_markdown != markdown
+    assert Path(next_markdown).stem == Path(next_html).stem
+
+
+def test_pdf_handles_long_multi_page_content_and_empty_states(tmp_path):
+    generator = ReportGeneratorAgent()
+    dashboard = generator.build_dashboard(
+        case_data={"age": 40, "sex": "male", "selected_panel": "CBC_Panel", "symptoms": [], "clinical_notes": "the patient has findings for review"},
+        lab_results=[
+            {
+                "test_name": f"Lab {index}", "value": index, "unit": "unit", "status": "Normal",
+                "reference_low": 0, "reference_high": 10, "critical_low": None, "critical_high": None,
+                "evidence": "Long evidence requiring safe wrapping. " * 30,
+            }
+            for index in range(20)
+        ],
+        clinical_patterns=[], retrieved_sources=[], clinical_warnings=[], missing_required_labs=[],
+    )
+    dashboard["report_case_id"] = 45
+    pdf_path = generator.render_pdf(dashboard, tmp_path / "long-report.pdf")
+    pdf_bytes = Path(pdf_path).read_bytes()
+
+    assert pdf_bytes.startswith(b"%PDF-")
+    assert pdf_bytes.count(b"/Type /Page") >= 3
+    assert b"For clinicians only" in pdf_bytes
+    assert b"the patient has" not in pdf_bytes.lower()
+    assert b"No abnormal findings" in pdf_bytes
+    assert b"No retrieved evidence sources" in pdf_bytes
 
 
 def test_report_content_handles_empty_states_and_avoids_forbidden_phrases(tmp_path, monkeypatch):
