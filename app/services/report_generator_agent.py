@@ -322,14 +322,7 @@ class ReportGeneratorAgent:
         from reportlab.lib.pagesizes import A4
         from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
         from reportlab.lib.units import mm
-        from reportlab.platypus import (
-            PageBreak,
-            Paragraph,
-            SimpleDocTemplate,
-            Spacer,
-            Table,
-            TableStyle,
-        )
+        from reportlab.platypus import KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
         dashboard = sanitize_dashboard(dashboard_json)
         path = Path(output_path)
@@ -340,11 +333,20 @@ class ReportGeneratorAgent:
         pale_teal = colors.HexColor("#ECFEFF")
         border = colors.HexColor("#CBD5E1")
         muted = colors.HexColor("#475569")
-        styles.add(ParagraphStyle(name="ReportTitle", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=20, leading=24, textColor=navy, spaceAfter=5 * mm))
-        styles.add(ParagraphStyle(name="SectionTitle", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=12, leading=15, textColor=navy, spaceBefore=4 * mm, spaceAfter=2 * mm))
-        styles.add(ParagraphStyle(name="BodySafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=8.5, leading=12, textColor=muted, spaceAfter=1.5 * mm))
-        styles.add(ParagraphStyle(name="SmallSafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=10, textColor=muted))
-        styles.add(ParagraphStyle(name="Notice", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=9, leading=13, textColor=colors.HexColor("#134E4A"), alignment=TA_CENTER))
+        subtle_gray = colors.HexColor("#F8FAFC")
+        light_warn = colors.HexColor("#FEF2F2")
+        styles.add(ParagraphStyle(name="ReportTitle", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=20, leading=24, textColor=navy, spaceAfter=2 * mm))
+        styles.add(ParagraphStyle(name="ReportSubtitle", parent=styles["BodyText"], fontName="Helvetica", fontSize=9.5, leading=12, textColor=muted, spaceAfter=4 * mm))
+        styles.add(ParagraphStyle(name="SectionTitle", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=11.5, leading=14, textColor=navy, spaceBefore=5 * mm, spaceAfter=2.2 * mm))
+        styles.add(ParagraphStyle(name="BodySafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=8.5, leading=11.5, textColor=muted, spaceAfter=1.3 * mm))
+        styles.add(ParagraphStyle(name="SmallSafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=9.5, textColor=muted))
+        styles.add(ParagraphStyle(name="Notice", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=8.8, leading=11.5, textColor=colors.HexColor("#134E4A"), alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="MetricValue", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=12.5, leading=14, textColor=navy, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="MetricLabel", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=9.5, textColor=muted, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="CardTitle", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=9.2, leading=12, textColor=navy, spaceAfter=1.2 * mm))
+        styles.add(ParagraphStyle(name="CardBody", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.8, leading=10.2, textColor=muted))
+        styles.add(ParagraphStyle(name="Label", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=7.8, leading=10.2, textColor=navy, spaceAfter=0.6 * mm))
+        styles.add(ParagraphStyle(name="Badge", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=7, leading=9, textColor=navy, alignment=TA_CENTER))
 
         def safe(value: Any) -> str:
             if value is None or value == "":
@@ -360,14 +362,97 @@ class ReportGeneratorAgent:
         def bullet(label: str, value: Any) -> Paragraph:
             return Paragraph(f"<b>{safe(label)}:</b> {safe(value)}", styles["BodySafe"])
 
+        def metric_card(label: str, value: Any) -> Table:
+            return Table(
+                [[Paragraph(f"<b>{safe(value)}</b>", styles["MetricValue"])], [Paragraph(safe(label), styles["MetricLabel"])]],
+                colWidths=[(A4[0] - 42 * mm) / 4],
+                style=TableStyle([
+                    ("BOX", (0, 0), (-1, -1), 0.6, border),
+                    ("BACKGROUND", (0, 0), (-1, -1), subtle_gray),
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 4 * mm),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 4 * mm),
+                    ("TOPPADDING", (0, 0), (-1, -1), 3 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 3 * mm),
+                ]),
+            )
+
+        def status_badge(status: Any) -> Paragraph:
+            label = str(status or "Unknown")
+            return Paragraph(f"<b>{safe(label)}</b>", styles["Badge"])
+
+        def source_card(source: dict[str, Any]) -> KeepTogether:
+            relevant, context = self._pdf_source_sections(source)
+            title = safe(source.get("title"))
+            body_parts = [
+                f"<b>{title}</b>",
+                "",
+                f"<b>Relevant Finding</b>",
+            ]
+            body_parts.extend(f"• {safe(item)}<br/>" for item in relevant)
+            body_parts.extend(["", f"<b>Clinical Context</b>"])
+            body_parts.extend(f"• {safe(item)}<br/>" for item in context)
+            body_parts.extend(["", f"<b>Source ID</b><br/>{safe(source.get('source_id'))}"])
+            return KeepTogether(
+                Table(
+                    [[Paragraph("".join(body_parts), styles["CardBody"])]],
+                    colWidths=[A4[0] - 40 * mm],
+                    style=TableStyle([
+                        ("BOX", (0, 0), (-1, -1), 0.6, border),
+                        ("BACKGROUND", (0, 0), (-1, -1), subtle_gray),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 4 * mm),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 4 * mm),
+                        ("TOPPADDING", (0, 0), (-1, -1), 3 * mm),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 3 * mm),
+                    ]),
+                )
+            )
+
+        def pattern_card(pattern: dict[str, Any]) -> KeepTogether:
+            pattern_name = safe(normalize_terminal_punctuation(pattern.get("pattern_name"), ensure_period=True))
+            rank = safe(pattern.get("rank"))
+            confidence = safe(pattern.get("confidence_level"))
+            score = pattern.get("score")
+            evidence_for = [self._display(item) for item in pattern.get("evidence_for", []) if self._display(item) != "Not available"]
+            score_text = f"<b>Score:</b> {safe(score)}<br/>" if score is not None and str(score).strip() not in {"", "None", "Not available"} else ""
+            evidence_text = "<br/>".join(f"• {safe(item)}" for item in evidence_for) if evidence_for else "• Not available"
+            body_parts = [
+                f"<b>{pattern_name}</b>",
+                "",
+                f"<b>Rank:</b> {rank}<br/>",
+                f"<b>Confidence:</b> {confidence}<br/>",
+                score_text,
+                f"<b>Retrieved Sources:</b> {len(pattern.get('retrieved_sources', []))}<br/>",
+                f"<b>Evidence:</b><br/>{evidence_text}",
+            ]
+            return KeepTogether(
+                Table(
+                    [[Paragraph("".join(body_parts), styles["CardBody"])]],
+                    colWidths=[A4[0] - 40 * mm],
+                    style=TableStyle([
+                        ("BOX", (0, 0), (-1, -1), 0.6, border),
+                        ("BACKGROUND", (0, 0), (-1, -1), pale_teal),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 4 * mm),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 4 * mm),
+                        ("TOPPADDING", (0, 0), (-1, -1), 3 * mm),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 3 * mm),
+                    ]),
+                )
+            )
+
         def footer(canvas, document) -> None:
             canvas.saveState()
             canvas.setStrokeColor(border)
             canvas.line(18 * mm, 14 * mm, A4[0] - 18 * mm, 14 * mm)
+            canvas.setFont("Helvetica-Bold", 7.5)
+            canvas.setFillColor(navy)
+            canvas.drawString(18 * mm, 10 * mm, "MedDx Assistant")
             canvas.setFont("Helvetica", 7)
             canvas.setFillColor(muted)
-            canvas.drawString(18 * mm, 9 * mm, "MedDx Assistant - Clinical Review")
-            canvas.drawRightString(A4[0] - 18 * mm, 9 * mm, f"Page {document.page}")
+            canvas.drawString(18 * mm, 7 * mm, "Clinical Review Report")
+            canvas.drawString(18 * mm, 4 * mm, f"Case ID: {safe(case_id)}")
+            canvas.drawString(96 * mm, 7 * mm, f"Generated: {format_clinician_datetime(dashboard.get('generated_at'))}")
+            canvas.drawRightString(A4[0] - 18 * mm, 7 * mm, f"Page {document.page}")
             canvas.restoreState()
 
         document = SimpleDocTemplate(
@@ -376,15 +461,29 @@ class ReportGeneratorAgent:
             rightMargin=18 * mm,
             leftMargin=18 * mm,
             topMargin=18 * mm,
-            bottomMargin=20 * mm,
+            bottomMargin=24 * mm,
             title="MedDx Clinical Review Report",
             author="MedDx Assistant",
             pageCompression=0,
         )
+        patient = dashboard.get("patient_summary", {})
+        case_id = dashboard.get("report_case_id") or dashboard.get("case_id")
+        summary = self._review_summary(dashboard)
+        summary_items = [
+            ("Total Labs Reviewed", summary.get("Total labs reviewed", 0)),
+            ("Normal Findings", summary.get("Normal findings count", 0)),
+            ("Abnormal Findings", summary.get("Total abnormal findings", 0)),
+            ("Clinical Warnings", summary.get("Total clinical warnings", 0)),
+            ("Clinical Patterns", summary.get("Total clinical patterns", 0)),
+            ("Retrieved Sources", summary.get("Total retrieved sources", 0)),
+            ("Missing Required Labs", summary.get("Missing required labs count", 0)),
+        ]
+
         story: list[Any] = [
             Paragraph("MedDx Assistant", styles["ReportTitle"]),
             Paragraph("Clinical Review Report", styles["Heading1"]),
-            Spacer(1, 2 * mm),
+            Paragraph("Clinician-facing educational review dashboard", styles["ReportSubtitle"]),
+            Spacer(1, 1 * mm),
             Table(
                 [[Paragraph("Clinical Safety Notice", styles["SectionTitle"])], [Paragraph(safe(SAFETY_NOTICE), styles["Notice"])]],
                 colWidths=[A4[0] - 36 * mm],
@@ -398,63 +497,120 @@ class ReportGeneratorAgent:
                 ]),
             ),
         ]
-        patient = dashboard.get("patient_summary", {})
-        case_id = dashboard.get("report_case_id") or dashboard.get("case_id")
+
         story.extend(section("Case Overview"))
-        for label, value in [
-            ("Case ID", case_id),
-            ("Generated timestamp", format_clinician_datetime(dashboard.get("generated_at"))),
-            ("Selected panel", patient.get("selected_panel")),
-            ("Age", patient.get("age")),
-            ("Sex", patient.get("sex")),
-            ("Symptoms", ", ".join(patient.get("symptoms", [])) or None),
-            ("Clinical notes", patient.get("clinical_notes")),
-        ]:
-            story.append(bullet(label, value))
+        story.extend([
+            bullet("Case ID", case_id),
+            bullet("Generated", format_clinician_datetime(dashboard.get("generated_at"))),
+            bullet("Selected panel", patient.get("selected_panel")),
+            bullet("Age", patient.get("age")),
+            bullet("Sex", patient.get("sex")),
+            bullet("Symptoms", ", ".join(patient.get("symptoms", [])) or None),
+            bullet("Clinical notes", patient.get("clinical_notes")),
+        ])
 
         story.extend(section("Review Summary"))
-        summary_rows = [[paragraph("Measure", "SmallSafe"), paragraph("Count", "SmallSafe")]]
-        summary_rows.extend([[paragraph(label, "SmallSafe"), paragraph(value, "SmallSafe")] for label, value in self._review_summary(dashboard).items()])
-        story.append(Table(summary_rows, colWidths=[125 * mm, 35 * mm], repeatRows=1, style=TableStyle([
-            ("BACKGROUND", (0, 0), (-1, 0), navy), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-            ("GRID", (0, 0), (-1, -1), 0.4, border), ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-            ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-        ])))
+        summary_rows: list[list[Any]] = []
+        for index in range(0, len(summary_items), 4):
+            row = summary_items[index:index + 4]
+            while len(row) < 4:
+                row = [*row, ("", "")]
+            summary_rows.append([metric_card(label, value) for label, value in row])
+        story.append(KeepTogether(Table(summary_rows, colWidths=[(A4[0] - 42 * mm) / 4] * 4, style=TableStyle([
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 1 * mm),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 1 * mm),
+            ("TOPPADDING", (0, 0), (-1, -1), 1 * mm),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 1 * mm),
+        ]))))
+        story.append(Spacer(1, 2 * mm))
+        story.append(PageBreak())
 
         story.extend(section("Laboratory Results"))
-        lab_rows = [[paragraph(x, "SmallSafe") for x in ["Test", "Value", "Unit", "Reference range", "Status", "Evidence"]]]
         labs = dashboard.get("lab_results", [])
         if labs:
+            data_rows = []
             for lab in labs:
-                lab_rows.append([paragraph(value, "SmallSafe") for value in [lab.get("test_name"), lab.get("value"), lab.get("unit"), self._range_text(lab), lab.get("status"), lab.get("evidence")]])
+                status = str(lab.get("status") or "Unknown")
+                status_value = Paragraph(f"<b>{safe(status)}</b>", styles["Badge"])
+                data_rows.append([
+                    paragraph(lab.get("test_name"), "SmallSafe"),
+                    paragraph(lab.get("value"), "SmallSafe"),
+                    paragraph(lab.get("unit"), "SmallSafe"),
+                    paragraph(self._range_text(lab), "SmallSafe"),
+                    status_value,
+                    paragraph(lab.get("evidence"), "SmallSafe"),
+                ])
         else:
-            lab_rows.append([paragraph("Not available", "SmallSafe") for _ in range(6)])
-        story.append(Table(lab_rows, colWidths=[25*mm, 15*mm, 18*mm, 28*mm, 18*mm, 56*mm], repeatRows=1, splitByRow=1, style=TableStyle([
-            ("BACKGROUND", (0, 0), (-1, 0), navy), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-            ("GRID", (0, 0), (-1, -1), 0.4, border), ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("LEFTPADDING", (0, 0), (-1, -1), 4), ("RIGHTPADDING", (0, 0), (-1, -1), 4),
-            ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-        ])))
+            data_rows = []
 
-        content_sections = [
-            ("Abnormal Findings", dashboard.get("abnormal_findings", []), lambda x: f"{safe(x.get('test_name'))}: {safe(x.get('value'))} {safe(x.get('unit'))} - {safe(x.get('status'))}. {safe(x.get('evidence'))}"),
-            ("Clinical Warnings", dashboard.get("clinical_warnings", []), lambda x: f"{safe(x.get('severity'))}: {safe(x.get('text'))}"),
-            ("Top Clinical Patterns", dashboard.get("clinical_patterns", []), lambda x: f"Rank {safe(x.get('rank'))}: {safe(normalize_terminal_punctuation(x.get('pattern_name'), ensure_period=True))} Confidence {safe(x.get('confidence_level'))}. Evidence: {safe(', '.join(x.get('evidence_for', [])) or None)}"),
-            ("Missing Required Labs", dashboard.get("missing_required_labs", []), lambda x: safe(x)),
-            ("Retrieved Evidence Sources", dashboard.get("retrieved_sources", []), lambda x: f"{safe(x.get('title'))} - {safe(x.get('snippet'))} (Source ID: {safe(x.get('source_id'))})"),
-        ]
-        for title, items, formatter in content_sections:
-            story.extend(section(title))
-            if items:
-                story.extend(Paragraph(f"• {formatter(item)}", styles["BodySafe"]) for item in items)
+        chunk_size = 8
+        for chunk_index, start in enumerate(range(0, len(data_rows) or 1, chunk_size)):
+            chunk_rows = [[paragraph(x, "SmallSafe") for x in ["Test", "Value", "Unit", "Reference range", "Status", "Evidence"]]]
+            if data_rows:
+                chunk_rows.extend(data_rows[start:start + chunk_size])
             else:
-                empty_text = (
-                    "No missing required labs were reported for the selected panel."
-                    if title == "Missing Required Labs"
-                    else f"No {title.lower()} were available for this review."
-                )
-                story.append(paragraph(empty_text))
+                chunk_rows.append([paragraph("Not available", "SmallSafe") for _ in range(6)])
+
+            table_style = [
+                ("BACKGROUND", (0, 0), (-1, 0), navy),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("GRID", (0, 0), (-1, -1), 0.4, border),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 3),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+            ]
+            for row_index in range(1, len(chunk_rows)):
+                row_bg = colors.HexColor("#F8FAFC") if row_index % 2 else colors.white
+                table_style.append(("BACKGROUND", (0, row_index), (-1, row_index), row_bg))
+                status_key = str(labs[start + row_index - 1].get("status") or "Unknown").lower() if data_rows else "unknown"
+                if status_key in {"low", "high", "critical"}:
+                    table_style.append(("BACKGROUND", (0, row_index), (-1, row_index), light_warn))
+                    table_style.append(("FONTNAME", (0, row_index), (-1, row_index), "Helvetica-Bold"))
+                    table_style.append(("TEXTCOLOR", (0, row_index), (-1, row_index), navy))
+            story.append(Table(chunk_rows, colWidths=[26 * mm, 15 * mm, 16 * mm, 24 * mm, 16 * mm, 49 * mm], repeatRows=1, splitByRow=1, style=TableStyle(table_style)))
+            if len(data_rows) > chunk_size or chunk_index < (len(data_rows) - 1) // chunk_size or (not data_rows and chunk_index == 0):
+                story.append(Spacer(1, 2 * mm))
+                story.append(PageBreak())
+
+        story.extend(section("Abnormal Findings"))
+        if dashboard.get("abnormal_findings"):
+            for finding in dashboard.get("abnormal_findings", []):
+                story.append(Paragraph(f"<b>{safe(finding.get('test_name'))}</b>: {safe(finding.get('value'))} {safe(finding.get('unit'))} - {safe(finding.get('status'))}. {safe(finding.get('evidence'))}", styles["BodySafe"]))
+        else:
+            story.append(paragraph("No abnormal findings were identified using the configured educational reference ranges."))
+
+        story.extend(section("Clinical Warnings"))
+        if dashboard.get("clinical_warnings"):
+            for warning in dashboard.get("clinical_warnings", []):
+                story.append(Paragraph(f"<b>{safe(warning.get('severity', 'Review'))}</b>: {safe(warning.get('text'))}", styles["BodySafe"]))
+        else:
+            story.append(paragraph("No clinical warnings were returned for this review."))
+
+        story.extend(section("Top Clinical Patterns"))
+        if dashboard.get("clinical_patterns"):
+            for pattern in dashboard.get("clinical_patterns", []):
+                story.append(pattern_card(pattern))
+        else:
+            story.append(paragraph("No top clinical patterns were returned for this review."))
+
+        story.extend(section("Missing Required Labs"))
+        if dashboard.get("missing_required_labs"):
+            story.append(Paragraph("<br/>".join(f"• {safe(lab)}" for lab in dashboard.get("missing_required_labs", [])), styles["BodySafe"]))
+            story.append(paragraph("Interpretation may be limited until missing information is reviewed."))
+        else:
+            story.append(paragraph("No missing required labs were reported for the selected panel."))
+
+        story.append(PageBreak())
+        story.extend(section("Retrieved Evidence Sources"))
+        if dashboard.get("retrieved_sources"):
+            for source in dashboard.get("retrieved_sources", []):
+                story.append(source_card(source))
+                story.append(Spacer(1, 2 * mm))
+        else:
+            story.append(paragraph("No retrieved evidence sources were available for this review."))
 
         story.extend(section("Clinical Interpretation Limitations"))
         for limitation in [
@@ -464,8 +620,8 @@ class ReportGeneratorAgent:
             "No medication or treatment recommendation is provided.",
         ]:
             story.append(Paragraph(f"• {safe(limitation)}", styles["BodySafe"]))
-        story.extend([Spacer(1, 3 * mm), Paragraph("Final Safety Notice", styles["SectionTitle"]), Paragraph(safe(SAFETY_NOTICE), styles["Notice"]), PageBreak()])
-        story.pop()
+        story.extend([Spacer(1, 3 * mm), Paragraph("Final Safety Notice", styles["SectionTitle"]), Paragraph(safe(SAFETY_NOTICE), styles["Notice"])])
+
         document.build(story, onFirstPage=footer, onLaterPages=footer)
         return str(path)
 
@@ -642,6 +798,31 @@ class ReportGeneratorAgent:
                 source_map.setdefault(pattern_code, []).append(self._retrieved_source(source))
 
         return source_map
+
+    def _pdf_source_sections(self, source: dict[str, Any]) -> tuple[list[str], list[str]]:
+        relevant: list[str] = []
+        context: list[str] = []
+
+        title = self._display(source.get("title"))
+        snippet = self._display(source.get("snippet"))
+        pattern_code = self._display(source.get("pattern_code"))
+        similarity = self._format_score(source.get("similarity_score"))
+
+        if title != "Not available":
+            relevant.append(title)
+        if snippet != "Not available":
+            relevant.append(snippet)
+        if pattern_code != "Not available":
+            context.append(f"Related pattern: {pattern_code}")
+        if similarity != "Not available":
+            context.append(f"Similarity score: {similarity}")
+
+        if not relevant:
+            relevant.append("No relevant findings were available for this source.")
+        if not context:
+            context.append("Source included for clinician review.")
+
+        return relevant, context
 
     def _html_case_overview(self, case_id: str, generated_at: str, patient: dict[str, Any]) -> str:
         items = [
