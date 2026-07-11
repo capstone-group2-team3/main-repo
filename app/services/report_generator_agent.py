@@ -14,6 +14,9 @@ from app.services.safety_agent import (
 
 REPORT_FORMAT_VERSION = "1.0"
 REPORT_OUTPUT_DIR = Path("reports/generated_reports")
+SEVERITY_DISCLAIMER = (
+    "This is a supportive prioritization signal only and does not replace clinician judgment."
+)
 
 
 def normalize_terminal_punctuation(text: Any, ensure_period: bool = False) -> str:
@@ -89,6 +92,7 @@ class ReportGeneratorAgent:
         patterns = dashboard_json.get("clinical_patterns", [])
         retrieved_sources = dashboard_json.get("retrieved_sources", [])
         missing_required_labs = dashboard_json.get("missing_required_labs", [])
+        severity = dashboard_json.get("severity")
         summary = self._review_summary(dashboard_json)
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
         generated_at_raw = dashboard_json.get("generated_at")
@@ -100,6 +104,22 @@ class ReportGeneratorAgent:
             "## Clinical Safety Notice",
             f"> {SAFETY_NOTICE}",
             "",
+        ]
+
+        if isinstance(severity, dict):
+            lines.extend(
+                [
+                    "## Severity Support Alert",
+                    f"- Severity label: {self._display(severity.get('label'))}",
+                    f"- Confidence: {self._format_confidence(severity.get('confidence'))}",
+                    f"- Source: {self._source_label(severity.get('source'))}",
+                    f"> {SEVERITY_DISCLAIMER}",
+                    "",
+                ]
+            )
+
+        lines.extend(
+            [
             "## Case Overview",
             f"- Case ID: {case_id}",
             f"- Generated date/time: {generated_at}",
@@ -110,7 +130,8 @@ class ReportGeneratorAgent:
             f"- Clinical notes: {self._display(patient.get('clinical_notes'))}",
             "",
             "## Review Summary",
-        ]
+            ]
+        )
 
         for label, value in summary.items():
             lines.append(f"- {label}: {value}")
@@ -244,6 +265,7 @@ class ReportGeneratorAgent:
         patterns = dashboard_json.get("clinical_patterns", [])
         retrieved_sources = dashboard_json.get("retrieved_sources", [])
         missing_required_labs = dashboard_json.get("missing_required_labs", [])
+        severity = dashboard_json.get("severity")
         summary = self._review_summary(dashboard_json)
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
         generated_at = format_clinician_datetime(dashboard_json.get("generated_at"))
@@ -265,6 +287,10 @@ class ReportGeneratorAgent:
     section {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 22px; margin-top: 18px; break-inside: avoid; }}
     h2 {{ border-bottom: 1px solid #ccfbf1; padding-bottom: 10px; margin-bottom: 16px; font-size: 20px; }}
     .notice {{ background: #ecfeff; border-color: #99f6e4; color: #134e4a; font-weight: 700; }}
+    .severity {{ border-width: 2px; }}
+    .severity.routine {{ background: #f0fdf4; border-color: #86efac; color: #14532d; }}
+    .severity.urgent {{ background: #fffbeb; border-color: #f59e0b; color: #78350f; }}
+    .severity.critical {{ background: #fef2f2; border-color: #ef4444; color: #7f1d1d; }}
     .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }}
     .card {{ border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; background: #f8fafc; }}
     .card small {{ display: block; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }}
@@ -300,6 +326,7 @@ class ReportGeneratorAgent:
     <p>Clinical Review Report • Case {self._esc(case_id)} • Generated {self._esc(generated_at)}</p>
   </header>
   <section class="notice">{self._esc(SAFETY_NOTICE)}</section>
+  {self._html_severity(severity)}
   {self._html_case_overview(case_id, generated_at, patient)}
   {self._html_summary(summary)}
   {self._html_lab_results(lab_results)}
@@ -497,6 +524,34 @@ class ReportGeneratorAgent:
                 ]),
             ),
         ]
+
+        severity = dashboard.get("severity")
+        if isinstance(severity, dict):
+            story.append(
+                Table(
+                    [
+                        [Paragraph("Severity Support Alert", styles["SectionTitle"])],
+                        [
+                            Paragraph(
+                                f"<b>Severity label:</b> {safe(severity.get('label'))}<br/>"
+                                f"<b>Confidence:</b> {safe(self._format_confidence(severity.get('confidence')))}<br/>"
+                                f"<b>Source:</b> {safe(self._source_label(severity.get('source')))}<br/>"
+                                f"{safe(SEVERITY_DISCLAIMER)}",
+                                styles["Notice"],
+                            )
+                        ],
+                    ],
+                    colWidths=[A4[0] - 36 * mm],
+                    style=TableStyle([
+                        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FFF7ED")),
+                        ("BOX", (0, 0), (-1, -1), 0.8, colors.HexColor("#F59E0B")),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                        ("TOPPADDING", (0, 0), (-1, -1), 7),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
+                    ]),
+                )
+            )
 
         story.extend(section("Case Overview"))
         story.extend([
@@ -843,6 +898,23 @@ class ReportGeneratorAgent:
         )
         return f"<section><h2>Review Summary</h2><div class=\"grid\">{cards}</div></section>"
 
+    def _html_severity(self, severity: Any) -> str:
+        if not isinstance(severity, dict):
+            return ""
+
+        label = self._display(severity.get("label"))
+        key = label.lower() if label.lower() in {"routine", "urgent", "critical"} else "unknown"
+
+        return (
+            f'<section class="severity {self._esc(key)}">'
+            "<h2>Severity Support Alert</h2>"
+            f"<p><strong>Severity label:</strong> {self._esc(label)}</p>"
+            f"<p><strong>Confidence:</strong> {self._esc(self._format_confidence(severity.get('confidence')))}</p>"
+            f"<p><strong>Source:</strong> {self._esc(self._source_label(severity.get('source')))}</p>"
+            f"<p>{self._esc(SEVERITY_DISCLAIMER)}</p>"
+            "</section>"
+        )
+
     def _html_lab_results(self, labs: list[dict[str, Any]]) -> str:
         rows = []
         for lab in labs:
@@ -982,6 +1054,26 @@ class ReportGeneratorAgent:
             return f"{float(value):.2f}"
         except (TypeError, ValueError):
             return self._display(value)
+
+    def _format_confidence(self, value: Any) -> str:
+        if value is None:
+            return "Not available"
+
+        try:
+            numeric_value = float(value)
+        except (TypeError, ValueError):
+            return "Not available"
+
+        numeric_value = max(0.0, min(1.0, numeric_value))
+        return f"{round(numeric_value * 100):.0f}%"
+
+    def _source_label(self, value: Any) -> str:
+        labels = {
+            "fine_tuned_model": "Fine-tuned DistilBERT model",
+            "rule_based_fallback": "Rule-based fallback",
+            "critical_override": "Critical lab override",
+        }
+        return labels.get(str(value or ""), self._display(value))
 
     def _display(self, value: Any) -> str:
         if value is None or value == "":

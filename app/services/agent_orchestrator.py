@@ -195,21 +195,19 @@ class AgentOrchestrator:
         symptoms_str = ", ".join(normalized_symptoms) if normalized_symptoms else "None"
         
         case_text = f"Age: {age_val}, Sex: {sex_val}, Panel: {selected_panel}. Abnormal: {abnormal_str}. Symptoms: {symptoms_str}."
-        has_critical_lab = any(lab.get("status") == "Critical" or (str(lab.get("test_name", "")).lower() == "hemoglobin" and float(lab.get("value", 0)) < 7.0) for lab in lab_results)
-
-        critical_keywords = ["chest pain", "jaw pain", "shortness of breath", "stroke", "heart attack"]
-        has_critical_symptom = any(keyword in case_text.lower() for keyword in critical_keywords)
-        is_hard_override = has_critical_lab or has_critical_symptom
+        has_critical_lab = any(lab.get("status") == "Critical" for lab in lab_results)
 
         severity_result = severity_service.predict_severity(
             case_text=case_text,
-            has_critical_lab_value=is_hard_override
+            lab_results=lab_results,
+            clinical_patterns=clinical_patterns,
+            has_critical_lab_value=has_critical_lab,
         )
 
         save_case_severity(
             db=db,
             case_id=case.id,
-            severity_label=severity_result["severity_label"],
+            severity_label=severity_result["label"],
             confidence=severity_result["confidence"],
             source=severity_result["source"]
         )
@@ -251,6 +249,7 @@ class AgentOrchestrator:
                 "message": "Analysis pipeline completed using local JSON configuration files.",
                 "report_case_id": case.id,
                 "received": request_data,
+                "severity": severity_result,
             }
         )
 
@@ -323,7 +322,7 @@ class AgentOrchestrator:
                 for pattern in clinical_patterns
             ],
             "severity": {
-                "label": severity_result["severity_label"],
+                "label": severity_result["label"],
                 "confidence": severity_result["confidence"],
                 "source": severity_result["source"],
             },

@@ -1,6 +1,6 @@
 # Held-out Evaluation Failure Cases
 
-Generated from `eval/results.json` for the evaluation run at `2026-07-11T12:36:48.646081+00:00`. These are observed pipeline failures, not invented clinical cases.
+Generated from `eval/results.json` for the evaluation run at `2026-07-11T18:05:10.779115+00:00`. These are observed pipeline failures, not invented clinical cases.
 
 ## heldout-003
 

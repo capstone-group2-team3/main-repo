@@ -1,5 +1,12 @@
 export type Sex = "male" | "female";
 export type LabStatus = "normal" | "low" | "high" | "critical" | "unknown" | string;
+export type SeverityLabel = "Routine" | "Urgent" | "Critical";
+
+export interface SeverityResult {
+  label: SeverityLabel;
+  confidence: number;
+  source: string;
+}
 
 export interface TemplateTest {
   name?: string;
@@ -127,6 +134,7 @@ export interface AnalyzeResponse {
   pattern_results?: Array<ClinicalPattern | string>;
   retrieved_sources?: Array<RetrievedSource | string>;
   missing_required_labs?: string[];
+  severity?: SeverityResult;
   safety_notice?: string;
   generated_at?: string;
   report_file_path?: string;

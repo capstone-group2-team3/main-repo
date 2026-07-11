@@ -11,6 +11,8 @@ from sqlalchemy.orm import sessionmaker
 from app.api import routes as api_routes
 from app.db.database import Base
 from app.db.models import ClinicalPatternResult, GeneratedReport, LabResult, ReportCase
+from app.db.severity_models import CaseSeverity
+from app.db.severity_repositories import get_case_severity_by_case_id
 from app.models.schemas import ReportRequest
 
 
@@ -152,6 +154,11 @@ def test_analyze_report_placeholder_returns_case_id_and_safety_notice(client):
     assert data["report"]["markdown_download_url"] == "/reports/1/download/markdown"
     assert data["report"]["html_download_url"] == "/reports/1/download/html"
     assert data["report"]["html_path"].endswith(".html")
+    assert data["severity"] == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
 
 
 def test_analyze_report_saves_case_and_case_can_be_fetched(client):
@@ -215,6 +222,12 @@ def test_analyze_report_accepts_name_aliases_persists_and_encodes(client, test_d
         assert db.query(LabResult).count() == 2
         assert db.query(ClinicalPatternResult).count() >= 0
         assert db.query(GeneratedReport).count() == 1
+        severity = get_case_severity_by_case_id(db, data["report_case_id"])
+        assert severity is not None
+        assert severity.severity_label == "Critical"
+        assert severity.confidence == 1.0
+        assert severity.source == "critical_override"
+        assert db.query(CaseSeverity).count() == 1
     finally:
         db.close()
 
@@ -306,3 +319,60 @@ def test_pdf_download_missing_case_and_path_traversal_return_404(client):
     assert missing.status_code == 404
 
     assert api_routes._safe_report_path("../../etc/passwd", ".pdf") is None
+
+
+def test_case_severity_table_exists(test_db):
+    db = test_db()
+    try:
+        assert db.query(CaseSeverity).count() == 0
+    finally:
+        db.close()
+
+
+def test_analyze_report_routine_urgent_and_report_severity_sections(client):
+    routine_payload = {
+        "age": 33,
+        "sex": "female",
+        "selected_panel": "CBC Panel",
+        "symptoms": ["annual review"],
+        "clinical_notes": "Routine CBC review.",
+        "labs": [
+            {"name": "Hemoglobin", "value": 13.2, "unit": "g/dL"},
+            {"name": "WBC", "value": 6.0, "unit": "10^9/L"},
+            {"name": "Platelets", "value": 250, "unit": "10^9/L"},
+        ],
+    }
+
+    urgent_payload = {
+        "age": 45,
+        "sex": "female",
+        "selected_panel": "Electrolytes & Calcium Panel",
+        "symptoms": ["confusion", "headache"],
+        "clinical_notes": "Abnormal but non-critical electrolyte review.",
+        "labs": [
+            {"name": "Sodium", "value": 130, "unit": "mEq/L"},
+            {"name": "Potassium", "value": 4.2, "unit": "mEq/L"},
+            {"name": "Calcium", "value": 9.5, "unit": "mg/dL"},
+        ],
+    }
+
+    routine_response = client.post("/reports/analyze", json=routine_payload)
+    urgent_response = client.post("/reports/analyze", json=urgent_payload)
+
+    routine_data = routine_response.json()
+    urgent_data = urgent_response.json()
+
+    assert routine_data["severity"]["label"] == "Routine"
+    assert routine_data["severity"]["source"] == "fine_tuned_model"
+    assert urgent_data["severity"]["label"] == "Urgent"
+    assert urgent_data["severity"]["source"] == "fine_tuned_model"
+
+    markdown = Path(urgent_data["report"]["markdown_path"]).read_text(encoding="utf-8")
+    html = Path(urgent_data["report"]["html_path"]).read_text(encoding="utf-8")
+    pdf_bytes = Path(urgent_data["report"]["pdf_path"]).read_bytes()
+
+    assert "## Severity Support Alert" in markdown
+    assert "Severity label: Urgent" in markdown
+    assert "Severity Support Alert" in html
+    assert b"Severity Support Alert" in pdf_bytes
+    assert urgent_data["safety_notice"] == "For clinicians only — supports review, not diagnosis or prescribing."

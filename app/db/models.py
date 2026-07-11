@@ -21,6 +21,7 @@ class ReportCase(Base):
     clinical_patterns = relationship("ClinicalPatternResult", back_populates="report_case", cascade="all, delete-orphan")
     retrieved_sources = relationship("RetrievedSource", back_populates="report_case", cascade="all, delete-orphan")
     generated_reports = relationship("GeneratedReport", back_populates="report_case", cascade="all, delete-orphan")
+    case_severity = relationship("CaseSeverity", back_populates="report_case", cascade="all, delete-orphan", uselist=False)
 
 
 class LabResult(Base):

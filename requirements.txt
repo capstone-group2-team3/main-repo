@@ -2,11 +2,16 @@
 torch
 transformers
 datasets
+accelerate>=1.1.0
 scikit-learn
+sentence-transformers
+numpy
 tqdm
 
 # API & Backend 
 fastapi
 uvicorn
 pydantic
+sqlalchemy
+qdrant-client
 reportlab==4.4.10

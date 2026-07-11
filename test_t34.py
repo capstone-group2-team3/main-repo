@@ -1,25 +1,44 @@
-from app.services.severity_classifier_service import severity_service
+from app.services.severity_classifier_service import SeverityClassifierService
+
+
+def make_service():
+    service = SeverityClassifierService()
+    service._initialized = True
+    service.model_available = False
+    return service
 
 def test_normal_prediction():
+    service = make_service()
     text = "Patient presents with mild symptoms, no immediate danger."
-    result = severity_service.predict_severity(case_text=text, has_critical_lab_value=False)
+    result = service.predict_severity(
+        case_text=text,
+        lab_results=[{"test_name": "Hemoglobin", "status": "Normal"}],
+    )
     
-    assert "severity_label" in result
-    assert result["source"] in ["model", "rule_fallback"]
+    assert result["label"] == "Routine"
+    assert result["source"] == "rule_based_fallback"
     assert 0.0 <= result["confidence"] <= 1.0
     
 def test_hard_override():
+    service = make_service()
     text = "Patient has some mild pain."
-    result = severity_service.predict_severity(case_text=text, has_critical_lab_value=True)
+    result = service.predict_severity(
+        case_text=text,
+        lab_results=[{"test_name": "Troponin", "status": "Critical"}],
+    )
     
-    assert result["severity_label"] == "Critical"
+    assert result["label"] == "Critical"
     assert result["confidence"] == 1.0
-    assert result["source"] == "hard_override"
+    assert result["source"] == "critical_override"
 
 def test_fallback_behavior():
+    service = make_service()
     text = "jdksgh dfkjgh dkfjhg"
-    result = severity_service.predict_severity(case_text=text, has_critical_lab_value=False, rule_based_fallback="Urgent")
+    result = service.predict_severity(
+        case_text=text,
+        lab_results=[{"test_name": "Hemoglobin", "status": "Low"}],
+        rule_based_fallback="Urgent",
+    )
     
-    if result["source"] == "rule_fallback":
-        assert result["severity_label"] == "Urgent"
-        assert result["confidence"] < 0.6
+    assert result["label"] == "Urgent"
+    assert result["source"] == "rule_based_fallback"

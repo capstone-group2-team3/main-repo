@@ -1,10 +1,13 @@
 import json
+import logging
 import os
 import re
 from pathlib import Path
 from typing import Any
 
 from app.services.embedding_service import EmbeddingService
+
+logger = logging.getLogger(__name__)
 
 
 class EvidenceRetrievalAgent:
@@ -131,9 +134,9 @@ class EvidenceRetrievalAgent:
         return models.Filter(must=[models.FieldCondition(key="canonical_panel", match=models.MatchValue(value=selected_panel))])
 
     def _search(self, query_vector: list[float], limit: int, selected_panel: str | None) -> list[Any]:
-        client = self._get_qdrant_client()
-        query_filter = self._panel_filter(selected_panel)
         try:
+            client = self._get_qdrant_client()
+            query_filter = self._panel_filter(selected_panel)
             response = client.query_points(
                 collection_name=self.collection_name,
                 query=query_vector,
@@ -151,6 +154,9 @@ class EvidenceRetrievalAgent:
                 with_payload=True,
             )
             return list(response.points if hasattr(response, "points") else response)
+        except Exception as error:
+            logger.warning("Evidence retrieval search failed; returning no sources: %s", error)
+            return []
 
     def clean_snippet(self, text: str | None) -> str:
         cleaned_lines = []

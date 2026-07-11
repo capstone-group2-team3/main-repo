@@ -1,6 +1,6 @@
 {
   "run_metadata": {
-    "run_at_utc": "2026-07-11T12:36:48.646081+00:00",
+    "run_at_utc": "2026-07-11T18:05:10.779115+00:00",
     "heldout_path": "/home/hussam/main-repo/eval/heldout.jsonl",
     "pipeline": "app.services.agent_orchestrator.AgentOrchestrator.analyze_report",
     "case_limit": null,
@@ -12,7 +12,7 @@
     "failed_cases": 0,
     "top3_pattern_recall": 1.0,
     "evidence_grounding_rate": 0.9298,
-    "average_latency_ms": 234.47,
+    "average_latency_ms": 272.22,
     "safety_notice_presence_rate": 1.0,
     "abnormal_findings_match_rate": 1.0,
     "panel_distribution": {
@@ -89,7 +89,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 6052.72,
+      "latency_ms": 6323.29,
       "failure_reasons": []
     },
     {
@@ -155,7 +155,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 133.29,
+      "latency_ms": 189.71,
       "failure_reasons": []
     },
     {
@@ -220,7 +220,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 0,
-      "latency_ms": 115.67,
+      "latency_ms": 149.89,
       "failure_reasons": [
         "evidence_grounding"
       ]
@@ -303,7 +303,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 6,
-      "latency_ms": 197.49,
+      "latency_ms": 231.68,
       "failure_reasons": []
     },
     {
@@ -367,7 +367,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 0,
-      "latency_ms": 115.34,
+      "latency_ms": 138.26,
       "failure_reasons": [
         "evidence_grounding"
       ]
@@ -434,7 +434,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 105.09,
+      "latency_ms": 145.39,
       "failure_reasons": []
     },
     {
@@ -530,7 +530,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 6,
-      "latency_ms": 249.83,
+      "latency_ms": 294.96,
       "failure_reasons": [
         "evidence_grounding"
       ]
@@ -605,7 +605,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 133.76,
+      "latency_ms": 168.27,
       "failure_reasons": []
     },
     {
@@ -666,7 +666,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 106.77,
+      "latency_ms": 152.11,
       "failure_reasons": []
     },
     {
@@ -739,7 +739,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 131.26,
+      "latency_ms": 221.52,
       "failure_reasons": []
     },
     {
@@ -798,7 +798,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 114.58,
+      "latency_ms": 143.15,
       "failure_reasons": []
     },
     {
@@ -870,7 +870,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 132.39,
+      "latency_ms": 161.4,
       "failure_reasons": []
     },
     {
@@ -929,7 +929,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 105.04,
+      "latency_ms": 166.36,
       "failure_reasons": []
     },
     {
@@ -998,7 +998,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 134.21,
+      "latency_ms": 199.55,
       "failure_reasons": []
     },
     {
@@ -1057,8 +1057,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 112.22,
+      "retrieved_source_count": 2,
+      "latency_ms": 143.07,
       "failure_reasons": []
     },
     {
@@ -1118,8 +1118,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 125.05,
+      "retrieved_source_count": 2,
+      "latency_ms": 145.19,
       "failure_reasons": []
     },
     {
@@ -1179,8 +1179,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 113.96,
+      "retrieved_source_count": 2,
+      "latency_ms": 149.12,
       "failure_reasons": []
     },
     {
@@ -1255,8 +1255,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 186.12,
+      "retrieved_source_count": 4,
+      "latency_ms": 210.53,
       "failure_reasons": []
     },
     {
@@ -1315,8 +1315,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 117.95,
+      "retrieved_source_count": 2,
+      "latency_ms": 149.0,
       "failure_reasons": []
     },
     {
@@ -1372,8 +1372,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 108.02,
+      "retrieved_source_count": 2,
+      "latency_ms": 134.31,
       "failure_reasons": []
     },
     {
@@ -1434,8 +1434,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 105.44,
+      "retrieved_source_count": 2,
+      "latency_ms": 140.03,
       "failure_reasons": []
     },
     {
@@ -1496,8 +1496,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 117.91,
+      "retrieved_source_count": 2,
+      "latency_ms": 144.05,
       "failure_reasons": []
     },
     {
@@ -1573,8 +1573,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 139.08,
+      "retrieved_source_count": 1,
+      "latency_ms": 163.31,
       "failure_reasons": []
     },
     {
@@ -1639,7 +1639,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 117.35,
+      "latency_ms": 148.38,
       "failure_reasons": []
     },
     {
@@ -1717,8 +1717,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 197.93,
+      "retrieved_source_count": 5,
+      "latency_ms": 215.98,
       "failure_reasons": []
     },
     {
@@ -1809,8 +1809,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 191.32,
+      "retrieved_source_count": 4,
+      "latency_ms": 255.57,
       "failure_reasons": []
     },
     {
@@ -1871,7 +1871,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 115.57,
+      "latency_ms": 137.02,
       "failure_reasons": []
     },
     {
@@ -1931,7 +1931,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 114.43,
+      "latency_ms": 154.29,
       "failure_reasons": []
     },
     {
@@ -1988,7 +1988,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 106.11,
+      "latency_ms": 148.25,
       "failure_reasons": []
     },
     {
@@ -2064,7 +2064,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 6,
-      "latency_ms": 206.53,
+      "latency_ms": 213.29,
       "failure_reasons": []
     },
     {
@@ -2123,7 +2123,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 128.37,
+      "latency_ms": 155.08,
       "failure_reasons": []
     },
     {
@@ -2196,7 +2196,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 6,
-      "latency_ms": 192.23,
+      "latency_ms": 201.68,
       "failure_reasons": []
     },
     {
@@ -2261,7 +2261,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 1,
-      "latency_ms": 109.69,
+      "latency_ms": 145.04,
       "failure_reasons": []
     },
     {
@@ -2326,7 +2326,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 1,
-      "latency_ms": 100.67,
+      "latency_ms": 140.47,
       "failure_reasons": []
     },
     {
@@ -2391,7 +2391,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 2,
-      "latency_ms": 115.7,
+      "latency_ms": 157.48,
       "failure_reasons": []
     },
     {
@@ -2456,7 +2456,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 2,
-      "latency_ms": 114.54,
+      "latency_ms": 140.64,
       "failure_reasons": []
     },
     {
@@ -2521,7 +2521,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 111.3,
+      "latency_ms": 148.62,
       "failure_reasons": []
     },
     {
@@ -2586,7 +2586,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 112.36,
+      "latency_ms": 144.51,
       "failure_reasons": []
     },
     {
@@ -2645,8 +2645,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 116.12,
+      "retrieved_source_count": 2,
+      "latency_ms": 145.4,
       "failure_reasons": []
     },
     {
@@ -2710,7 +2710,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 113.31,
+      "latency_ms": 155.05,
       "failure_reasons": []
     },
     {
@@ -2769,7 +2769,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 131.82,
+      "latency_ms": 125.87,
       "failure_reasons": []
     },
     {
@@ -2846,7 +2846,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 2,
-      "latency_ms": 112.06,
+      "latency_ms": 148.62,
       "failure_reasons": []
     },
     {
@@ -2901,7 +2901,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 97.86,
+      "latency_ms": 142.66,
       "failure_reasons": []
     },
     {
@@ -2956,7 +2956,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 104.74,
+      "latency_ms": 142.3,
       "failure_reasons": []
     },
     {
@@ -3011,7 +3011,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 106.41,
+      "latency_ms": 142.85,
       "failure_reasons": []
     },
     {
@@ -3066,7 +3066,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 104.6,
+      "latency_ms": 136.32,
       "failure_reasons": []
     },
     {
@@ -3131,7 +3131,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 110.94,
+      "latency_ms": 140.04,
       "failure_reasons": []
     },
     {
@@ -3203,7 +3203,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 131.09,
+      "latency_ms": 164.02,
       "failure_reasons": []
     },
     {
@@ -3262,8 +3262,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 113.05,
+      "retrieved_source_count": 2,
+      "latency_ms": 147.52,
       "failure_reasons": []
     },
     {
@@ -3318,7 +3318,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 101.6,
+      "latency_ms": 138.51,
       "failure_reasons": []
     },
     {
@@ -3410,7 +3410,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 161.85,
+      "latency_ms": 208.97,
       "failure_reasons": [
         "evidence_grounding"
       ]
@@ -3477,7 +3477,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 1,
-      "latency_ms": 109.43,
+      "latency_ms": 150.08,
       "failure_reasons": []
     },
     {
@@ -3551,8 +3551,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 232.83,
+      "retrieved_source_count": 4,
+      "latency_ms": 201.17,
       "failure_reasons": []
     },
     {
@@ -3626,7 +3626,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 6,
-      "latency_ms": 183.35,
+      "latency_ms": 199.62,
       "failure_reasons": []
     },
     {
@@ -3701,8 +3701,8 @@
       "abnormal_findings_match": true,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 124.14,
+      "retrieved_source_count": 1,
+      "latency_ms": 152.23,
       "failure_reasons": []
     },
     {
@@ -3774,7 +3774,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 121.31,
+      "latency_ms": 163.73,
       "failure_reasons": []
     },
     {
@@ -3829,7 +3829,7 @@
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 3,
-      "latency_ms": 100.86,
+      "latency_ms": 141.35,
       "failure_reasons": []
     }
   ]

@@ -1,6 +1,6 @@
-import { AlertTriangle, BookOpen, CheckCircle2, ExternalLink, FileDown, FileText, FileWarning, Printer, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertTriangle, BookOpen, CheckCircle2, CircleAlert, ExternalLink, FileDown, FileText, FileWarning, Printer, ShieldCheck, Sparkles } from "lucide-react";
 import { buildApiUrl } from "@/lib/api";
-import type { AnalyzeResponse, ClinicalPattern, ClinicalWarning, RetrievedSource } from "@/lib/types";
+import type { AnalyzeResponse, ClinicalPattern, ClinicalWarning, RetrievedSource, SeverityResult } from "@/lib/types";
 import { ChartsPanel } from "./ChartsPanel";
 import { StatusBadge } from "./StatusBadge";
 
@@ -55,6 +55,8 @@ export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
           ))}
         </div>
       </div>
+
+      {result.severity && <SeverityBanner severity={result.severity} />}
 
       <div className="flex gap-3 rounded-2xl border border-teal-200 bg-teal-50 p-5 text-sm text-teal-900">
         <ShieldCheck className="shrink-0" size={20} /><div><strong>Clinical safety notice</strong><p className="mt-1">{notice}</p></div>
@@ -167,4 +169,86 @@ function ConfidenceBadge({ value }: { value?: string }) {
 function WarningCard({ warning }: { warning: ClinicalWarning | string }) {
   const item = typeof warning === "string" ? { severity: "Review", text: warning } : warning;
   return <div className="flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><AlertTriangle size={17} className="shrink-0" /><div><strong>{item.severity || "Review"}</strong><p className="mt-1">{item.text || item.warning || "Requires clinician review."}</p>{item.associated_item && <p className="mt-1 text-xs text-amber-800">Associated item: {item.associated_item}</p>}</div></div>;
+}
+
+function SeverityBanner({ severity }: { severity: SeverityResult }) {
+  const label = severity.label;
+  const config = severityConfig(label);
+  const Icon = config.icon;
+
+  return (
+    <section className={`flex flex-col gap-4 rounded-2xl border p-5 text-sm shadow-sm md:flex-row md:items-start md:justify-between ${config.wrapper}`}>
+      <div className="flex min-w-0 gap-3">
+        <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${config.iconClass}`}>
+          <Icon size={22} aria-hidden="true" />
+        </div>
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-base font-bold">{config.heading}</h3>
+            <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${config.badge}`}>
+              Severity Alert: {label}
+            </span>
+          </div>
+          <p className="mt-2 leading-6">{config.description}</p>
+          <p className="mt-2 text-xs leading-5">
+            This is a supportive AI alert for clinician prioritization only. It is not a diagnosis and does not replace clinical judgment.
+          </p>
+        </div>
+      </div>
+      <div className="grid shrink-0 grid-cols-2 gap-2 md:w-72">
+        <SummaryPill label="Confidence" value={formatSeverityConfidence(severity.confidence)} />
+        <SummaryPill label="Source" value={formatSeveritySource(severity.source)} />
+      </div>
+    </section>
+  );
+}
+
+function SummaryPill({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-xl bg-white/70 p-3 ring-1 ring-black/5"><span className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{label}</span><p className="mt-1 text-sm font-bold text-slate-900">{value}</p></div>;
+}
+
+function severityConfig(label: string) {
+  if (label === "Critical") {
+    return {
+      heading: "Critical Review Alert",
+      description: "One or more findings require immediate clinician attention and review in the full clinical context.",
+      wrapper: "border-red-300 bg-red-50 text-red-950",
+      badge: "bg-red-100 text-red-800",
+      iconClass: "bg-red-100 text-red-700",
+      icon: CircleAlert,
+    };
+  }
+  if (label === "Urgent") {
+    return {
+      heading: "Urgent Review",
+      description: "The submitted findings may require timely clinician review and correlation with the full clinical context.",
+      wrapper: "border-amber-300 bg-amber-50 text-amber-950",
+      badge: "bg-amber-100 text-amber-800",
+      iconClass: "bg-amber-100 text-amber-700",
+      icon: AlertTriangle,
+    };
+  }
+  return {
+    heading: "Routine Review",
+    description: "The submitted findings support routine clinician review in the full clinical context.",
+    wrapper: "border-green-300 bg-green-50 text-green-950",
+    badge: "bg-green-100 text-green-800",
+    iconClass: "bg-green-100 text-green-700",
+    icon: CheckCircle2,
+  };
+}
+
+function formatSeverityConfidence(value?: number) {
+  if (typeof value !== "number" || Number.isNaN(value)) return "Not available";
+  const clamped = Math.max(0, Math.min(1, value));
+  return `${Math.round(clamped * 100)}%`;
+}
+
+function formatSeveritySource(value?: string) {
+  const labels: Record<string, string> = {
+    fine_tuned_model: "Fine-tuned DistilBERT model",
+    rule_based_fallback: "Rule-based fallback",
+    critical_override: "Critical lab override",
+  };
+  return labels[value || ""] || "Not available";
 }
