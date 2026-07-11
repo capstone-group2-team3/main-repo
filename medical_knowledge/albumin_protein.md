@@ -1,67 +1,25 @@
-# albumin_protein.md
+# Albumin and Protein Clinical Review
 
-## 1. Related Tests
-- Creatinine
-- TSH (Thyroid-Stimulating Hormone)
+## Related Tests
 
-## 2. What High Values May Suggest
+- Albumin
 
-### High Creatinine
-- May indicate reduced kidney function or impaired renal filtration.
-- Can also occur with dehydration, increased muscle mass, or muscle injury.
-- Interpretation should be based on the patient's overall clinical context.
+## Low Albumin
 
-### High TSH
-- Most commonly suggests primary hypothyroidism.
-- May indicate insufficient thyroid hormone replacement therapy.
-- Persistent elevation should be evaluated alongside clinical symptoms and medical history.
+Low albumin supports review of nutritional status, liver protein synthesis, renal or gastrointestinal protein loss, inflammation, and fluid distribution in the full clinical context. The laboratory value alone does not establish a cause.
 
-## 3. What Low Values May Suggest
+## High Albumin
 
-### Low Creatinine
-- May reflect reduced muscle mass, malnutrition, or decreased creatinine production.
-- Can also occur during pregnancy or in individuals with low muscle mass.
+High albumin may occur with reduced plasma water or other concentration effects. Review hydration context, sampling factors, and repeat results when clinically appropriate.
 
-### Low TSH
-- May suggest hyperthyroidism due to suppression of pituitary TSH secretion.
-- May also occur with pituitary dysfunction or excessive thyroid hormone replacement.
+## Supporting Context
 
-## 4. Common Supporting Symptoms
+Swelling, fatigue, weight change, jaundice, dietary history, urinalysis, liver-related measurements, and inflammatory markers may provide useful context.
 
-### Kidney-Related
-- Fatigue
-- Swelling of the legs or ankles
-- Reduced urine output
-- Nausea
-- Loss of appetite
-- Fluid retention
+## Missing Evidence
 
-### Thyroid-Related
-- Fatigue
-- Weight changes
-- Cold or heat intolerance
-- Dry skin
-- Constipation or frequent bowel movements
-- Palpitations
-- Tremor
-- Mood or concentration changes
+Review trends, total protein, liver and renal context, urinalysis, inflammatory evidence, dietary history, and examination findings as available.
 
-## 5. Missing Evidence
+## Safety Note
 
-Additional evaluation may be required to confirm the diagnosis, including:
-- Comprehensive medical history
-- Physical examination
-- Medication review
-- Appropriate diagnostic investigations based on the suspected clinical condition
-
-## 6. Suggested Follow-up
-
-- Correlate laboratory findings with clinical symptoms and history.
-- Repeat abnormal results if clinically appropriate.
-- Assess for underlying kidney or thyroid disorders.
-- Refer to an appropriate specialist when indicated.
-- Develop a management plan based on the complete clinical assessment.
-
-## 7. Safety Note
-
-This information is intended for clinical decision support and educational purposes only. Laboratory results should always be interpreted by a qualified healthcare professional in the context of the patient's medical history, physical examination, and overall clinical presentation. Diagnosis and treatment decisions should not be based on these findings alone.
+This material is educational clinical decision support. It supports clinician review and does not provide a final diagnosis or prescribing instruction.

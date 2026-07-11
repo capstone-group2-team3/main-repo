@@ -7,6 +7,10 @@ export interface TemplateTest {
   unit?: string;
   required?: boolean;
   description?: string;
+  reference_low?: number | null;
+  reference_high?: number | null;
+  critical_low?: number | null;
+  critical_high?: number | null;
 }
 
 export interface PanelTemplate {
@@ -15,6 +19,7 @@ export interface PanelTemplate {
   display_name?: string;
   tests?: TemplateTest[];
   suggested_symptoms?: string[];
+  educational_disclaimer?: string;
 }
 
 export interface TemplateOption {
@@ -45,7 +50,10 @@ export interface LabResult {
   status?: LabStatus;
   reference_low?: number;
   reference_high?: number;
+  critical_low?: number | null;
+  critical_high?: number | null;
   reference_range?: string;
+  evidence?: string;
 }
 
 export interface AbnormalFinding extends LabResult {
@@ -54,6 +62,8 @@ export interface AbnormalFinding extends LabResult {
 }
 
 export interface ClinicalPattern {
+  pattern_code?: string;
+  pattern?: string;
   name?: string;
   pattern_name?: string;
   rank?: number;
@@ -64,6 +74,7 @@ export interface ClinicalPattern {
   supporting_findings?: string[];
   missing_evidence?: string[];
   warnings?: string[];
+  retrieved_sources?: Array<RetrievedSource | string>;
 }
 
 export interface RetrievedSource {
@@ -72,6 +83,24 @@ export interface RetrievedSource {
   similarity_score?: number | string;
   source_id?: string;
   id?: string;
+  pattern_code?: string;
+}
+
+export interface ClinicalWarning {
+  severity?: string;
+  text?: string;
+  warning?: string;
+  associated_item?: string;
+}
+
+export interface ReportInfo {
+  generated?: boolean;
+  markdown_path?: string;
+  html_path?: string;
+  pdf_path?: string;
+  markdown_download_url?: string;
+  html_download_url?: string;
+  pdf_download_url?: string;
 }
 
 export interface PatientSummary {
@@ -92,12 +121,16 @@ export interface AnalyzeResponse {
   labs?: LabResult[];
   findings?: LabResult[];
   abnormal_findings?: Array<AbnormalFinding | string>;
-  clinical_warnings?: string[];
+  clinical_warnings?: Array<ClinicalWarning | string>;
   clinical_patterns?: Array<ClinicalPattern | string>;
   patterns?: Array<ClinicalPattern | string>;
   pattern_results?: Array<ClinicalPattern | string>;
   retrieved_sources?: Array<RetrievedSource | string>;
   missing_required_labs?: string[];
   safety_notice?: string;
+  generated_at?: string;
+  report_file_path?: string;
+  report?: ReportInfo;
+  report_format_version?: string;
   [key: string]: unknown;
 }

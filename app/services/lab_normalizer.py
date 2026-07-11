@@ -1,123 +1,44 @@
 import json
-import os
-import difflib  # Used for fuzzy matching as required by the task
-
-# Global collections to store processed data for efficient access
-REVERSE_LAB_ALIASES = {}
-KNOWN_SYMPTOMS = set()
-
-def load_normalizer_data():
-    """
-    Loads aliases and symptom lists once during startup.
-    Builds the reverse mapping for lab names and a set for known symptoms.
-    """
-    global REVERSE_LAB_ALIASES, KNOWN_SYMPTOMS
-    
-    # 1. Load lab aliases and build the reverse mapping
-    aliases_path = "data/lab_name_aliases.json"
-    if os.path.exists(aliases_path):
-        try:
-            with open(aliases_path, "r", encoding="utf-8") as f:
-                original_aliases = json.load(f)
-                for standard_name, aliases_list in original_aliases.items():
-                    for alias in aliases_list:
-                        # Map every alias to the standard name for O(1) lookup
-                        REVERSE_LAB_ALIASES[alias.lower().strip()] = standard_name
-            print("Lab aliases successfully mapped.")
-        except Exception as e:
-            print(f"Error loading lab aliases: {e}")
-
-    # 2. Load suggested_symptoms from panel_templates.json for normalization
-    templates_path = "data/panel_templates.json"
-    if os.path.exists(templates_path):
-        try:
-            with open(templates_path, "r", encoding="utf-8") as f:
-                templates = json.load(f)
-                for panel in templates.values():
-                    # Collect all symptoms to use as a reference for normalization
-                    for sym in panel.get("suggested_symptoms", []):
-                        KNOWN_SYMPTOMS.add(sym.lower().strip())
-            print("Known symptoms loaded for fuzzy matching.")
-        except Exception as e:
-            print(f"Error loading templates for symptoms: {e}")
-
-# Trigger loading process immediately
-load_normalizer_data()
-
-def normalize_lab_name(name: str) -> str:
-    """
-    Standardizes a lab test name.
-    Matches the input against the reverse dictionary.
-    """
-    if not name: 
-        return ""
-    
-    clean_name = name.lower().strip()
-    
-    # Return standard name if match found
-    if clean_name in REVERSE_LAB_ALIASES:
-        return REVERSE_LAB_ALIASES[clean_name]
-    
-    # Log warning for unknown labs
-    print(f"WARNING: Unknown lab name encountered - '{name}'.")
-    return name.strip()
-
-def normalize_symptom(text: str) -> str:
-    """
-    Standardizes a clinical symptom name using exact or fuzzy matching
-    against the list of known symptoms from the templates.
-    """
-    if not text: 
-        return ""
-        
-    clean_text = text.lower().strip()
-    
-    # 1. Attempt Exact Match
-    if clean_text in KNOWN_SYMPTOMS:
-        return clean_text
-        
-    # 2. Attempt Fuzzy Match (as requested in the task description)
-    # n=1: return the single best match, cutoff=0.7: 70% similarity threshold
-    matches = difflib.get_close_matches(clean_text, list(KNOWN_SYMPTOMS), n=1, cutoff=0.7)
-    
-    if matches:
-        return matches[0]
-        
-    # If no match found, return the cleaned original text
-    return clean_text
-
-if __name__ == "__main__":
-    print(normalize_lab_name("Hgb"))  
-    print(normalize_symptom("fatige")) 
 import re
+from difflib import get_close_matches
 from pathlib import Path
 from typing import Any
 
 
 class LabNormalizer:
-    def __init__(self, aliases_path: str = "data/lab_name_aliases.json"):
-        self.aliases_path = Path(aliases_path)
+    def __init__(
+        self,
+        aliases_path: str = "data/lab_name_aliases.json",
+        templates_path: str = "data/panel_templates.json",
+    ):
+        project_root = Path(__file__).resolve().parents[2]
+        self.aliases_path = self._resolve_path(aliases_path, project_root)
+        self.templates_path = self._resolve_path(templates_path, project_root)
         self.alias_map = self._load_aliases()
+        self.known_symptoms = self._load_known_symptoms()
+
+    def _resolve_path(self, raw_path: str, project_root: Path) -> Path:
+        path = Path(raw_path)
+        return path if path.is_absolute() else project_root / path
 
     def _clean_key(self, value: str) -> str:
         return re.sub(r"[^a-z0-9]+", "", value.lower().strip())
 
-    def _load_json(self) -> dict[str, Any]:
-        if not self.aliases_path.exists():
-            raise FileNotFoundError(f"Lab aliases file not found: {self.aliases_path}")
+    def _load_json(self, path: Path) -> dict[str, Any]:
+        if not path.exists():
+            raise FileNotFoundError(f"Required JSON file not found: {path}")
 
-        with self.aliases_path.open("r", encoding="utf-8") as file:
-            return json.load(file)
+        with path.open("r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        if not isinstance(data, dict):
+            raise ValueError(f"{path} must contain a JSON object.")
+
+        return data
 
     def _load_aliases(self) -> dict[str, str]:
-        raw = self._load_json()
-
-        aliases = (
-            raw.get("aliases")
-            or raw.get("lab_name_aliases")
-            or raw
-        )
-
+        raw = self._load_json(self.aliases_path)
+        aliases = raw.get("aliases") or raw.get("lab_name_aliases") or raw
         alias_map: dict[str, str] = {}
 
         if isinstance(aliases, dict):
@@ -130,7 +51,7 @@ class LabNormalizer:
                     names.append(alias_list)
 
                 for name in names:
-                    alias_map[self._clean_key(name)] = canonical_name
+                    alias_map[self._clean_key(str(name))] = str(canonical_name)
 
         elif isinstance(aliases, list):
             for item in aliases:
@@ -144,16 +65,47 @@ class LabNormalizer:
                     continue
 
                 for name in [canonical_name, *alias_list]:
-                    alias_map[self._clean_key(name)] = canonical_name
+                    alias_map[self._clean_key(str(name))] = str(canonical_name)
 
         return alias_map
+
+    def _load_known_symptoms(self) -> set[str]:
+        if not self.templates_path.exists():
+            return set()
+
+        raw = self._load_json(self.templates_path)
+        collection = raw.get("panels") or raw.get("templates") or raw.get("panel_templates") or raw
+        symptoms: set[str] = set()
+
+        if isinstance(collection, dict):
+            values = collection.values()
+        elif isinstance(collection, list):
+            values = collection
+        else:
+            values = []
+
+        for panel in values:
+            if not isinstance(panel, dict):
+                continue
+
+            for symptom in panel.get("suggested_symptoms", []):
+                if isinstance(symptom, str) and symptom.strip():
+                    symptoms.add(symptom.strip().lower())
+
+        return symptoms
 
     def normalize_lab_name(self, lab_name: str) -> str:
         cleaned = self._clean_key(lab_name)
         return self.alias_map.get(cleaned, lab_name.strip())
 
     def normalize_symptom(self, symptom: str) -> str:
-        return symptom.strip().lower()
+        normalized = symptom.strip().lower()
+
+        if not normalized or normalized in self.known_symptoms:
+            return normalized
+
+        matches = get_close_matches(normalized, list(self.known_symptoms), n=1, cutoff=0.7)
+        return matches[0] if matches else normalized
 
     def normalize_symptoms(self, symptoms: list[str]) -> list[str]:
         return [self.normalize_symptom(symptom) for symptom in symptoms if symptom.strip()]
@@ -168,8 +120,30 @@ class LabNormalizer:
             if not original_name:
                 continue
 
-            lab_copy["original_name"] = original_name
-            lab_copy["name"] = self.normalize_lab_name(original_name)
+            test_name = self.normalize_lab_name(str(original_name))
+            lab_copy["original_name"] = str(original_name)
+            lab_copy["name"] = test_name
+            lab_copy["test_name"] = test_name
             normalized_labs.append(lab_copy)
 
         return normalized_labs
+
+
+_DEFAULT_NORMALIZER: LabNormalizer | None = None
+
+
+def _default_normalizer() -> LabNormalizer:
+    global _DEFAULT_NORMALIZER
+
+    if _DEFAULT_NORMALIZER is None:
+        _DEFAULT_NORMALIZER = LabNormalizer()
+
+    return _DEFAULT_NORMALIZER
+
+
+def normalize_lab_name(name: str) -> str:
+    return _default_normalizer().normalize_lab_name(name)
+
+
+def normalize_symptom(text: str) -> str:
+    return _default_normalizer().normalize_symptom(text)

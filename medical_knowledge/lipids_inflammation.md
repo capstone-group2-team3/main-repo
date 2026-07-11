@@ -1,67 +1,27 @@
-# lipids_inflammation.md
+# Lipids and Inflammation Clinical Review
 
-## 1. Related Tests
-- Creatinine
-- TSH (Thyroid-Stimulating Hormone)
+## Related Tests
 
-## 2. What High Values May Suggest
+- LDL
+- HDL
+- CRP (C-reactive protein)
 
-### High Creatinine
-- May suggest reduced kidney function or impaired renal filtration.
-- Can also be seen with dehydration, increased muscle mass, or muscle injury.
-- Interpretation should always consider the patient's clinical context.
+## High LDL
 
-### High TSH
-- Most commonly suggests primary hypothyroidism.
-- May indicate inadequate thyroid hormone replacement in treated patients.
-- Persistent elevation should be interpreted together with the patient's symptoms and clinical history.
+Elevated LDL supports cardiovascular risk-factor review together with the complete lipid profile, history, comorbidities, and other clinical context. A single value does not determine an outcome.
 
-## 3. What Low Values May Suggest
+## Low HDL
 
-### Low Creatinine
-- May reflect reduced muscle mass, malnutrition, or decreased creatinine production.
-- Can also occur during pregnancy or in individuals with low muscle mass.
+Low HDL can contribute to a lipid risk review. Interpret it with LDL, other lipid measurements, metabolic context, smoking history, activity, and the wider clinical picture.
 
-### Low TSH
-- May suggest hyperthyroidism due to suppression of pituitary TSH secretion.
-- Can also occur from pituitary dysfunction or as a result of thyroid hormone overtreatment.
+## High CRP
 
-## 4. Common Supporting Symptoms
+Elevated CRP is a nonspecific inflammation marker. It may support review for infectious, inflammatory, or tissue-injury context but does not identify a specific cause by itself.
 
-### Kidney-Related
-- Fatigue
-- Swelling of the legs or ankles
-- Reduced urine output
-- Nausea
-- Loss of appetite
-- Fluid retention
+## Missing Evidence
 
-### Thyroid-Related
-- Fatigue
-- Weight changes
-- Cold or heat intolerance
-- Dry skin
-- Constipation or frequent bowel movements
-- Palpitations
-- Tremor
-- Mood or concentration changes
+Useful evidence may include prior lipid trends, other lipid fractions, cardiovascular history, inflammatory symptoms, repeat CRP, and examination findings.
 
-## 5. Missing Evidence
+## Safety Note
 
-Additional clinical evaluation is required to confirm the underlying cause, including:
-- Comprehensive medical history
-- Physical examination
-- Medication review
-- Appropriate diagnostic investigations based on clinical suspicion
-
-## 6. Suggested Follow-up
-
-- Review symptoms and medical history.
-- Repeat abnormal results if clinically indicated to confirm persistence.
-- Evaluate for potential underlying kidney or thyroid disorders.
-- Refer to an appropriate specialist when indicated.
-- Develop a management plan based on the complete clinical assessment.
-
-## 7. Safety Note
-
-This information is intended for clinical decision support and educational purposes only. Laboratory results should always be interpreted by a qualified healthcare professional in the context of the patient's history, physical examination, and overall clinical presentation. Diagnosis and treatment decisions should not be based on these findings alone.
+This material is educational clinical decision support. It supports clinician review and does not provide a final diagnosis or prescribing instruction.

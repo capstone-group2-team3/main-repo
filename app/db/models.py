@@ -54,8 +54,7 @@ class ClinicalPatternResult(Base):
     confidence_level = Column(String(30), nullable=True)
     evidence_for = Column(JSON, nullable=True)
     missing_evidence = Column(JSON, nullable=True)
-    warnings = Column(Text, nullable=True)
-
+    warnings = Column(JSON, nullable=True)
     report_case = relationship("ReportCase", back_populates="clinical_patterns")
     retrieved_sources = relationship("RetrievedSource", back_populates="clinical_pattern")
 

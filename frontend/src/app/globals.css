@@ -6,6 +6,7 @@ html { scroll-behavior:smooth; }
 body { margin:0; background:var(--background); color:var(--foreground); font-family:Arial,Helvetica,sans-serif; }
 button,a,select,input,textarea { outline-color:#06B6D4; }
 button,a { -webkit-tap-highlight-color:transparent; }
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid rgba(6,182,212,.45); outline-offset:2px; }
 
 .premium-button {
   display:inline-flex; align-items:center; gap:.6rem; min-height:3.25rem; border-radius:1rem;
@@ -18,10 +19,16 @@ button,a { -webkit-tap-highlight-color:transparent; }
 .field-label span { color:#DC2626; }
 .field-input { width:100%; min-height:2.9rem; border:1px solid #CBD5E1; border-radius:.8rem; background:white; padding:.7rem .85rem; color:#0F172A; transition:border-color .2s,box-shadow .2s; }
 .field-input:focus { border-color:#06B6D4; box-shadow:0 0 0 3px rgba(6,182,212,.12); }
+.helper-text { margin-top:.45rem; color:#64748B; font-size:.72rem; line-height:1.25rem; }
+.field-error { margin-top:.4rem; color:#B91C1C; font-size:.75rem; font-weight:700; }
+.secondary-button { display:inline-flex; min-height:2.9rem; align-items:center; justify-content:center; gap:.45rem; border:1px solid #94A3B8; border-radius:.8rem; background:white; padding:.7rem 1rem; color:#334155; font-size:.82rem; font-weight:750; }
+.secondary-button:hover { border-color:#0F766E; color:#0F766E; }
 .dashboard-card { border:1px solid #E2E8F0; border-radius:1.5rem; background:white; padding:1.25rem; box-shadow:0 12px 38px rgba(15,23,42,.06); }
 .section-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.25rem; font-size:1.1rem; font-weight:800; }
 .section-heading small { color:#64748B; font-size:.7rem; font-weight:500; }
 .mini-card { border:1px solid #E2E8F0; border-radius:1rem; background:#FAFCFF; padding:1rem; }
+.report-button { display:inline-flex; align-items:center; gap:.5rem; min-height:2.75rem; border:1px solid #0F766E; border-radius:.85rem; background:#0F766E; padding:.7rem 1rem; color:white; font-size:.875rem; font-weight:750; transition:background .2s,transform .2s; }
+.report-button:hover { background:#115E59; transform:translateY(-1px); }
 .clinical-table { width:100%; min-width:680px; border-collapse:separate; border-spacing:0; font-size:.875rem; }
 .clinical-table th { background:#F1F5F9; padding:.75rem; color:#475569; font-size:.68rem; letter-spacing:.04em; text-align:left; text-transform:uppercase; }
 .clinical-table th:first-child { border-radius:.75rem 0 0 .75rem; }.clinical-table th:last-child { border-radius:0 .75rem .75rem 0; }

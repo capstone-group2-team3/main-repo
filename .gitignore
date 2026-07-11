@@ -7,6 +7,7 @@ venv/
 qdrant_storage/
 reports/generated_reports/*.pdf
 reports/generated_reports/*.md
+reports/generated_reports/*.html
 .DS_Store
 meddx.db
 models/severity_classifier/

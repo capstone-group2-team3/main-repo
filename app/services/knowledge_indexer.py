@@ -1,4 +1,5 @@
 import os
+import json
 import re
 import uuid
 from pathlib import Path
@@ -36,6 +37,16 @@ class KnowledgeIndexer:
         self.qdrant_url = qdrant_url or os.getenv("QDRANT_URL", "http://localhost:6333")
         self.embedding_service = embedding_service or EmbeddingService()
         self.client = None
+        self.panel_templates = self._load_project_json("data/panel_templates.json")
+        self.lab_aliases = self._load_project_json("data/lab_name_aliases.json")
+        self.clinical_patterns = self._load_project_json("data/clinical_patterns.json")
+
+    def _load_project_json(self, relative_path: str) -> dict[str, Any]:
+        path = self.project_root / relative_path
+        if not path.exists():
+            return {}
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
 
     def _get_qdrant_client(self):
         """
@@ -109,6 +120,92 @@ class KnowledgeIndexer:
             return "Safety Guidelines"
 
         return None
+
+    def _infer_canonical_panel(self, filename: str) -> str | None:
+        name = filename.lower()
+        mapping = {
+            "CBC_Panel": ("cbc", "anemia"),
+            "Diabetic_Panel": ("diabetic", "glucose"),
+            "Renal_Thyroid_Panel": ("renal", "thyroid"),
+            "Lipids_Inflammation_Panel": ("lipids", "inflammation"),
+            "Cardiac_Enzymes_Panel": ("cardiac", "troponin", "cpk"),
+            "Electrolytes_Calcium_Panel": ("electrolytes", "calcium"),
+            "Albumin_Protein_Panel": ("albumin", "protein"),
+        }
+        for panel, hints in mapping.items():
+            if any(hint in name for hint in hints):
+                return panel
+        return None
+
+    def _section_title(self, chunk_text: str) -> str | None:
+        for line in chunk_text.splitlines():
+            match = re.match(r"^#{1,6}\s+(.+?)\s*$", line.strip())
+            if match:
+                return match.group(1).strip()
+        return None
+
+    def _term_present(self, text: str, term: str) -> bool:
+        normalized_text = re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+        normalized_term = re.sub(r"[^a-z0-9]+", " ", term.lower()).strip()
+        return bool(normalized_term and re.search(rf"(?:^|\s){re.escape(normalized_term)}(?:$|\s)", normalized_text))
+
+    def _related_tests(self, chunk_text: str, canonical_panel: str | None) -> list[str]:
+        related: list[str] = []
+        for canonical_name, aliases in self.lab_aliases.items():
+            candidates = [canonical_name, *(aliases if isinstance(aliases, list) else [])]
+            if any(self._term_present(chunk_text, str(term)) for term in candidates):
+                related.append(canonical_name)
+
+        # A file-level overview or symptom section may not repeat test names. Panel
+        # membership is retained separately; related_tests remains evidence-based.
+        return sorted(set(related))
+
+    def _pattern_codes(self, related_tests: list[str]) -> list[str]:
+        related = set(related_tests)
+        codes: list[str] = []
+        for code, pattern in self.clinical_patterns.items():
+            if not isinstance(pattern, dict):
+                continue
+            conditions = pattern.get("conditions") or pattern.get("required_abnormal_labs") or []
+            labs = {item.get("lab") for item in conditions if isinstance(item, dict)}
+            if related.intersection(labs):
+                codes.append(code)
+        return sorted(codes)
+
+    def _normalized_terms(self, related_tests: list[str], section_title: str | None) -> list[str]:
+        terms: set[str] = set()
+        for test_name in related_tests:
+            aliases = self.lab_aliases.get(test_name, [])
+            for term in [test_name, *(aliases if isinstance(aliases, list) else [])]:
+                normalized = re.sub(r"[^a-z0-9]+", " ", str(term).lower()).strip()
+                if normalized:
+                    terms.add(normalized)
+        if section_title:
+            normalized = re.sub(r"[^a-z0-9]+", " ", section_title.lower()).strip()
+            if normalized:
+                terms.add(normalized)
+        return sorted(terms)
+
+    def _status_direction(self, section_title: str | None, chunk_text: str) -> str:
+        heading = self._normalize_direction_text(section_title)
+        if not heading:
+            return "unknown"
+        if "critical high" in heading:
+            return "critical_high"
+        if "critical low" in heading:
+            return "critical_low"
+        if re.search(r"(?:^| )high(?: |$)", heading) or "elevated" in heading:
+            return "high"
+        if re.search(r"(?:^| )low(?: |$)", heading) or "decreased" in heading:
+            return "low"
+        if "normal" in heading or "within range" in heading:
+            return "normal"
+        if any(term in heading for term in ("related tests", "supporting", "missing evidence", "safety", "clinical review", "interpretation")):
+            return "general"
+        return "general"
+
+    def _normalize_direction_text(self, value: str | None) -> str:
+        return re.sub(r"[^a-z0-9]+", " ", str(value or "").lower()).strip()
 
     def _split_by_headings(self, text: str) -> list[str]:
         """
@@ -206,25 +303,41 @@ class KnowledgeIndexer:
 
         source_id = path.stem
         panel = self._infer_panel_from_filename(path.name)
+        canonical_panel = self._infer_canonical_panel(path.name)
         relative_path = self._relative_file_path(path)
 
         metadata = {
             "source_id": source_id,
             "title": title,
             "file_path": relative_path,
+            "file_name": path.name,
             "panel": panel,
+            "canonical_panel": canonical_panel,
+            "source_type": "internal_medical_knowledge",
             "chunk_count": len(chunks),
         }
 
         chunk_records = []
 
         for index, chunk_text in enumerate(chunks):
+            section_title = self._section_title(chunk_text)
+            related_tests = self._related_tests(chunk_text, canonical_panel)
+            pattern_codes = self._pattern_codes(related_tests)
+            status_direction = self._status_direction(section_title, chunk_text)
             chunk_records.append(
                 {
                     "source_id": source_id,
                     "title": title,
                     "file_path": relative_path,
+                    "file_name": path.name,
                     "panel": panel,
+                    "canonical_panel": canonical_panel,
+                    "related_tests": related_tests,
+                    "section_title": section_title,
+                    "normalized_terms": self._normalized_terms(related_tests, section_title),
+                    "pattern_codes": pattern_codes,
+                    "status_direction": status_direction,
+                    "source_type": "internal_medical_knowledge",
                     "chunk_index": index,
                     "chunk_text": chunk_text,
                 }
@@ -285,7 +398,15 @@ class KnowledgeIndexer:
                         "source_id": chunk["source_id"],
                         "title": chunk["title"],
                         "file_path": chunk["file_path"],
+                        "file_name": chunk["file_name"],
                         "panel": chunk["panel"],
+                        "canonical_panel": chunk["canonical_panel"],
+                        "related_tests": chunk["related_tests"],
+                        "section_title": chunk["section_title"],
+                        "normalized_terms": chunk["normalized_terms"],
+                        "pattern_codes": chunk["pattern_codes"],
+                        "status_direction": chunk["status_direction"],
+                        "source_type": chunk["source_type"],
                         "chunk_index": chunk["chunk_index"],
                         "chunk_text": chunk["chunk_text"],
                     },
@@ -323,7 +444,17 @@ class KnowledgeIndexer:
         if not all_chunk_records:
             raise ValueError("No chunks were generated from the knowledge files.")
 
-        chunk_texts = [chunk["chunk_text"] for chunk in all_chunk_records]
+        chunk_texts = [
+            " ".join(
+                part for part in [
+                    chunk.get("canonical_panel") or "",
+                    chunk.get("section_title") or "",
+                    " ".join(chunk.get("normalized_terms", [])),
+                    chunk["chunk_text"],
+                ] if part
+            )
+            for chunk in all_chunk_records
+        ]
         vectors = self.embedding_service.embed_texts(chunk_texts)
 
         if not vectors:
