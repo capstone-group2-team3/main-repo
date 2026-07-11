@@ -1,0 +1,788 @@
+{
+  "base_url": "http://localhost:8000",
+  "heldout_path": "eval\\heldout.jsonl",
+  "metrics": {
+    "total_cases": 50,
+    "completed_cases": 0,
+    "error_cases": 50,
+    "status_distribution": {
+      "exception": 50
+    },
+    "top3_correct_count": 0,
+    "top3_clinical_pattern_recall": 0.0,
+    "evidence_grounded_count": 0,
+    "evidence_grounding_rate": 0.0,
+    "safety_notice_count": 0,
+    "safety_notice_presence_rate": 0.0,
+    "average_latency_ms": 6.52
+  },
+  "cases": [
+    {
+      "case_id": "heldout-001",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "anemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 9.36,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-002",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "infection_inflammation_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.44,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-003",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "thrombocytopenia_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.48,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-004",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "anemia_pattern",
+        "infection_inflammation_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.62,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-005",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "platelet_elevation_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.76,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-006",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "anemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.68,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-007",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "anemia_pattern",
+        "infection_inflammation_pattern",
+        "thrombocytopenia_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.4,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-008",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.58,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-009",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoglycemia_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.91,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-010",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hyperglycemia_pattern",
+        "emergency_glucose_warning"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.57,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-011",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 18.0,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-012",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 15.32,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-013",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoglycemia_concern",
+        "emergency_glucose_warning"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.22,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-014",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 12.51,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-015",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "kidney_dysfunction_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 15.31,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-016",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.38,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-017",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.19,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-018",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "kidney_dysfunction_pattern",
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 23.6,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-019",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "kidney_dysfunction_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 15.29,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-020",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 15.19,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-021",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "lipid_abnormality_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.53,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-022",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "low_protective_cholesterol_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 2.59,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-023",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "lipid_abnormality_pattern",
+        "cardiovascular_risk_marker_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 24.39,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-024",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "infection_inflammation_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 6.79,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-025",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "infection_inflammation_pattern",
+        "lipid_abnormality_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 12.96,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-026",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "infection_inflammation_pattern",
+        "lipid_abnormality_pattern",
+        "cardiovascular_risk_marker_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.5,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-027",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "cardiac_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.59,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-028",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "muscle_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.5,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-029",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "cardiac_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.04,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-030",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "cardiac_injury_marker_concern",
+        "muscle_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.65,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-031",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "muscle_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.5,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-032",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "cardiac_injury_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.14,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-033",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "electrolyte_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 5.37,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-034",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "electrolyte_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.5,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-035",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "electrolyte_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 5.07,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-036",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "electrolyte_imbalance_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.33,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-037",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "calcium_abnormality_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 17.91,
+      "error": "[WinError 10053] An established connection was aborted by the software in your host machine"
+    },
+    {
+      "case_id": "heldout-038",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "calcium_abnormality_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.73,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-039",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "coagulation_abnormality_concern",
+        "bleeding_risk_marker_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.99,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-040",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "coagulation_abnormality_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.41,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-041",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "procedure_bleeding_risk_review"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.93,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-042",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "coagulation_abnormality_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 5.36,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-043",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoalbuminemia_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.63,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-044",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoalbuminemia_concern",
+        "fluid_shift_third_spacing_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.5,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-045",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoalbuminemia_concern",
+        "possible_protein_loss_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.03,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-046",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "hypoalbuminemia_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.08,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-047",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "pancreatic_enzyme_elevation_concern",
+        "possible_pancreatitis_workup_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 4.0,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-048",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "pancreatic_enzyme_elevation_concern",
+        "possible_salivary_gland_inflammation_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.99,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-049",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "pancreatic_enzyme_elevation_concern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.54,
+      "error": "Server disconnected without sending a response."
+    },
+    {
+      "case_id": "heldout-050",
+      "status": "exception",
+      "status_code": null,
+      "expected_patterns": [
+        "pancreatic_enzyme_elevation_concern",
+        "possible_pancreatitis_workup_pattern"
+      ],
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "is_top3_correct": false,
+      "is_evidence_grounded": false,
+      "has_safety_notice": false,
+      "latency_ms": 3.4,
+      "error": "Server disconnected without sending a response."
+    }
+  ]
+}
