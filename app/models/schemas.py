@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -26,4 +26,18 @@ class PlaceholderAnalyzeResponse(BaseModel):
     message: str
     report_case_id: int
     received: dict[str, Any]
+    safety_notice: str
+
+
+class SeverityResult(BaseModel):
+    label: Literal["Routine", "Urgent", "Critical"]
+    confidence: float
+    source: str
+
+
+class AnalyzeResponse(BaseModel):
+    message: str
+    report_case_id: int
+    received: dict[str, Any]
+    severity: SeverityResult
     safety_notice: str

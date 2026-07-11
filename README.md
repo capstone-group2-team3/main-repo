@@ -71,7 +71,77 @@ Markdown Report → HTML Report → Save Report → API Response
 pip install -r requirements.txt --break-system-packages
 ```
 
-## How to Run
+## Run the Full Project
+
+### Prerequisites
+
+- Docker Desktop or Docker Engine with Docker Compose
+- Optional local severity model artifact at `models/severity_classifier/`
+
+Start the complete local system:
+
+```bash
+docker compose up --build
+```
+
+Optional detached mode:
+
+```bash
+docker compose up -d --build
+```
+
+Open:
+
+- Frontend: http://localhost:3000
+- Backend docs: http://localhost:8000/docs
+- Backend health: http://localhost:8000/health
+- Qdrant dashboard: http://localhost:6333/dashboard
+
+Stop:
+
+```bash
+docker compose down
+```
+
+Index the medical knowledge base when Qdrant is empty or after knowledge files change:
+
+```bash
+docker compose run --rm indexer
+```
+
+Alternative setup profile command:
+
+```bash
+docker compose --profile setup up indexer
+```
+
+The normal `docker compose up --build` path does not reindex or delete Qdrant collections. Qdrant data is stored in the `qdrant_storage` volume, SQLite is stored in the `meddx_data` volume, and generated Markdown/HTML/PDF reports are stored in the `meddx_reports` volume.
+
+Severity model behavior:
+
+- With `./models/severity_classifier` mounted into the backend container, severity predictions can return `source = fine_tuned_model`.
+- If the model directory is missing or cannot be loaded, the backend still starts and uses `source = rule_based_fallback`.
+- Critical lab values override all model output and return `Critical`.
+
+Manual model checkpoint cleanup, after confirming the final root model files load:
+
+```bash
+du -sh models/severity_classifier/checkpoint-*
+rm -rf models/severity_classifier/checkpoint-*
+```
+
+Keep the final root artifacts: `config.json`, model weights, tokenizer files, and result JSON files.
+
+Troubleshooting:
+
+```bash
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f qdrant
+docker compose ps
+```
+
+## Local Development
 
 Start the backend and Qdrant vector database:
 

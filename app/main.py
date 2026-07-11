@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import router
 from app.db.database import Base, engine
-from app.db import models  # noqa: F401
+from app.db import models, severity_models  # noqa: F401
+from app.services.severity_classifier_service import severity_service
 
 
 app = FastAPI(
@@ -25,6 +26,7 @@ app.add_middleware(
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)
+    severity_service.initialize()
 
 
 app.include_router(router)
