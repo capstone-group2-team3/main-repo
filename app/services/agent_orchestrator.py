@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 from typing import Any
-
 from sqlalchemy.orm import Session
 
 from app.db.repositories import (
@@ -9,14 +8,15 @@ from app.db.repositories import (
     create_report_case,
     save_generated_report,
 )
+from app.db.severity_repositories import save_case_severity
 from app.services.clinical_pattern_scorer import ClinicalPatternScorer
 from app.services.evidence_retrieval_agent import EvidenceRetrievalAgent
 from app.services.lab_analysis_agent import LabAnalysisAgent
 from app.services.lab_normalizer import LabNormalizer
 from app.services.panel_template_service import PanelTemplateService
+from app.services.severity_classifier_service import severity_service
 from app.services.report_generator_agent import REPORT_FORMAT_VERSION, ReportGeneratorAgent
 from app.services.safety_agent import SAFETY_NOTICE, sanitize_dashboard
-
 
 class AgentOrchestrator:
     def __init__(self):
@@ -186,6 +186,35 @@ class AgentOrchestrator:
         )
         add_pattern_results(db, case.id, clinical_patterns)
 
+        # --- Severity Logic Integration ---
+        abnormal_list = [f"{lab['test_name']} {lab['status']}" for lab in lab_results if lab.get("status") not in {"Normal", "Unknown"}]
+        abnormal_str = ", ".join(abnormal_list) if abnormal_list else "None"
+        
+        age_val = request_data.get("age", "Unknown")
+        sex_val = request_data.get("sex", "Unknown")
+        symptoms_str = ", ".join(normalized_symptoms) if normalized_symptoms else "None"
+        
+        case_text = f"Age: {age_val}, Sex: {sex_val}, Panel: {selected_panel}. Abnormal: {abnormal_str}. Symptoms: {symptoms_str}."
+        has_critical_lab = any(lab.get("status") == "Critical" or (str(lab.get("test_name", "")).lower() == "hemoglobin" and float(lab.get("value", 0)) < 7.0) for lab in lab_results)
+
+        critical_keywords = ["chest pain", "jaw pain", "shortness of breath", "stroke", "heart attack"]
+        has_critical_symptom = any(keyword in case_text.lower() for keyword in critical_keywords)
+        is_hard_override = has_critical_lab or has_critical_symptom
+
+        severity_result = severity_service.predict_severity(
+            case_text=case_text,
+            has_critical_lab_value=is_hard_override
+        )
+
+        save_case_severity(
+            db=db,
+            case_id=case.id,
+            severity_label=severity_result["severity_label"],
+            confidence=severity_result["confidence"],
+            source=severity_result["source"]
+        )
+
+        abnormal_findings = self._build_abnormal_findings(lab_results)
         retrieved_sources = self._retrieve_evidence(
             clinical_patterns,
             selected_panel=selected_panel,
@@ -265,12 +294,43 @@ class AgentOrchestrator:
             if isinstance(pattern, dict):
                 pattern.setdefault("pattern", pattern.get("pattern_name"))
 
+        # --- Combined Structured Response Including Severity Info ---
         return {
             "message": "Analysis pipeline completed using local JSON configuration files.",
             "report_case_id": case.id,
             "received": request_data,
+            "patient_summary": {
+                "age": request_data["age"],
+                "sex": request_data["sex"],
+                "selected_panel": selected_panel,
+                "symptoms": normalized_symptoms,
+                "clinical_notes": request_data.get("clinical_notes"),
+            },
+            "lab_results": lab_results,
+            "abnormal_findings": abnormal_findings,
+            "clinical_warnings": clinical_warnings,
+            "clinical_patterns": [
+                {
+                    "rank": pattern["rank"],
+                    "pattern_code": pattern["pattern_code"],
+                    "pattern": pattern["pattern_name"],
+                    "score": pattern["score"],
+                    "confidence_level": pattern["confidence_level"],
+                    "evidence_for": pattern["evidence_for"],
+                    "missing_evidence": pattern["missing_evidence"],
+                    "recommended_clinician_review": pattern["recommended_clinician_review"],
+                }
+                for pattern in clinical_patterns
+            ],
+            "severity": {
+                "label": severity_result["severity_label"],
+                "confidence": severity_result["confidence"],
+                "source": severity_result["source"],
+            },
+            "retrieved_sources": retrieved_sources,
+            "missing_required_labs": missing_required_labs,
+            "safety_notice": SAFETY_NOTICE,
             **dashboard,
         }
-
 
 __all__ = ["AgentOrchestrator", "SAFETY_NOTICE"]

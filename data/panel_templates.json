@@ -3,7 +3,7 @@
     "display_name": "Complete Blood Count (CBC)",
     "required_patient_fields": ["age", "sex", "symptoms"],
     "tests": [
-      {"name": "Hemoglobin", "unit": "g/dL", "required": true, "description": "Measures oxygen-carrying protein"},
+      {"name": "Hemoglobin", "unit": "g/dL", "required": true, "description": "Measures oxygen-carrying protein", "critical_low": 7.0, "critical_high": 18.0},     
       {"name": "WBC", "unit": "10^9/L", "required": true, "description": "Measures immune cells"},
       {"name": "Platelets", "unit": "10^9/L", "required": true, "description": "Measures clotting cells"}
     ],
