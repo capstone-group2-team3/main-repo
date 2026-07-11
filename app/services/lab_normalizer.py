@@ -1,5 +1,4 @@
 import json
-<<<<<<< HEAD
 import os
 import difflib  # Used for fuzzy matching as required by the task
 
@@ -90,7 +89,6 @@ def normalize_symptom(text: str) -> str:
 if __name__ == "__main__":
     print(normalize_lab_name("Hgb"))  
     print(normalize_symptom("fatige")) 
-=======
 import re
 from pathlib import Path
 from typing import Any
@@ -175,4 +173,3 @@ class LabNormalizer:
             normalized_labs.append(lab_copy)
 
         return normalized_labs
->>>>>>> feature/t11-t12-pattern-scorer

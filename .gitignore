@@ -9,3 +9,4 @@ reports/generated_reports/*.pdf
 reports/generated_reports/*.md
 .DS_Store
 meddx.db
+models/severity_classifier/

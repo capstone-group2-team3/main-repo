@@ -1,19 +1,18 @@
 from typing import Any
-
 from sqlalchemy.orm import Session
 
 from app.db.repositories import add_lab_results, add_pattern_results, create_report_case
+from app.db.severity_repositories import save_case_severity
 from app.services.clinical_pattern_scorer import ClinicalPatternScorer
 from app.services.lab_analysis_agent import LabAnalysisAgent
 from app.services.lab_normalizer import LabNormalizer
 from app.services.panel_template_service import PanelTemplateService
-
+from app.services.severity_classifier_service import severity_service
 
 SAFETY_NOTICE = (
     "This tool supports clinician review only. It does not provide a final diagnosis, "
     "does not prescribe medication, and does not replace physician judgment."
 )
-
 
 class AgentOrchestrator:
     def __init__(self):
@@ -100,8 +99,34 @@ class AgentOrchestrator:
             lab_results,
             normalized_symptoms,
         )
-
         add_pattern_results(db, case.id, clinical_patterns)
+
+        abnormal_list = [f"{lab['test_name']} {lab['status']}" for lab in lab_results if lab.get("status") not in {"Normal", "Unknown"}]
+        abnormal_str = ", ".join(abnormal_list) if abnormal_list else "None"
+        
+        age_val = request_data.get("age", "Unknown")
+        sex_val = request_data.get("sex", "Unknown")
+        symptoms_str = ", ".join(normalized_symptoms) if normalized_symptoms else "None"
+        
+        case_text = f"Age: {age_val}, Sex: {sex_val}, Panel: {selected_panel}. Abnormal: {abnormal_str}. Symptoms: {symptoms_str}."
+        has_critical_lab = any(lab.get("status") == "Critical" or (str(lab.get("test_name", "")).lower() == "hemoglobin" and float(lab.get("value", 0)) < 7.0) for lab in lab_results)
+
+        critical_keywords = ["chest pain", "jaw pain", "shortness of breath", "stroke", "heart attack"]
+        has_critical_symptom = any(keyword in case_text.lower() for keyword in critical_keywords)
+        is_hard_override = has_critical_lab or has_critical_symptom
+
+        severity_result = severity_service.predict_severity(
+            case_text=case_text,
+            has_critical_lab_value=is_hard_override
+        )
+
+        save_case_severity(
+            db=db,
+            case_id=case.id,
+            severity_label=severity_result["severity_label"],
+            confidence=severity_result["confidence"],
+            source=severity_result["source"]
+        )
 
         abnormal_findings = self._build_abnormal_findings(lab_results)
         clinical_warnings = self._build_clinical_warnings(
@@ -137,6 +162,11 @@ class AgentOrchestrator:
                 }
                 for pattern in clinical_patterns
             ],
+            "severity": {
+                "label": severity_result["severity_label"],
+                "confidence": severity_result["confidence"],
+                "source": severity_result["source"],
+            },
             "retrieved_sources": [],
             "missing_required_labs": missing_required_labs,
             "safety_notice": SAFETY_NOTICE,
