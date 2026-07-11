@@ -1,12 +1,14 @@
 {
   "anemia_pattern": {
     "description": "Low Hemoglobin levels indicating potential anemia.",
+    "default_severity": "Routine",
     "conditions": [
       {"lab": "Hemoglobin", "status": "Low"}
     ]
   },
   "infection_inflammation_pattern": {
     "description": "Elevated WBC or CRP suggesting possible infection or systemic inflammation.",
+    "default_severity": "Urgent",
     "logic": "OR",
     "conditions": [
       {"lab": "WBC", "status": "High"},
@@ -15,6 +17,7 @@
   },
   "hyperglycemia_pattern": {
     "description": "Elevated Glucose or HbA1c indicating impaired glucose tolerance or diabetes risk.",
+    "default_severity": "Routine",
     "logic": "OR",
     "conditions": [
       {"lab": "Glucose", "status": "High"},
@@ -23,18 +26,21 @@
   },
   "kidney_dysfunction_pattern": {
     "description": "Elevated Creatinine indicating potential impaired kidney function.",
+    "default_severity": "Urgent",
     "conditions": [
       {"lab": "Creatinine", "status": "High"}
     ]
   },
   "thyroid_imbalance_pattern": {
     "description": "Abnormal TSH levels indicating potential hypo- or hyperthyroidism.",
+    "default_severity": "Routine",
     "conditions": [
       {"lab": "TSH", "status": "Abnormal"}
     ]
   },
   "electrolyte_imbalance_pattern": {
     "description": "Abnormal Sodium or Potassium levels affecting fluid balance.",
+    "default_severity": "Urgent",
     "logic": "OR",
     "conditions": [
       {"lab": "Sodium", "status": "Abnormal"},

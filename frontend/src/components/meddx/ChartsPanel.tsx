@@ -13,6 +13,7 @@ export function ChartsPanel({ result }: { result: AnalyzeResponse }) {
     labs.filter((lab) => String(lab.status || "unknown").toLowerCase() === status).length,
   ]));
   const abnormal = labs.length - counts.normal - counts.unknown;
+  const abnormalPercentage = labs.length ? Math.round((abnormal / labs.length) * 100) : 0;
   const critical = counts.critical;
   const nonCriticalAbnormal = Math.max(abnormal - critical, 0);
   const total = Math.max(labs.length, 1);
@@ -36,7 +37,7 @@ export function ChartsPanel({ result }: { result: AnalyzeResponse }) {
             style={{ background: `conic-gradient(#16A34A 0 ${normalDegrees}deg,#F59E0B ${normalDegrees}deg ${normalDegrees + abnormalDegrees}deg,#DC2626 ${normalDegrees + abnormalDegrees}deg ${normalDegrees + abnormalDegrees + (critical / total) * 360}deg,#E2E8F0 0)` }}
           >
             <div className="grid h-28 w-28 place-items-center rounded-full bg-white text-center shadow-inner">
-              <div><strong className="block text-3xl text-slate-900">{labs.length}</strong><span className="text-xs text-slate-500">labs reviewed</span></div>
+              <div><strong className="block text-3xl text-slate-900">{labs.length}</strong><span className="text-xs text-slate-500">labs reviewed</span><span className="mt-1 block text-xs font-bold text-amber-700">{abnormal} abnormal</span><span className="block text-xs text-slate-500">{abnormalPercentage}% abnormal</span></div>
             </div>
           </div>
         </div>

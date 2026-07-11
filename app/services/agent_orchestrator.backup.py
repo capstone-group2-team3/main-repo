@@ -1,3 +1,5 @@
+"""Legacy backup only; production code uses the main orchestrator module."""
+
 from typing import Any
 
 from sqlalchemy.orm import Session

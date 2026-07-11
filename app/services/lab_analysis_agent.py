@@ -37,6 +37,12 @@ class LabAnalysisAgent:
         }
         return any(key in item for key in range_keys) or isinstance(item.get("reference_range"), dict)
 
+    def _first_present(self, *values: Any) -> Any:
+        for value in values:
+            if value is not None:
+                return value
+        return None
+
     def _extract_range(self, item: dict[str, Any]) -> dict[str, Any]:
         reference_range = item.get("reference_range", {})
 
@@ -45,21 +51,21 @@ class LabAnalysisAgent:
 
         return {
             "unit": item.get("unit"),
-            "reference_low": (
-                item.get("reference_low")
-                or item.get("normal_low")
-                or item.get("low")
-                or item.get("min")
-                or reference_range.get("low")
-                or reference_range.get("min")
+            "reference_low": self._first_present(
+                item.get("reference_low"),
+                item.get("normal_low"),
+                item.get("low"),
+                item.get("min"),
+                reference_range.get("low"),
+                reference_range.get("min"),
             ),
-            "reference_high": (
-                item.get("reference_high")
-                or item.get("normal_high")
-                or item.get("high")
-                or item.get("max")
-                or reference_range.get("high")
-                or reference_range.get("max")
+            "reference_high": self._first_present(
+                item.get("reference_high"),
+                item.get("normal_high"),
+                item.get("high"),
+                item.get("max"),
+                reference_range.get("high"),
+                reference_range.get("max"),
             ),
             "critical_low": item.get("critical_low"),
             "critical_high": item.get("critical_high"),
@@ -166,7 +172,8 @@ class LabAnalysisAgent:
         analyzed_results: list[dict[str, Any]] = []
 
         for lab in labs:
-            test_name = self.normalizer.normalize_lab_name(lab["name"])
+            raw_name = lab.get("test_name") or lab.get("name")
+            test_name = self.normalizer.normalize_lab_name(raw_name)
             value = float(lab["value"])
             ref = self.reference_ranges.get(test_name)
             status = self._classify_value(value, ref)

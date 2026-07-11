@@ -8,5 +8,7 @@
   "TSH": ["TSH", "Thyroid Stimulating Hormone"],
   "LDL": ["LDL", "Low Density Lipoprotein"],
   "HDL": ["HDL", "High Density Lipoprotein"],
-  "CRP": ["CRP", "C-Reactive Protein"]
+  "CRP": ["CRP", "C-Reactive Protein"],
+  "Troponin": ["Troponin", "Tn", "TnI", "TnT"],
+  "CPK": ["CPK", "CK", "Creatine Kinase", "Creatine Phosphokinase"]
 }
