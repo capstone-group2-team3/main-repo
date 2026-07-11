@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -46,12 +47,18 @@ class AgentOrchestrator:
         missing_required_labs: list[str],
     ) -> list[str]:
         warnings: list[str] = []
+        has_abnormal_warning = False
 
         for lab in lab_results:
-            if lab["status"] == "Critical":
+            specific = self._specific_lab_warning(lab)
+            if specific:
+                warnings.append(specific)
+                has_abnormal_warning = True
+            elif lab["status"] == "Critical":
                 warnings.append(
                     f"Critical {lab['test_name']} value detected. Requires clinician review."
                 )
+                has_abnormal_warning = True
 
         for pattern in clinical_patterns:
             for warning in pattern.get("warnings", []):
@@ -62,16 +69,54 @@ class AgentOrchestrator:
                 f"Missing required lab value for selected panel: {lab_name}."
             )
 
-        if not warnings and any(result["status"] not in {"Normal", "Unknown"} for result in lab_results):
+        if not has_abnormal_warning and any(result["status"] not in {"Normal", "Unknown"} for result in lab_results):
             warnings.append("Abnormal lab values detected. Review in full clinical context.")
 
         return warnings
 
-    def _retrieve_evidence(self, clinical_patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _specific_lab_warning(self, lab: dict[str, Any]) -> str | None:
+        name = str(lab.get("test_name") or "")
+        status = str(lab.get("status") or "").lower()
+        is_high = status in {"high", "critical high"}
+        is_low = status in {"low", "critical low"}
+        if status == "critical":
+            try:
+                value = float(lab.get("value"))
+                reference_low = lab.get("reference_low")
+                reference_high = lab.get("reference_high")
+                is_low = reference_low is not None and value < float(reference_low)
+                is_high = reference_high is not None and value > float(reference_high)
+            except (TypeError, ValueError):
+                pass
+
+        if name == "Creatinine" and is_high:
+            return "Elevated creatinine requires clinician review in the context of renal function, hydration status, medications, prior results, and the full clinical picture."
+        if name == "Hemoglobin" and is_low:
+            return "Low hemoglobin requires clinician review with correlation to symptoms, prior results, and additional hematologic context."
+        if name == "Troponin" and is_high:
+            return "Elevated troponin requires urgent clinician review in the context of symptoms, ECG findings, timing, repeat measurements, and the full clinical picture."
+        if name == "CPK" and is_high:
+            return "Elevated CPK requires clinician review in the context of muscle injury, cardiac markers, medications, activity history, and the full clinical picture."
+        return None
+
+    def _retrieve_evidence(
+        self,
+        clinical_patterns: list[dict[str, Any]],
+        selected_panel: str | None = None,
+        lab_results: list[dict[str, Any]] | None = None,
+        symptoms: list[str] | None = None,
+    ) -> list[dict[str, Any]]:
+        abnormal_labs = [
+            lab for lab in lab_results or []
+            if lab.get("status") not in {"Normal", "Unknown"}
+        ]
         try:
             grouped_sources = self.evidence_retrieval_agent.retrieve_for_patterns(
                 clinical_patterns,
                 top_k=3,
+                selected_panel=selected_panel,
+                abnormal_labs=abnormal_labs,
+                symptoms=symptoms,
             )
         except Exception:
             return []
@@ -141,7 +186,12 @@ class AgentOrchestrator:
         )
         add_pattern_results(db, case.id, clinical_patterns)
 
-        retrieved_sources = self._retrieve_evidence(clinical_patterns)
+        retrieved_sources = self._retrieve_evidence(
+            clinical_patterns,
+            selected_panel=selected_panel,
+            lab_results=lab_results,
+            symptoms=normalized_symptoms,
+        )
         clinical_warnings = self._build_clinical_warnings(
             lab_results,
             clinical_patterns,
@@ -156,6 +206,7 @@ class AgentOrchestrator:
             "clinical_notes": request_data.get("clinical_notes"),
         }
 
+        generated_at = datetime.now(timezone.utc).isoformat()
         dashboard = self.report_generator_agent.build_dashboard(
             case_data=case_data,
             lab_results=lab_results,
@@ -163,6 +214,7 @@ class AgentOrchestrator:
             retrieved_sources=retrieved_sources,
             clinical_warnings=clinical_warnings,
             missing_required_labs=missing_required_labs,
+            generated_at=generated_at,
         )
 
         dashboard.update(
@@ -174,16 +226,18 @@ class AgentOrchestrator:
         )
 
         dashboard = sanitize_dashboard(dashboard)
-        generated_at = dashboard.get("generated_at")
         markdown_path, html_path = self.report_generator_agent.build_report_paths(case.id, generated_at)
+        pdf_path = self.report_generator_agent.pdf_path_from_markdown_path(markdown_path)
         dashboard["report_file_path"] = markdown_path
         dashboard["report_format_version"] = REPORT_FORMAT_VERSION
         dashboard["report"] = {
             "generated": True,
             "markdown_path": markdown_path,
             "html_path": html_path,
+            "pdf_path": pdf_path,
             "markdown_download_url": f"/reports/{case.id}/download/markdown",
             "html_download_url": f"/reports/{case.id}/download/html",
+            "pdf_download_url": f"/reports/{case.id}/download/pdf",
         }
 
         markdown = self.report_generator_agent.render_markdown(dashboard)
@@ -200,10 +254,12 @@ class AgentOrchestrator:
             generated_at,
             path=html_path,
         )
+        pdf_file_path = self.report_generator_agent.render_pdf(dashboard, pdf_path)
         save_generated_report(db, case.id, markdown, report_file_path)
         dashboard["report_file_path"] = report_file_path
         dashboard["report"]["markdown_path"] = report_file_path
         dashboard["report"]["html_path"] = html_file_path
+        dashboard["report"]["pdf_path"] = pdf_file_path
 
         for pattern in dashboard.get("clinical_patterns", []):
             if isinstance(pattern, dict):

@@ -7,6 +7,10 @@ export interface TemplateTest {
   unit?: string;
   required?: boolean;
   description?: string;
+  reference_low?: number | null;
+  reference_high?: number | null;
+  critical_low?: number | null;
+  critical_high?: number | null;
 }
 
 export interface PanelTemplate {
@@ -15,6 +19,7 @@ export interface PanelTemplate {
   display_name?: string;
   tests?: TemplateTest[];
   suggested_symptoms?: string[];
+  educational_disclaimer?: string;
 }
 
 export interface TemplateOption {
@@ -92,8 +97,10 @@ export interface ReportInfo {
   generated?: boolean;
   markdown_path?: string;
   html_path?: string;
+  pdf_path?: string;
   markdown_download_url?: string;
   html_download_url?: string;
+  pdf_download_url?: string;
 }
 
 export interface PatientSummary {

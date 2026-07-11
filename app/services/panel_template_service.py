@@ -5,7 +5,16 @@ from typing import Any
 
 
 class PanelTemplateService:
-    def __init__(self, template_path: str = "data/panel_templates.json"):
+    EDUCATIONAL_RANGE_DISCLAIMER = (
+        "Configured ranges are educational and may differ by laboratory, age, "
+        "sex, method, and clinical context."
+    )
+
+    def __init__(
+        self,
+        template_path: str = "data/panel_templates.json",
+        reference_ranges_path: str = "data/reference_ranges.json",
+    ):
         """
         Initialize the panel template service.
 
@@ -14,15 +23,24 @@ class PanelTemplateService:
         is started from a different working directory.
         """
 
+        project_root = Path(__file__).resolve().parents[2]
         raw_path = Path(template_path)
 
         if raw_path.is_absolute():
             self.template_path = raw_path
         else:
-            project_root = Path(__file__).resolve().parents[2]
             self.template_path = project_root / raw_path
 
+        raw_ranges_path = Path(reference_ranges_path)
+        self.reference_ranges_path = (
+            raw_ranges_path
+            if raw_ranges_path.is_absolute()
+            else project_root / raw_ranges_path
+        )
+
         self.templates = self._load_templates()
+        self.reference_ranges = self._load_reference_ranges()
+        self._add_reference_ranges()
         self.lookup = self._build_lookup()
 
     def _load_json(self) -> dict[str, Any]:
@@ -42,6 +60,31 @@ class PanelTemplateService:
             raise ValueError("panel_templates.json must contain a JSON object.")
 
         return data
+
+    def _load_reference_ranges(self) -> dict[str, dict[str, Any]]:
+        if not self.reference_ranges_path.exists():
+            return {}
+
+        with self.reference_ranges_path.open("r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        return data if isinstance(data, dict) else {}
+
+    def _add_reference_ranges(self) -> None:
+        for template in self.templates.values():
+            template["educational_disclaimer"] = self.EDUCATIONAL_RANGE_DISCLAIMER
+            for test in template.get("tests", []):
+                if not isinstance(test, dict):
+                    continue
+                reference = self.reference_ranges.get(test.get("name"), {})
+                if not isinstance(reference, dict):
+                    reference = {}
+                test["reference_low"] = reference.get("min")
+                test["reference_high"] = reference.get("max")
+                test["critical_low"] = reference.get("critical_low")
+                test["critical_high"] = reference.get("critical_high")
+                if reference.get("unit"):
+                    test["unit"] = reference["unit"]
 
     def _clean_key(self, value: str) -> str:
         """

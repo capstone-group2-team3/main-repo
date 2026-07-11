@@ -1,14 +1,40 @@
 import html
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from app.services.safety_agent import SAFETY_NOTICE, ensure_safety_notice, sanitize_text
+from app.services.safety_agent import (
+    SAFETY_NOTICE,
+    ensure_safety_notice,
+    sanitize_dashboard,
+    sanitize_text,
+)
 
 
 REPORT_FORMAT_VERSION = "1.0"
 REPORT_OUTPUT_DIR = Path("reports/generated_reports")
+
+
+def normalize_terminal_punctuation(text: Any, ensure_period: bool = False) -> str:
+    value = str(text or "").strip()
+    if not value:
+        return value
+    value = re.sub(r"([.!?])[.!?]+$", r"\1", value)
+    if ensure_period and value[-1] not in ".!?":
+        value += "."
+    return value
+
+
+def format_clinician_datetime(value: Any) -> str:
+    if not value:
+        return "Not available"
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return "Not available"
+    formatted = parsed.strftime("%d %b %Y • %I:%M %p")
+    return formatted.replace("• 0", "• ")
 
 
 class ReportGeneratorAgent:
@@ -20,10 +46,12 @@ class ReportGeneratorAgent:
         retrieved_sources: list[dict[str, Any]] | None = None,
         clinical_warnings: list[Any] | None = None,
         missing_required_labs: list[str] | None = None,
+        generated_at: str | None = None,
     ) -> dict[str, Any]:
         sources = retrieved_sources or []
         source_map = self._sources_by_pattern(sources)
-        generated_at = datetime.utcnow().replace(microsecond=0).isoformat()
+        if generated_at is None:
+            generated_at = datetime.now(timezone.utc).isoformat()
 
         dashboard = {
             "patient_summary": {
@@ -63,7 +91,8 @@ class ReportGeneratorAgent:
         missing_required_labs = dashboard_json.get("missing_required_labs", [])
         summary = self._review_summary(dashboard_json)
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
-        generated_at = self._display(dashboard_json.get("generated_at"))
+        generated_at_raw = dashboard_json.get("generated_at")
+        generated_at = format_clinician_datetime(generated_at_raw)
 
         lines = [
             "# MedDx Clinical Review Report",
@@ -146,7 +175,7 @@ class ReportGeneratorAgent:
             for pattern in patterns:
                 lines.extend(
                     [
-                        f"### Rank {self._display(pattern.get('rank'))}: {self._display(pattern.get('pattern_name'))}",
+                        f"### Rank {self._display(pattern.get('rank'))}: {normalize_terminal_punctuation(self._display(pattern.get('pattern_name')))}",
                         "This pattern may be consistent with the submitted findings and requires clinician review.",
                         f"- Confidence level: {self._display(pattern.get('confidence_level'))}",
                         f"- Score: {self._display(pattern.get('score'))}",
@@ -195,7 +224,7 @@ class ReportGeneratorAgent:
                 "## Technical Metadata",
                 f"- Case ID: {case_id}",
                 f"- Selected panel: {self._display(patient.get('selected_panel'))}",
-                f"- Report generation timestamp: {generated_at}",
+                f"- Report generation timestamp: {self._display(generated_at_raw)}",
                 "- Application name: MedDx Assistant",
                 f"- Report format version: {REPORT_FORMAT_VERSION}",
                 f"- Backend-generated report path: {self._display(dashboard_json.get('report_file_path'))}",
@@ -217,7 +246,7 @@ class ReportGeneratorAgent:
         missing_required_labs = dashboard_json.get("missing_required_labs", [])
         summary = self._review_summary(dashboard_json)
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
-        generated_at = self._display(dashboard_json.get("generated_at"))
+        generated_at = format_clinician_datetime(dashboard_json.get("generated_at"))
 
         html_report = f"""<!doctype html>
 <html lang="en">
@@ -287,6 +316,159 @@ class ReportGeneratorAgent:
 
         return sanitize_text(html_report)
 
+    def render_pdf(self, dashboard_json: dict[str, Any], output_path: str | Path) -> str:
+        from reportlab.lib import colors
+        from reportlab.lib.enums import TA_CENTER
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+        from reportlab.lib.units import mm
+        from reportlab.platypus import (
+            PageBreak,
+            Paragraph,
+            SimpleDocTemplate,
+            Spacer,
+            Table,
+            TableStyle,
+        )
+
+        dashboard = sanitize_dashboard(dashboard_json)
+        path = Path(output_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        styles = getSampleStyleSheet()
+        navy = colors.HexColor("#0F172A")
+        teal = colors.HexColor("#0F766E")
+        pale_teal = colors.HexColor("#ECFEFF")
+        border = colors.HexColor("#CBD5E1")
+        muted = colors.HexColor("#475569")
+        styles.add(ParagraphStyle(name="ReportTitle", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=20, leading=24, textColor=navy, spaceAfter=5 * mm))
+        styles.add(ParagraphStyle(name="SectionTitle", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=12, leading=15, textColor=navy, spaceBefore=4 * mm, spaceAfter=2 * mm))
+        styles.add(ParagraphStyle(name="BodySafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=8.5, leading=12, textColor=muted, spaceAfter=1.5 * mm))
+        styles.add(ParagraphStyle(name="SmallSafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=10, textColor=muted))
+        styles.add(ParagraphStyle(name="Notice", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=9, leading=13, textColor=colors.HexColor("#134E4A"), alignment=TA_CENTER))
+
+        def safe(value: Any) -> str:
+            if value is None or value == "":
+                return "Not available"
+            return html.escape(sanitize_text(str(value)))
+
+        def paragraph(value: Any, style: str = "BodySafe"):
+            return Paragraph(safe(value), styles[style])
+
+        def section(title: str) -> list[Any]:
+            return [Paragraph(safe(title), styles["SectionTitle"])]
+
+        def bullet(label: str, value: Any) -> Paragraph:
+            return Paragraph(f"<b>{safe(label)}:</b> {safe(value)}", styles["BodySafe"])
+
+        def footer(canvas, document) -> None:
+            canvas.saveState()
+            canvas.setStrokeColor(border)
+            canvas.line(18 * mm, 14 * mm, A4[0] - 18 * mm, 14 * mm)
+            canvas.setFont("Helvetica", 7)
+            canvas.setFillColor(muted)
+            canvas.drawString(18 * mm, 9 * mm, "MedDx Assistant - Clinical Review")
+            canvas.drawRightString(A4[0] - 18 * mm, 9 * mm, f"Page {document.page}")
+            canvas.restoreState()
+
+        document = SimpleDocTemplate(
+            str(path),
+            pagesize=A4,
+            rightMargin=18 * mm,
+            leftMargin=18 * mm,
+            topMargin=18 * mm,
+            bottomMargin=20 * mm,
+            title="MedDx Clinical Review Report",
+            author="MedDx Assistant",
+            pageCompression=0,
+        )
+        story: list[Any] = [
+            Paragraph("MedDx Assistant", styles["ReportTitle"]),
+            Paragraph("Clinical Review Report", styles["Heading1"]),
+            Spacer(1, 2 * mm),
+            Table(
+                [[Paragraph("Clinical Safety Notice", styles["SectionTitle"])], [Paragraph(safe(SAFETY_NOTICE), styles["Notice"])]],
+                colWidths=[A4[0] - 36 * mm],
+                style=TableStyle([
+                    ("BACKGROUND", (0, 0), (-1, -1), pale_teal),
+                    ("BOX", (0, 0), (-1, -1), 0.8, teal),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                    ("TOPPADDING", (0, 0), (-1, -1), 7),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
+                ]),
+            ),
+        ]
+        patient = dashboard.get("patient_summary", {})
+        case_id = dashboard.get("report_case_id") or dashboard.get("case_id")
+        story.extend(section("Case Overview"))
+        for label, value in [
+            ("Case ID", case_id),
+            ("Generated timestamp", format_clinician_datetime(dashboard.get("generated_at"))),
+            ("Selected panel", patient.get("selected_panel")),
+            ("Age", patient.get("age")),
+            ("Sex", patient.get("sex")),
+            ("Symptoms", ", ".join(patient.get("symptoms", [])) or None),
+            ("Clinical notes", patient.get("clinical_notes")),
+        ]:
+            story.append(bullet(label, value))
+
+        story.extend(section("Review Summary"))
+        summary_rows = [[paragraph("Measure", "SmallSafe"), paragraph("Count", "SmallSafe")]]
+        summary_rows.extend([[paragraph(label, "SmallSafe"), paragraph(value, "SmallSafe")] for label, value in self._review_summary(dashboard).items()])
+        story.append(Table(summary_rows, colWidths=[125 * mm, 35 * mm], repeatRows=1, style=TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), navy), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("GRID", (0, 0), (-1, -1), 0.4, border), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+        ])))
+
+        story.extend(section("Laboratory Results"))
+        lab_rows = [[paragraph(x, "SmallSafe") for x in ["Test", "Value", "Unit", "Reference range", "Status", "Evidence"]]]
+        labs = dashboard.get("lab_results", [])
+        if labs:
+            for lab in labs:
+                lab_rows.append([paragraph(value, "SmallSafe") for value in [lab.get("test_name"), lab.get("value"), lab.get("unit"), self._range_text(lab), lab.get("status"), lab.get("evidence")]])
+        else:
+            lab_rows.append([paragraph("Not available", "SmallSafe") for _ in range(6)])
+        story.append(Table(lab_rows, colWidths=[25*mm, 15*mm, 18*mm, 28*mm, 18*mm, 56*mm], repeatRows=1, splitByRow=1, style=TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), navy), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("GRID", (0, 0), (-1, -1), 0.4, border), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 4), ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+            ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+        ])))
+
+        content_sections = [
+            ("Abnormal Findings", dashboard.get("abnormal_findings", []), lambda x: f"{safe(x.get('test_name'))}: {safe(x.get('value'))} {safe(x.get('unit'))} - {safe(x.get('status'))}. {safe(x.get('evidence'))}"),
+            ("Clinical Warnings", dashboard.get("clinical_warnings", []), lambda x: f"{safe(x.get('severity'))}: {safe(x.get('text'))}"),
+            ("Top Clinical Patterns", dashboard.get("clinical_patterns", []), lambda x: f"Rank {safe(x.get('rank'))}: {safe(normalize_terminal_punctuation(x.get('pattern_name'), ensure_period=True))} Confidence {safe(x.get('confidence_level'))}. Evidence: {safe(', '.join(x.get('evidence_for', [])) or None)}"),
+            ("Missing Required Labs", dashboard.get("missing_required_labs", []), lambda x: safe(x)),
+            ("Retrieved Evidence Sources", dashboard.get("retrieved_sources", []), lambda x: f"{safe(x.get('title'))} - {safe(x.get('snippet'))} (Source ID: {safe(x.get('source_id'))})"),
+        ]
+        for title, items, formatter in content_sections:
+            story.extend(section(title))
+            if items:
+                story.extend(Paragraph(f"• {formatter(item)}", styles["BodySafe"]) for item in items)
+            else:
+                empty_text = (
+                    "No missing required labs were reported for the selected panel."
+                    if title == "Missing Required Labs"
+                    else f"No {title.lower()} were available for this review."
+                )
+                story.append(paragraph(empty_text))
+
+        story.extend(section("Clinical Interpretation Limitations"))
+        for limitation in [
+            "Configured ranges are educational and may differ by laboratory, age, sex, method, and clinical context.",
+            "This output supports review and does not replace clinician judgment.",
+            "This output is not a final diagnosis.",
+            "No medication or treatment recommendation is provided.",
+        ]:
+            story.append(Paragraph(f"• {safe(limitation)}", styles["BodySafe"]))
+        story.extend([Spacer(1, 3 * mm), Paragraph("Final Safety Notice", styles["SectionTitle"]), Paragraph(safe(SAFETY_NOTICE), styles["Notice"]), PageBreak()])
+        story.pop()
+        document.build(story, onFirstPage=footer, onLaterPages=footer)
+        return str(path)
+
     def save_markdown_report(
         self,
         case_id: int | str,
@@ -316,7 +498,7 @@ class ReportGeneratorAgent:
         html_path = markdown_path.with_suffix(".html")
         counter = 2
 
-        while markdown_path.exists() or html_path.exists():
+        while markdown_path.exists() or html_path.exists() or markdown_path.with_suffix(".pdf").exists():
             timestamp = self._filename_timestamp(generated_at)
             safe_case_id = self._safe_filename_part(str(case_id))
             base = f"meddx_case_{safe_case_id}_{timestamp}_{counter}"
@@ -330,6 +512,11 @@ class ReportGeneratorAgent:
         if not markdown_path:
             return None
         return str(Path(markdown_path).with_suffix(".html"))
+
+    def pdf_path_from_markdown_path(self, markdown_path: str | None) -> str | None:
+        if not markdown_path:
+            return None
+        return str(Path(markdown_path).with_suffix(".pdf"))
 
     def _report_path(self, case_id: int | str, suffix: str, generated_at: str | None) -> Path:
         REPORT_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -532,7 +719,7 @@ class ReportGeneratorAgent:
         for pattern in patterns:
             cards.append(
                 "<div class=\"card\">"
-                f"<h3>Rank {self._esc(pattern.get('rank'))}: {self._esc(pattern.get('pattern_name'))}</h3>"
+                f"<h3>Rank {self._esc(pattern.get('rank'))}: {self._esc(normalize_terminal_punctuation(pattern.get('pattern_name')))}</h3>"
                 "<p>This pattern may be consistent with the submitted findings and requires clinician review.</p>"
                 f"<p><strong>Confidence:</strong> {self._esc(pattern.get('confidence_level'))} "
                 f"<strong>Score:</strong> {self._esc(pattern.get('score'))}</p>"

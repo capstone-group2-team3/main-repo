@@ -2,49 +2,75 @@
   "anemia_pattern": {
     "description": "Low Hemoglobin levels indicating potential anemia.",
     "default_severity": "Routine",
-    "conditions": [
-      {"lab": "Hemoglobin", "status": "Low"}
-    ]
+    "conditions": [{"lab": "Hemoglobin", "status": "Low"}]
   },
   "infection_inflammation_pattern": {
-    "description": "Elevated WBC or CRP suggesting possible infection or systemic inflammation.",
+    "description": "Elevated WBC or CRP supporting an infection or inflammation review pattern.",
     "default_severity": "Urgent",
     "logic": "OR",
-    "conditions": [
-      {"lab": "WBC", "status": "High"},
-      {"lab": "CRP", "status": "High"}
-    ]
+    "conditions": [{"lab": "WBC", "status": "High"}, {"lab": "CRP", "status": "High"}]
+  },
+  "thrombocytopenia_concern": {
+    "description": "Low platelet count requiring clinician review.",
+    "default_severity": "Urgent",
+    "conditions": [{"lab": "Platelets", "status": "Low"}]
+  },
+  "platelet_elevation_concern": {
+    "description": "Elevated platelet count requiring clinician review.",
+    "default_severity": "Routine",
+    "conditions": [{"lab": "Platelets", "status": "High"}]
   },
   "hyperglycemia_pattern": {
-    "description": "Elevated Glucose or HbA1c indicating impaired glucose tolerance or diabetes risk.",
+    "description": "Elevated glucose or HbA1c supporting a hyperglycemia review pattern.",
     "default_severity": "Routine",
     "logic": "OR",
-    "conditions": [
-      {"lab": "Glucose", "status": "High"},
-      {"lab": "HbA1c", "status": "High"}
-    ]
+    "conditions": [{"lab": "Glucose", "status": "High"}, {"lab": "HbA1c", "status": "High"}]
+  },
+  "hypoglycemia_concern": {
+    "description": "Low glucose requiring clinician review.",
+    "default_severity": "Urgent",
+    "conditions": [{"lab": "Glucose", "status": "Low"}]
   },
   "kidney_dysfunction_pattern": {
-    "description": "Elevated Creatinine indicating potential impaired kidney function.",
+    "description": "Elevated creatinine supporting a kidney-function review pattern.",
     "default_severity": "Urgent",
-    "conditions": [
-      {"lab": "Creatinine", "status": "High"}
-    ]
+    "conditions": [{"lab": "Creatinine", "status": "High"}]
   },
   "thyroid_imbalance_pattern": {
-    "description": "Abnormal TSH levels indicating potential hypo- or hyperthyroidism.",
+    "description": "Abnormal TSH supporting a thyroid-function review pattern.",
     "default_severity": "Routine",
-    "conditions": [
-      {"lab": "TSH", "status": "Abnormal"}
-    ]
+    "conditions": [{"lab": "TSH", "status": "Abnormal"}]
+  },
+  "lipid_abnormality_pattern": {
+    "description": "Elevated LDL or low HDL supporting a lipid review pattern.",
+    "default_severity": "Routine",
+    "logic": "OR",
+    "conditions": [{"lab": "LDL", "status": "High"}, {"lab": "HDL", "status": "Low"}]
+  },
+  "cardiac_injury_marker_concern": {
+    "description": "Elevated troponin requiring prompt clinician review in context.",
+    "default_severity": "Urgent",
+    "conditions": [{"lab": "Troponin", "status": "High"}]
+  },
+  "muscle_injury_marker_concern": {
+    "description": "Elevated CPK requiring clinician review in context.",
+    "default_severity": "Routine",
+    "conditions": [{"lab": "CPK", "status": "High"}]
   },
   "electrolyte_imbalance_pattern": {
-    "description": "Abnormal Sodium or Potassium levels affecting fluid balance.",
+    "description": "Abnormal sodium or potassium supporting an electrolyte review pattern.",
     "default_severity": "Urgent",
     "logic": "OR",
-    "conditions": [
-      {"lab": "Sodium", "status": "Abnormal"},
-      {"lab": "Potassium", "status": "Abnormal"}
-    ]
+    "conditions": [{"lab": "Sodium", "status": "Abnormal"}, {"lab": "Potassium", "status": "Abnormal"}]
+  },
+  "calcium_abnormality_pattern": {
+    "description": "Abnormal calcium requiring clinician review in context.",
+    "default_severity": "Routine",
+    "conditions": [{"lab": "Calcium", "status": "Abnormal"}]
+  },
+  "hypoalbuminemia_concern": {
+    "description": "Low albumin requiring clinician review in context.",
+    "default_severity": "Routine",
+    "conditions": [{"lab": "Albumin", "status": "Low"}]
   }
 }

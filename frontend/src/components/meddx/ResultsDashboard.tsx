@@ -1,4 +1,4 @@
-import { AlertTriangle, BookOpen, CheckCircle2, ExternalLink, FileText, FileWarning, Printer, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertTriangle, BookOpen, CheckCircle2, ExternalLink, FileDown, FileText, FileWarning, Printer, ShieldCheck, Sparkles } from "lucide-react";
 import { buildApiUrl } from "@/lib/api";
 import type { AnalyzeResponse, ClinicalPattern, ClinicalWarning, RetrievedSource } from "@/lib/types";
 import { ChartsPanel } from "./ChartsPanel";
@@ -14,12 +14,14 @@ function formatDate(value?: string): string {
   if (!value) return "Not provided";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "short",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZone,
   }).format(date).replace(",", " •");
 }
 
@@ -35,6 +37,7 @@ export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
   const notice = result.safety_notice || safety;
   const report = result.report;
   const htmlUrl = report?.html_download_url ? buildApiUrl(report.html_download_url) : null;
+  const pdfUrl = report?.pdf_download_url ? buildApiUrl(report.pdf_download_url) : null;
 
   return (
     <section id="dashboard" className="relative scroll-mt-24 space-y-5">
@@ -130,10 +133,11 @@ export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
             <SummaryItem label="Generated" value={formatDate(result.generated_at)} />
           </div>
           <div className="flex flex-wrap gap-3">
+            {pdfUrl && <a href={pdfUrl} className="report-button" download><FileDown size={17} aria-hidden="true" />Download PDF</a>}
             {htmlUrl && <a href={htmlUrl} className="report-button" target="_blank" rel="noreferrer"><ExternalLink size={17} />Open Printable Report</a>}
             {htmlUrl && <button type="button" className="report-button" onClick={() => window.open(htmlUrl, "_blank", "noopener,noreferrer")}><Printer size={17} />Print / Save as PDF</button>}
           </div>
-          <p className="text-xs leading-5 text-slate-500">Use your browser&apos;s Print option to save the printable report as PDF.</p>
+          <p className="text-xs leading-5 text-slate-500">Download PDF uses the backend-generated ReportLab document. The printable report keeps the browser print flow available.</p>
         </div> : <Empty text="No generated report metadata returned." />}
       </section>
 
