@@ -1,51 +1,11 @@
-# Held-out Evaluation Failure Cases
+# Severity Evaluation - Failure Cases
 
-Generated from `eval/results.json` for the evaluation run at `2026-07-11T18:05:10.779115+00:00`. These are observed pipeline failures, not invented clinical cases.
-
-## heldout-003
-
-- Input summary: `{"age": 29, "sex": "female", "selected_panel": "CBC_Panel", "symptoms": ["bruising", "gum bleeding"], "labs": [{"name": "Hemoglobin", "value": 12.6, "unit": "g/dL"}, {"name": "WBC", "value": 6.1, "unit": "10^9/L"}, {"name": "Platelets", "value": 92, "unit": "10^9/L"}]}`
-- Expected pattern(s): thrombocytopenia_concern
-- Predicted pattern(s): thrombocytopenia_concern
-- Expected abnormal findings: `[{"name": "Platelets", "value": 92, "unit": "10^9/L", "status": "Low"}]`
-- Actual abnormal findings: `[{"name": "Platelets", "value": 92.0, "unit": "10^9/L", "status": "Low"}]`
-- Retrieved sources count: 0
-- Likely root cause: A matched pattern had no usable pattern-linked source from the configured evidence index.
-- Proposed fix: Index authoritative evidence documents and verify Qdrant connectivity and pattern metadata.
-- Issue category: retrieval
-
-## heldout-005
-
-- Input summary: `{"age": 54, "sex": "female", "selected_panel": "CBC_Panel", "symptoms": ["headache"], "labs": [{"name": "Hemoglobin", "value": 13.0, "unit": "g/dL"}, {"name": "WBC", "value": 8.0, "unit": "10^9/L"}, {"name": "Platelets", "value": 560, "unit": "10^9/L"}]}`
-- Expected pattern(s): platelet_elevation_concern
-- Predicted pattern(s): platelet_elevation_concern
-- Expected abnormal findings: `[{"name": "Platelets", "value": 560, "unit": "10^9/L", "status": "High"}]`
-- Actual abnormal findings: `[{"name": "Platelets", "value": 560.0, "unit": "10^9/L", "status": "High"}]`
-- Retrieved sources count: 0
-- Likely root cause: A matched pattern had no usable pattern-linked source from the configured evidence index.
-- Proposed fix: Index authoritative evidence documents and verify Qdrant connectivity and pattern metadata.
-- Issue category: retrieval
-
-## heldout-007
-
-- Input summary: `{"age": 72, "sex": "female", "selected_panel": "CBC_Panel", "symptoms": ["fever", "fatigue", "easy bruising"], "labs": [{"name": "Hemoglobin", "value": 10.8, "unit": "g/dL"}, {"name": "WBC", "value": 18.2, "unit": "10^9/L"}, {"name": "Platelets", "value": 118, "unit": "10^9/L"}]}`
-- Expected pattern(s): anemia_pattern, infection_inflammation_pattern, thrombocytopenia_concern
-- Predicted pattern(s): anemia_pattern, infection_inflammation_pattern, thrombocytopenia_concern
-- Expected abnormal findings: `[{"name": "Hemoglobin", "value": 10.8, "unit": "g/dL", "status": "Low"}, {"name": "WBC", "value": 18.2, "unit": "10^9/L", "status": "High"}, {"name": "Platelets", "value": 118, "unit": "10^9/L", "status": "Low"}]`
-- Actual abnormal findings: `[{"name": "Hemoglobin", "value": 10.8, "unit": "g/dL", "status": "Low"}, {"name": "WBC", "value": 18.2, "unit": "10^9/L", "status": "High"}, {"name": "Platelets", "value": 118.0, "unit": "10^9/L", "status": "Low"}]`
-- Retrieved sources count: 6
-- Likely root cause: A matched pattern had no usable pattern-linked source from the configured evidence index.
-- Proposed fix: Index authoritative evidence documents and verify Qdrant connectivity and pattern metadata.
-- Issue category: retrieval
-
-## heldout-051
-
-- Input summary: `{"age": 36, "sex": "male", "selected_panel": "CBC_Panel", "symptoms": ["fatigue", "pale skin"], "labs": [{"name": "Hemoglobin", "value": 4.7, "unit": "g/dL"}, {"name": "WBC", "value": 3.4, "unit": "10^9/L"}, {"name": "Platelets", "value": 78, "unit": "10^9/L"}]}`
-- Expected pattern(s): anemia_pattern, thrombocytopenia_concern
-- Predicted pattern(s): anemia_pattern, thrombocytopenia_concern
-- Expected abnormal findings: `[{"name": "Hemoglobin", "value": 4.7, "unit": "g/dL", "status": "Low"}, {"name": "WBC", "value": 3.4, "unit": "10^9/L", "status": "Low"}, {"name": "Platelets", "value": 78, "unit": "10^9/L", "status": "Low"}]`
-- Actual abnormal findings: `[{"name": "Hemoglobin", "value": 4.7, "unit": "g/dL", "status": "Low"}, {"name": "WBC", "value": 3.4, "unit": "10^9/L", "status": "Low"}, {"name": "Platelets", "value": 78.0, "unit": "10^9/L", "status": "Low"}]`
-- Retrieved sources count: 3
-- Likely root cause: A matched pattern had no usable pattern-linked source from the configured evidence index.
-- Proposed fix: Index authoritative evidence documents and verify Qdrant connectivity and pattern metadata.
-- Issue category: retrieval
+| Case ID | Clinical Context | Expected | Predicted | Priority |
+|--- |--- |--- |--- |--- |
+| heldout-004 | Age: 63, Sex: male, Panel: CBC_Panel. Symptoms: fatigue, fever, shortness of breath. Labs: Hemoglobin: 10.1 g/dL, WBC: 13.7 10^9/L, Platelets: 235 10^9/L. Notes: Mixed anemia-like symptoms with leukocytosis.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-027 | Age: 66, Sex: male, Panel: Cardiac_Enzymes_Panel. Symptoms: chest pain, sweating, shortness of breath. Labs: Troponin: 86 ng/L, CPK: 180 U/L. Notes: Emergency presentation with high troponin.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-030 | Age: 57, Sex: male, Panel: Cardiac_Enzymes_Panel. Symptoms: chest pain, jaw pain, nausea. Labs: Troponin: 120 ng/L, CPK: 360 U/L. Notes: Chest pain with elevated cardiac injury markers.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-032 | Age: 61, Sex: female, Panel: Cardiac_Enzymes_Panel. Symptoms: shortness of breath, nausea. Labs: Troponin: 66 ng/L, CPK: 210 U/L. Notes: Atypical symptoms with high troponin.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-041 | Age: 58, Sex: female, Panel: Cardiac_Enzymes_Panel. Symptoms: chest pain. Labs: Troponin: 301 ng/L, CPK: 170 U/L. Notes: Elevated troponin marker submitted for clinician review.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-054 | Age: 27, Sex: male, Panel: Cardiac_Enzymes_Panel. Symptoms: chest pain. Labs: Troponin: 213 ng/L, CPK: 453 U/L. Notes: Intermittent chest discomfort after exercise; assay values converted to the configured units.. | Critical | Routine | **High (Critical->Routine)** |
+| heldout-055 | Age: 27, Sex: male, Panel: Lipids_Inflammation_Panel. Symptoms: chest pain. Labs: LDL: 170 mg/dL, HDL: 38 mg/dL, CRP: 3 mg/L. Notes: Published fasting lipid values retained; CRP supplied as a normal supported control value.. | Critical | Routine | **High (Critical->Routine)** |
