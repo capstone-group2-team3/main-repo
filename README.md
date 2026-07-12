@@ -171,15 +171,16 @@ python eval/run_eval.py
 ```
 
 Results are saved to `eval/results.json`.
+The evaluation run intentionally refreshes both `eval/results.json` and `eval/failure_cases.md` so the latest metrics and observed failure analysis are kept together.
 
 ## Results
 
-- Top-3 Clinical Pattern Recall, Evidence Grounding Rate, and Average Latency: see `eval/results.json` after running the evaluation harness.
-- Severity Classifier: overall accuracy and Critical-case recall reported in `eval/results.json` (Critical recall is prioritized to stay near 100%, since missing a truly critical case is the highest-risk failure mode).
+- Top-3 Clinical Pattern Recall, Evidence Grounding Rate, Average Latency, Safety Notice Presence Rate, Abnormal Findings Match Rate, Severity Accuracy, and Critical Recall: see `eval/results.json` after running the evaluation harness.
+- Severity Classifier: overall accuracy and Critical-case recall are reported in `eval/results.json` (Critical recall is prioritized to stay near 100%, since missing a truly critical case is the highest-risk failure mode).
 
 ## Testing
 
-- `pytest`: 39 passed
+- `pytest`: 71 passed
 - `python -m compileall app`: PASS
 - `npm run lint`: PASS
 - `npm run build`: PASS

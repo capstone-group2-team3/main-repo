@@ -1,8 +1,10 @@
 import html
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from app.services.safety_agent import (
     SAFETY_NOTICE,
@@ -14,6 +16,7 @@ from app.services.safety_agent import (
 
 REPORT_FORMAT_VERSION = "1.0"
 REPORT_OUTPUT_DIR = Path("reports/generated_reports")
+DEFAULT_REPORT_TIMEZONE = "Asia/Amman"
 SEVERITY_DISCLAIMER = (
     "This is a supportive prioritization signal only and does not replace clinician judgment."
 )
@@ -29,6 +32,22 @@ def normalize_terminal_punctuation(text: Any, ensure_period: bool = False) -> st
     return value
 
 
+def report_timezone_name() -> str:
+    return os.getenv("REPORT_TIMEZONE", DEFAULT_REPORT_TIMEZONE).strip() or DEFAULT_REPORT_TIMEZONE
+
+
+def report_timezone() -> ZoneInfo | timezone:
+    try:
+        return ZoneInfo(report_timezone_name())
+    except ZoneInfoNotFoundError:
+        return timezone.utc
+
+
+def report_timezone_label() -> str:
+    zone = report_timezone()
+    return getattr(zone, "key", "UTC")
+
+
 def format_clinician_datetime(value: Any) -> str:
     if not value:
         return "Not available"
@@ -36,7 +55,10 @@ def format_clinician_datetime(value: Any) -> str:
         parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
     except (TypeError, ValueError):
         return "Not available"
-    formatted = parsed.strftime("%d %b %Y • %I:%M %p")
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    local_time = parsed.astimezone(report_timezone())
+    formatted = local_time.strftime("%d %b %Y • %I:%M %p")
     return formatted.replace("• 0", "• ")
 
 
@@ -97,6 +119,7 @@ class ReportGeneratorAgent:
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
         generated_at_raw = dashboard_json.get("generated_at")
         generated_at = format_clinician_datetime(generated_at_raw)
+        generated_timezone = report_timezone_label()
 
         lines = [
             "# MedDx Clinical Review Report",
@@ -123,6 +146,7 @@ class ReportGeneratorAgent:
             "## Case Overview",
             f"- Case ID: {case_id}",
             f"- Generated date/time: {generated_at}",
+            f"- Display timezone: {generated_timezone}",
             f"- Selected panel: {self._display(patient.get('selected_panel'))}",
             f"- Patient age: {self._display(patient.get('age'))}",
             f"- Patient sex: {self._display(patient.get('sex'))}",
@@ -246,6 +270,7 @@ class ReportGeneratorAgent:
                 f"- Case ID: {case_id}",
                 f"- Selected panel: {self._display(patient.get('selected_panel'))}",
                 f"- Report generation timestamp: {self._display(generated_at_raw)}",
+                f"- Report display timezone: {generated_timezone}",
                 "- Application name: MedDx Assistant",
                 f"- Report format version: {REPORT_FORMAT_VERSION}",
                 f"- Backend-generated report path: {self._display(dashboard_json.get('report_file_path'))}",
@@ -269,6 +294,7 @@ class ReportGeneratorAgent:
         summary = self._review_summary(dashboard_json)
         case_id = self._display(dashboard_json.get("report_case_id") or dashboard_json.get("case_id"))
         generated_at = format_clinician_datetime(dashboard_json.get("generated_at"))
+        generated_timezone = report_timezone_label()
 
         html_report = f"""<!doctype html>
 <html lang="en">
@@ -323,11 +349,11 @@ class ReportGeneratorAgent:
 <main>
   <header>
     <h1>MedDx Assistant</h1>
-    <p>Clinical Review Report • Case {self._esc(case_id)} • Generated {self._esc(generated_at)}</p>
+    <p>Clinical Review Report • Case {self._esc(case_id)} • Generated {self._esc(generated_at)} • {self._esc(generated_timezone)}</p>
   </header>
   <section class="notice">{self._esc(SAFETY_NOTICE)}</section>
   {self._html_severity(severity)}
-  {self._html_case_overview(case_id, generated_at, patient)}
+  {self._html_case_overview(case_id, generated_at, generated_timezone, patient)}
   {self._html_summary(summary)}
   {self._html_lab_results(lab_results)}
   {self._html_abnormal_findings(abnormal_findings)}
@@ -478,7 +504,7 @@ class ReportGeneratorAgent:
             canvas.setFillColor(muted)
             canvas.drawString(18 * mm, 7 * mm, "Clinical Review Report")
             canvas.drawString(18 * mm, 4 * mm, f"Case ID: {safe(case_id)}")
-            canvas.drawString(96 * mm, 7 * mm, f"Generated: {format_clinician_datetime(dashboard.get('generated_at'))}")
+            canvas.drawString(96 * mm, 7 * mm, f"Generated: {format_clinician_datetime(dashboard.get('generated_at'))} {report_timezone_label()}")
             canvas.drawRightString(A4[0] - 18 * mm, 7 * mm, f"Page {document.page}")
             canvas.restoreState()
 
@@ -557,6 +583,7 @@ class ReportGeneratorAgent:
         story.extend([
             bullet("Case ID", case_id),
             bullet("Generated", format_clinician_datetime(dashboard.get("generated_at"))),
+            bullet("Display timezone", report_timezone_label()),
             bullet("Selected panel", patient.get("selected_panel")),
             bullet("Age", patient.get("age")),
             bullet("Sex", patient.get("sex")),
@@ -879,10 +906,11 @@ class ReportGeneratorAgent:
 
         return relevant, context
 
-    def _html_case_overview(self, case_id: str, generated_at: str, patient: dict[str, Any]) -> str:
+    def _html_case_overview(self, case_id: str, generated_at: str, generated_timezone: str, patient: dict[str, Any]) -> str:
         items = [
             ("Case ID", case_id),
             ("Generated", generated_at),
+            ("Display timezone", generated_timezone),
             ("Selected panel", patient.get("selected_panel")),
             ("Patient age", patient.get("age")),
             ("Patient sex", patient.get("sex")),

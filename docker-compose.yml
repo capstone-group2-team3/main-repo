@@ -8,12 +8,17 @@ services:
     volumes:
       - meddx_data:/app/data
       - meddx_reports:/app/reports/generated_reports
+      - hf_cache:/app/.cache/huggingface
       - ./models/severity_classifier:/app/models/severity_classifier:ro
     environment:
       DATABASE_URL: sqlite:////app/data/meddx.db
       QDRANT_URL: http://qdrant:6333
       SEVERITY_MODEL_PATH: /app/models/severity_classifier
       SEVERITY_CONFIDENCE_THRESHOLD: "0.60"
+      EMBEDDING_MODEL_NAME: NeuML/pubmedbert-base-embeddings
+      EMBEDDING_VECTOR_DIMENSION: "768"
+      EMBEDDING_LOCAL_FILES_ONLY: "false"
+      HF_HOME: /app/.cache/huggingface
     depends_on:
       qdrant:
         condition: service_healthy
@@ -69,12 +74,17 @@ services:
     container_name: meddx_indexer
     volumes:
       - meddx_data:/app/data
+      - hf_cache:/app/.cache/huggingface
       - ./models/severity_classifier:/app/models/severity_classifier:ro
     environment:
       DATABASE_URL: sqlite:////app/data/meddx.db
       QDRANT_URL: http://qdrant:6333
       SEVERITY_MODEL_PATH: /app/models/severity_classifier
       SEVERITY_CONFIDENCE_THRESHOLD: "0.60"
+      EMBEDDING_MODEL_NAME: NeuML/pubmedbert-base-embeddings
+      EMBEDDING_VECTOR_DIMENSION: "768"
+      EMBEDDING_LOCAL_FILES_ONLY: "false"
+      HF_HOME: /app/.cache/huggingface
     depends_on:
       qdrant:
         condition: service_healthy
@@ -84,3 +94,4 @@ volumes:
   meddx_data:
   meddx_reports:
   qdrant_storage:
+  hf_cache:

@@ -74,6 +74,11 @@ def evaluate_case(case: dict[str, Any], orchestrator: Any, db: Any) -> dict[str,
         predicted = [code for code in (pattern_code(x) for x in patterns[:3]) if code]
         matched = [code for code in expected_patterns if code in predicted]
         recall = len(matched) / len(expected_patterns) if expected_patterns else 1.0
+        severity = response.get("severity") if isinstance(response.get("severity"), dict) else {}
+        expected_severity = case["expected_severity"]
+        predicted_severity = severity.get("label")
+        severity_correct = predicted_severity == expected_severity
+        critical_misclassification = expected_severity == "Critical" and predicted_severity != "Critical"
         sources = [x for x in response.get("retrieved_sources", []) if isinstance(x, dict) and source_is_useful(x)]
         grounded_codes = {str(x.get("pattern_code")) for x in sources if x.get("pattern_code")}
         grounding_ok = bool(matched) and all(code in grounded_codes for code in matched)
@@ -93,6 +98,10 @@ def evaluate_case(case: dict[str, Any], orchestrator: Any, db: Any) -> dict[str,
             issues.append("missing_labs")
         if not safety_ok:
             issues.append("safety_notice")
+        if not severity_correct:
+            issues.append("severity_accuracy")
+        if critical_misclassification:
+            issues.append("critical_misclassification")
         return {
             "case_id": case["case_id"],
             "input_summary": input_summary,
@@ -110,6 +119,12 @@ def evaluate_case(case: dict[str, Any], orchestrator: Any, db: Any) -> dict[str,
             "expected_missing_labs": case["expected_missing_labs"],
             "actual_missing_labs": response.get("missing_required_labs", []),
             "retrieved_source_count": len(sources),
+            "expected_severity": expected_severity,
+            "predicted_severity": predicted_severity,
+            "severity_source": severity.get("source"),
+            "severity_confidence": severity.get("confidence"),
+            "severity_correct": severity_correct,
+            "critical_misclassification": critical_misclassification,
             "latency_ms": latency_ms,
             "failure_reasons": issues,
         }
@@ -132,6 +147,12 @@ def evaluate_case(case: dict[str, Any], orchestrator: Any, db: Any) -> dict[str,
             "expected_missing_labs": case["expected_missing_labs"],
             "actual_missing_labs": [],
             "retrieved_source_count": 0,
+            "expected_severity": case.get("expected_severity"),
+            "predicted_severity": None,
+            "severity_source": None,
+            "severity_confidence": None,
+            "severity_correct": False,
+            "critical_misclassification": case.get("expected_severity") == "Critical",
             "latency_ms": round((time.perf_counter() - started) * 1000, 2),
             "failure_reasons": ["runtime_error"],
             "error": f"{type(error).__name__}: {error}",
@@ -142,6 +163,13 @@ def calculate_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
     total = len(results)
     successful = sum(item["status"] == "success" for item in results)
     denominator = total or 1
+    expected_critical = [item for item in results if item.get("expected_severity") == "Critical"]
+    critical_denominator = len(expected_critical)
+    critical_recall = (
+        sum(item.get("predicted_severity") == "Critical" for item in expected_critical) / critical_denominator
+        if critical_denominator
+        else 1.0
+    )
     return {
         "total_cases": total,
         "successful_cases": successful,
@@ -151,6 +179,8 @@ def calculate_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
         "average_latency_ms": round(sum(x["latency_ms"] for x in results) / denominator, 2),
         "safety_notice_presence_rate": round(sum(bool(x["safety_notice_present"]) for x in results) / denominator, 4),
         "abnormal_findings_match_rate": round(sum(bool(x["abnormal_findings_match"]) for x in results) / denominator, 4),
+        "severity_accuracy": round(sum(bool(x.get("severity_correct")) for x in results) / denominator, 4),
+        "critical_recall": round(critical_recall, 4),
         "panel_distribution": dict(sorted(Counter(x["selected_panel"] for x in results).items())),
     }
 
@@ -165,6 +195,10 @@ def root_cause(result: dict[str, Any]) -> tuple[str, str, str]:
         return "reference ranges", "Returned abnormal findings differ from the configured expected status/value set.", "Reconcile reference-range classification and normalization with the validated fixture."
     if "missing_labs" in reasons:
         return "normalization", "Required-lab detection differs from the validated panel expectation.", "Review canonical lab aliases and required-test matching."
+    if "critical_misclassification" in reasons:
+        return "severity classifier", "An expected Critical case was not predicted as Critical.", "Review critical override inputs, configured critical thresholds, and severity fallback logic."
+    if "severity_accuracy" in reasons:
+        return "severity classifier", "The predicted severity label did not match the deterministic expected severity label.", "Review severity rules, confidence threshold behavior, and model calibration against held-out cases."
     if "evidence_grounding" in reasons:
         return "retrieval", "A matched pattern had no usable pattern-linked source from the configured evidence index.", "Index authoritative evidence documents and verify Qdrant connectivity and pattern metadata."
     return "implementation bug", "The required safety notice was missing or changed.", "Restore the exact clinician-only safety notice at the pipeline boundary."
@@ -178,6 +212,22 @@ def write_failure_analysis(path: Path, results: list[dict[str, Any]], run_at: st
         f"Generated from `eval/results.json` for the evaluation run at `{run_at}`. These are observed pipeline failures, not invented clinical cases.",
         "",
     ]
+    critical_misses = [item for item in failures if item.get("critical_misclassification")]
+    if critical_misses:
+        lines.extend(
+            [
+                "## Critical Severity Misclassifications",
+                "",
+                "Expected Critical cases below were not predicted as Critical and must be reviewed before demo use.",
+                "",
+            ]
+        )
+        for result in critical_misses:
+            lines.append(
+                f"- {result['case_id']}: predicted {result.get('predicted_severity')} "
+                f"(source={result.get('severity_source')}, confidence={result.get('severity_confidence')})"
+            )
+        lines.append("")
     for result in failures:
         category, cause, fix = root_cause(result)
         lines.extend(
@@ -189,6 +239,10 @@ def write_failure_analysis(path: Path, results: list[dict[str, Any]], run_at: st
                 f"- Predicted pattern(s): {', '.join(result['predicted_top3']) or 'None'}",
                 f"- Expected abnormal findings: `{json.dumps(result['expected_abnormal_findings'], ensure_ascii=False)}`",
                 f"- Actual abnormal findings: `{json.dumps(result['actual_abnormal_findings'], ensure_ascii=False)}`",
+                f"- Expected severity: {result.get('expected_severity')}",
+                f"- Predicted severity: {result.get('predicted_severity')} "
+                f"(source={result.get('severity_source')}, confidence={result.get('severity_confidence')})",
+                f"- Critical misclassification: {result.get('critical_misclassification')}",
                 f"- Retrieved sources count: {result['retrieved_source_count']}",
                 f"- Likely root cause: {cause}",
                 f"- Proposed fix: {fix}",
