@@ -1,20 +1,20 @@
 {
   "run_metadata": {
-    "run_at_utc": "2026-07-11T18:05:10.779115+00:00",
-    "heldout_path": "/home/hussam/main-repo/eval/heldout.jsonl",
+    "run_at_utc": "2026-07-11T21:18:24.074438+00:00",
+    "heldout_path": "C:\\Users\\10\\Desktop\\main-repo\\eval\\heldout.jsonl",
     "pipeline": "app.services.agent_orchestrator.AgentOrchestrator.analyze_report",
     "case_limit": null,
-    "documented_failure_cases": 4
+    "documented_failure_cases": 57
   },
   "summary": {
     "total_cases": 57,
-    "successful_cases": 57,
-    "failed_cases": 0,
-    "top3_pattern_recall": 1.0,
-    "evidence_grounding_rate": 0.9298,
-    "average_latency_ms": 272.22,
-    "safety_notice_presence_rate": 1.0,
-    "abnormal_findings_match_rate": 1.0,
+    "successful_cases": 0,
+    "failed_cases": 57,
+    "top3_pattern_recall": 0.0,
+    "evidence_grounding_rate": 0.0,
+    "average_latency_ms": 512.71,
+    "safety_notice_presence_rate": 0.0,
+    "abnormal_findings_match_rate": 0.0,
     "panel_distribution": {
       "Albumin_Protein_Panel": 6,
       "CBC_Panel": 9,
@@ -55,20 +55,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern"
       ],
-      "predicted_top3": [
-        "anemia_pattern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -77,20 +73,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 9.4,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 6323.29,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 21114.63,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-002",
@@ -121,20 +113,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "infection_inflammation_pattern"
       ],
-      "predicted_top3": [
-        "infection_inflammation_pattern"
-      ],
-      "matched_patterns": [
-        "infection_inflammation_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "WBC",
@@ -143,20 +131,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "WBC",
-          "value": 15.8,
-          "unit": "10^9/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 189.71,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 156.19,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-003",
@@ -186,20 +170,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "thrombocytopenia_concern"
       ],
-      "predicted_top3": [
-        "thrombocytopenia_concern"
-      ],
-      "matched_patterns": [
-        "thrombocytopenia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
       "evidence_grounded": false,
-      "safety_notice_present": true,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Platelets",
@@ -208,22 +188,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Platelets",
-          "value": 92.0,
-          "unit": "10^9/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 0,
-      "latency_ms": 149.89,
+      "latency_ms": 120.06,
       "failure_reasons": [
-        "evidence_grounding"
-      ]
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-004",
@@ -254,23 +228,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern",
         "infection_inflammation_pattern"
       ],
-      "predicted_top3": [
-        "anemia_pattern",
-        "infection_inflammation_pattern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern",
-        "infection_inflammation_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -285,26 +253,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 10.1,
-          "unit": "g/dL",
-          "status": "Low"
-        },
-        {
-          "name": "WBC",
-          "value": 13.7,
-          "unit": "10^9/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 231.68,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 141.89,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-005",
@@ -333,20 +291,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "platelet_elevation_concern"
       ],
-      "predicted_top3": [
-        "platelet_elevation_concern"
-      ],
-      "matched_patterns": [
-        "platelet_elevation_concern"
-      ],
-      "top3_pattern_recall": 1.0,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
       "evidence_grounded": false,
-      "safety_notice_present": true,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Platelets",
@@ -355,22 +309,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Platelets",
-          "value": 560.0,
-          "unit": "10^9/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
       "retrieved_source_count": 0,
-      "latency_ms": 138.26,
+      "latency_ms": 124.94,
       "failure_reasons": [
-        "evidence_grounding"
-      ]
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-006",
@@ -400,20 +348,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern"
       ],
-      "predicted_top3": [
-        "anemia_pattern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -422,20 +366,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 11.4,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 145.39,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 122.21,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-007",
@@ -466,26 +406,18 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern",
         "infection_inflammation_pattern",
         "thrombocytopenia_concern"
       ],
-      "predicted_top3": [
-        "anemia_pattern",
-        "infection_inflammation_pattern",
-        "thrombocytopenia_concern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern",
-        "infection_inflammation_pattern",
-        "thrombocytopenia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
       "evidence_grounded": false,
-      "safety_notice_present": true,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -506,34 +438,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 10.8,
-          "unit": "g/dL",
-          "status": "Low"
-        },
-        {
-          "name": "WBC",
-          "value": 18.2,
-          "unit": "10^9/L",
-          "status": "High"
-        },
-        {
-          "name": "Platelets",
-          "value": 118.0,
-          "unit": "10^9/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 294.96,
+      "retrieved_source_count": 0,
+      "latency_ms": 257.29,
       "failure_reasons": [
-        "evidence_grounding"
-      ]
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-008",
@@ -559,20 +473,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -587,26 +497,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 182.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 8.2,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 168.27,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 163.07,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-009",
@@ -632,20 +532,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hypoglycemia_concern"
       ],
-      "predicted_top3": [
-        "hypoglycemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoglycemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -654,20 +550,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 55.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 152.11,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 190.76,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-010",
@@ -693,20 +585,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -721,26 +609,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 420.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 10.5,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 221.52,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 120.54,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-011",
@@ -764,20 +642,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "HbA1c",
@@ -786,20 +660,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "HbA1c",
-          "value": 6.7,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 143.15,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 157.8,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-012",
@@ -824,20 +694,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -852,26 +718,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 215.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 7.4,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 161.4,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 226.21,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-013",
@@ -895,20 +751,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hypoglycemia_concern"
       ],
-      "predicted_top3": [
-        "hypoglycemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoglycemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -917,20 +769,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 38.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 166.36,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 128.74,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-014",
@@ -952,20 +800,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -980,26 +824,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 112.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 6.0,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 199.55,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 117.66,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-015",
@@ -1024,20 +858,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "kidney_dysfunction_pattern"
       ],
-      "predicted_top3": [
-        "kidney_dysfunction_pattern"
-      ],
-      "matched_patterns": [
-        "kidney_dysfunction_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Creatinine",
@@ -1046,20 +876,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Creatinine",
-          "value": 2.3,
-          "unit": "mg/dL",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 143.07,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 139.11,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-016",
@@ -1085,20 +911,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "TSH",
@@ -1107,20 +929,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "TSH",
-          "value": 8.9,
-          "unit": "mIU/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 145.19,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 185.19,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-017",
@@ -1146,20 +964,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "TSH",
@@ -1168,20 +982,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "TSH",
-          "value": 0.12,
-          "unit": "mIU/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 149.12,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 157.85,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-018",
@@ -1207,23 +1017,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "kidney_dysfunction_pattern",
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "kidney_dysfunction_pattern",
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "kidney_dysfunction_pattern",
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Creatinine",
@@ -1238,26 +1042,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Creatinine",
-          "value": 3.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "TSH",
-          "value": 6.4,
-          "unit": "mIU/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 4,
-      "latency_ms": 210.53,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 183.85,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-019",
@@ -1282,20 +1076,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "kidney_dysfunction_pattern"
       ],
-      "predicted_top3": [
-        "kidney_dysfunction_pattern"
-      ],
-      "matched_patterns": [
-        "kidney_dysfunction_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Creatinine",
@@ -1304,20 +1094,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Creatinine",
-          "value": 1.7,
-          "unit": "mg/dL",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 149.0,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 125.43,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-020",
@@ -1339,20 +1125,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "TSH",
@@ -1361,20 +1143,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "TSH",
-          "value": 11.6,
-          "unit": "mIU/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 134.31,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 122.18,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-021",
@@ -1401,20 +1179,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "lipid_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "LDL",
@@ -1423,20 +1197,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "LDL",
-          "value": 165.0,
-          "unit": "mg/dL",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 140.03,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 119.24,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-022",
@@ -1463,20 +1233,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "lipid_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "HDL",
@@ -1485,20 +1251,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "HDL",
-          "value": 31.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 144.05,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 118.64,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-023",
@@ -1528,20 +1290,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "lipid_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "LDL",
@@ -1556,26 +1314,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "LDL",
-          "value": 188.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HDL",
-          "value": 28.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 1,
-      "latency_ms": 163.31,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 122.62,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-024",
@@ -1605,20 +1353,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "infection_inflammation_pattern"
       ],
-      "predicted_top3": [
-        "infection_inflammation_pattern"
-      ],
-      "matched_patterns": [
-        "infection_inflammation_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "CRP",
@@ -1627,20 +1371,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "CRP",
-          "value": 26.0,
-          "unit": "mg/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 148.38,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 137.38,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-025",
@@ -1669,23 +1409,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "infection_inflammation_pattern",
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "infection_inflammation_pattern",
-        "lipid_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "infection_inflammation_pattern",
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "LDL",
@@ -1700,26 +1434,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "LDL",
-          "value": 105.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "CRP",
-          "value": 12.0,
-          "unit": "mg/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 5,
-      "latency_ms": 215.98,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 148.63,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-026",
@@ -1749,23 +1473,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "infection_inflammation_pattern",
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "lipid_abnormality_pattern",
-        "infection_inflammation_pattern"
-      ],
-      "matched_patterns": [
-        "infection_inflammation_pattern",
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "LDL",
@@ -1786,32 +1504,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "LDL",
-          "value": 152.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HDL",
-          "value": 34.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        },
-        {
-          "name": "CRP",
-          "value": 18.0,
-          "unit": "mg/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 4,
-      "latency_ms": 255.57,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 141.73,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-027",
@@ -1837,20 +1539,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -1859,20 +1557,16 @@
           "status": "Critical"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 86.0,
-          "unit": "ng/L",
-          "status": "Critical"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 137.02,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 63.65,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-028",
@@ -1897,20 +1591,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "muscle_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "muscle_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "muscle_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "CPK",
@@ -1919,20 +1609,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "CPK",
-          "value": 520.0,
-          "unit": "U/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 154.29,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 200.74,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-029",
@@ -1954,20 +1640,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -1976,20 +1658,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 46.0,
-          "unit": "ng/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 148.25,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 159.02,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-030",
@@ -2015,23 +1693,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern",
         "muscle_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern",
-        "muscle_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern",
-        "muscle_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -2046,26 +1718,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 120.0,
-          "unit": "ng/L",
-          "status": "Critical"
-        },
-        {
-          "name": "CPK",
-          "value": 360.0,
-          "unit": "U/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 213.29,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 87.0,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-031",
@@ -2089,20 +1751,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "muscle_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "muscle_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "muscle_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "CPK",
@@ -2111,20 +1769,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "CPK",
-          "value": 610.0,
-          "unit": "U/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 155.08,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 123.91,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-032",
@@ -2149,21 +1803,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern",
-        "muscle_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -2178,26 +1827,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 66.0,
-          "unit": "ng/L",
-          "status": "Critical"
-        },
-        {
-          "name": "CPK",
-          "value": 210.0,
-          "unit": "U/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 201.68,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 78.78,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-033",
@@ -2227,20 +1866,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Sodium",
@@ -2249,20 +1884,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Sodium",
-          "value": 116.0,
-          "unit": "mEq/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 1,
-      "latency_ms": 145.04,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 129.6,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-034",
@@ -2292,20 +1923,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Sodium",
@@ -2314,20 +1941,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Sodium",
-          "value": 154.0,
-          "unit": "mEq/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 1,
-      "latency_ms": 140.47,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 142.77,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-035",
@@ -2357,20 +1980,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Potassium",
@@ -2379,20 +1998,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Potassium",
-          "value": 2.9,
-          "unit": "mEq/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 157.48,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 128.87,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-036",
@@ -2422,20 +2037,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Potassium",
@@ -2444,20 +2055,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Potassium",
-          "value": 6.4,
-          "unit": "mEq/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 140.64,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 146.93,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-037",
@@ -2487,20 +2094,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "calcium_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "calcium_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "calcium_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Calcium",
@@ -2509,20 +2112,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Calcium",
-          "value": 7.2,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 148.62,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 142.41,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-038",
@@ -2552,20 +2151,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "calcium_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "calcium_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "calcium_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Calcium",
@@ -2574,20 +2169,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Calcium",
-          "value": 12.3,
-          "unit": "mg/dL",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 144.51,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 124.88,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-039",
@@ -2612,20 +2203,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "kidney_dysfunction_pattern"
       ],
-      "predicted_top3": [
-        "kidney_dysfunction_pattern"
-      ],
-      "matched_patterns": [
-        "kidney_dysfunction_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Creatinine",
@@ -2634,20 +2221,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Creatinine",
-          "value": 2.6,
-          "unit": "mg/dL",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 145.4,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 129.13,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-040",
@@ -2676,20 +2259,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "infection_inflammation_pattern"
       ],
-      "predicted_top3": [
-        "infection_inflammation_pattern"
-      ],
-      "matched_patterns": [
-        "infection_inflammation_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "CRP",
@@ -2698,20 +2277,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "CRP",
-          "value": 32.0,
-          "unit": "mg/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 155.05,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 131.13,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-041",
@@ -2735,20 +2310,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -2757,20 +2328,16 @@
           "status": "Critical"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 301.0,
-          "unit": "ng/L",
-          "status": "Critical"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 125.87,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 58.21,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-042",
@@ -2800,20 +2367,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Sodium",
@@ -2828,26 +2391,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Sodium",
-          "value": 126.0,
-          "unit": "mEq/L",
-          "status": "Low"
-        },
-        {
-          "name": "Potassium",
-          "value": 3.1,
-          "unit": "mEq/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 148.62,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 134.72,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-043",
@@ -2867,20 +2420,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -2889,20 +2438,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 2.1,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 142.66,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 561.7,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-044",
@@ -2922,20 +2467,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -2944,20 +2485,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 1.9,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 142.3,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 129.11,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-045",
@@ -2977,20 +2514,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -2999,20 +2532,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 2.0,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 142.85,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 138.23,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-046",
@@ -3032,20 +2561,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -3054,20 +2579,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 2.8,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 136.32,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 116.43,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-047",
@@ -3097,20 +2618,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern"
       ],
-      "predicted_top3": [
-        "anemia_pattern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -3119,20 +2636,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 8.1,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 140.04,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 128.45,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-048",
@@ -3157,20 +2670,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -3185,26 +2694,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 248.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 9.1,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 164.02,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 135.72,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-049",
@@ -3229,20 +2728,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "TSH",
@@ -3251,20 +2746,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "TSH",
-          "value": 14.2,
-          "unit": "mIU/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 2,
-      "latency_ms": 147.52,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 130.61,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-050",
@@ -3284,20 +2775,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -3306,20 +2793,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 2.4,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 138.51,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 120.89,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-051",
@@ -3349,23 +2832,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "CBC_Panel",
       "expected_patterns": [
         "anemia_pattern",
         "thrombocytopenia_concern"
       ],
-      "predicted_top3": [
-        "anemia_pattern",
-        "thrombocytopenia_concern"
-      ],
-      "matched_patterns": [
-        "anemia_pattern",
-        "thrombocytopenia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
       "evidence_grounded": false,
-      "safety_notice_present": true,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Hemoglobin",
@@ -3386,34 +2863,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Hemoglobin",
-          "value": 4.7,
-          "unit": "g/dL",
-          "status": "Low"
-        },
-        {
-          "name": "WBC",
-          "value": 3.4,
-          "unit": "10^9/L",
-          "status": "Low"
-        },
-        {
-          "name": "Platelets",
-          "value": 78.0,
-          "unit": "10^9/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 208.97,
+      "retrieved_source_count": 0,
+      "latency_ms": 151.63,
       "failure_reasons": [
-        "evidence_grounding"
-      ]
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-052",
@@ -3443,20 +2902,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Electrolytes_Calcium_Panel",
       "expected_patterns": [
         "electrolyte_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "electrolyte_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Sodium",
@@ -3465,20 +2920,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Sodium",
-          "value": 103.0,
-          "unit": "mEq/L",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 1,
-      "latency_ms": 150.08,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 126.35,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-053",
@@ -3503,23 +2954,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Renal_Thyroid_Panel",
       "expected_patterns": [
         "kidney_dysfunction_pattern",
         "thyroid_imbalance_pattern"
       ],
-      "predicted_top3": [
-        "kidney_dysfunction_pattern",
-        "thyroid_imbalance_pattern"
-      ],
-      "matched_patterns": [
-        "kidney_dysfunction_pattern",
-        "thyroid_imbalance_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Creatinine",
@@ -3534,26 +2979,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Creatinine",
-          "value": 1.5,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "TSH",
-          "value": 131.0,
-          "unit": "mIU/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 4,
-      "latency_ms": 201.17,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 152.21,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-054",
@@ -3577,23 +3012,17 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Cardiac_Enzymes_Panel",
       "expected_patterns": [
         "cardiac_injury_marker_concern",
         "muscle_injury_marker_concern"
       ],
-      "predicted_top3": [
-        "cardiac_injury_marker_concern",
-        "muscle_injury_marker_concern"
-      ],
-      "matched_patterns": [
-        "cardiac_injury_marker_concern",
-        "muscle_injury_marker_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Troponin",
@@ -3608,26 +3037,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Troponin",
-          "value": 213.0,
-          "unit": "ng/L",
-          "status": "Critical"
-        },
-        {
-          "name": "CPK",
-          "value": 453.0,
-          "unit": "U/L",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 6,
-      "latency_ms": 199.62,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 80.23,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-055",
@@ -3656,20 +3075,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Lipids_Inflammation_Panel",
       "expected_patterns": [
         "lipid_abnormality_pattern"
       ],
-      "predicted_top3": [
-        "lipid_abnormality_pattern"
-      ],
-      "matched_patterns": [
-        "lipid_abnormality_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "LDL",
@@ -3684,26 +3099,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "LDL",
-          "value": 170.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HDL",
-          "value": 38.0,
-          "unit": "mg/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 1,
-      "latency_ms": 152.23,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 128.65,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-056",
@@ -3728,20 +3133,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Diabetic_Panel",
       "expected_patterns": [
         "hyperglycemia_pattern"
       ],
-      "predicted_top3": [
-        "hyperglycemia_pattern"
-      ],
-      "matched_patterns": [
-        "hyperglycemia_pattern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Glucose",
@@ -3756,26 +3157,16 @@
           "status": "High"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Glucose",
-          "value": 286.0,
-          "unit": "mg/dL",
-          "status": "High"
-        },
-        {
-          "name": "HbA1c",
-          "value": 11.2,
-          "unit": "%",
-          "status": "High"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 163.73,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 144.9,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     },
     {
       "case_id": "heldout-057",
@@ -3795,20 +3186,16 @@
           }
         ]
       },
-      "status": "success",
+      "status": "error",
       "selected_panel": "Albumin_Protein_Panel",
       "expected_patterns": [
         "hypoalbuminemia_concern"
       ],
-      "predicted_top3": [
-        "hypoalbuminemia_concern"
-      ],
-      "matched_patterns": [
-        "hypoalbuminemia_concern"
-      ],
-      "top3_pattern_recall": 1.0,
-      "evidence_grounded": true,
-      "safety_notice_present": true,
+      "predicted_top3": [],
+      "matched_patterns": [],
+      "top3_pattern_recall": 0.0,
+      "evidence_grounded": false,
+      "safety_notice_present": false,
       "expected_abnormal_findings": [
         {
           "name": "Albumin",
@@ -3817,20 +3204,16 @@
           "status": "Low"
         }
       ],
-      "actual_abnormal_findings": [
-        {
-          "name": "Albumin",
-          "value": 2.3,
-          "unit": "g/dL",
-          "status": "Low"
-        }
-      ],
-      "abnormal_findings_match": true,
+      "actual_abnormal_findings": [],
+      "abnormal_findings_match": false,
       "expected_missing_labs": [],
       "actual_missing_labs": [],
-      "retrieved_source_count": 3,
-      "latency_ms": 141.35,
-      "failure_reasons": []
+      "retrieved_source_count": 0,
+      "latency_ms": 153.6,
+      "failure_reasons": [
+        "runtime_error"
+      ],
+      "error": "ModuleNotFoundError: No module named 'reportlab'"
     }
   ]
 }
