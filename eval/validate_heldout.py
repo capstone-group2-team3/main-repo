@@ -18,6 +18,7 @@ REQUIRED_CASE_FIELDS = {
     "expected_patterns",
     "expected_abnormal_findings",
     "expected_missing_labs",
+    "expected_severity",
     "expected_safety_notice",
     "source_reference",
     "source_type",
@@ -29,6 +30,7 @@ ALLOWED_SOURCE_TYPES = {
     "educational_case",
     "deidentified_public_case",
 }
+ALLOWED_SEVERITY_LABELS = {"Routine", "Urgent", "Critical"}
 UNSAFE_PHRASES = (
     "the patient has ",
     "diagnosed with ",
@@ -124,6 +126,8 @@ def validate_cases(cases: list[dict[str, Any]]) -> dict[str, Any]:
                 errors.append(f"{label}: unknown patterns {sorted(unknown_patterns)}")
         if case["expected_safety_notice"] != "For clinicians only — supports review, not diagnosis or prescribing.":
             errors.append(f"{label}: expected safety notice is not canonical")
+        if case.get("expected_severity") not in ALLOWED_SEVERITY_LABELS:
+            errors.append(f"{label}: expected_severity must be Routine, Urgent, or Critical")
         if case["source_type"] not in ALLOWED_SOURCE_TYPES:
             errors.append(f"{label}: unsupported source_type {case['source_type']!r}")
         source = case["source_reference"]

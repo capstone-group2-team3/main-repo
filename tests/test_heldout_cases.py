@@ -45,5 +45,6 @@ def test_heldout_has_complete_source_and_expected_output_metadata():
         assert isinstance(case["expected_patterns"], list)
         assert isinstance(case["expected_abnormal_findings"], list)
         assert isinstance(case["expected_missing_labs"], list)
+        assert case["expected_severity"] in {"Routine", "Urgent", "Critical"}
         assert case["expected_safety_notice"]
         assert case["validation_notes"]

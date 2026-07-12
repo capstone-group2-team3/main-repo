@@ -133,9 +133,47 @@ class EvidenceRetrievalAgent:
         from qdrant_client.http import models
         return models.Filter(must=[models.FieldCondition(key="canonical_panel", match=models.MatchValue(value=selected_panel))])
 
+    def _collection_vector_size(self) -> int | None:
+        client = self._get_qdrant_client()
+        try:
+            collection = client.get_collection(self.collection_name)
+        except Exception as error:
+            logger.warning(
+                "Qdrant collection %r is not available for dimension validation: %s",
+                self.collection_name,
+                error,
+            )
+            return None
+
+        vectors = collection.config.params.vectors
+        size = getattr(vectors, "size", None)
+        if size is None and isinstance(vectors, dict):
+            first_vector = next(iter(vectors.values()), None)
+            size = getattr(first_vector, "size", None)
+        if size is None:
+            raise RuntimeError(
+                f"Could not determine vector size for Qdrant collection {self.collection_name!r}."
+            )
+        return int(size)
+
+    def _validate_collection_dimension(self, query_vector: list[float]) -> None:
+        active_dimension = len(query_vector)
+        collection_dimension = self._collection_vector_size()
+        if collection_dimension is None:
+            return
+        if collection_dimension != active_dimension:
+            model_info = self.embedding_service.get_model_info()
+            model_name = model_info.get("active_model_name") or model_info.get("configured_model_name")
+            raise RuntimeError(
+                f"Qdrant collection {self.collection_name!r} expects {collection_dimension}-dimensional "
+                f"vectors, but active embedding model {model_name!r} produced {active_dimension}. "
+                "Reindex medical knowledge with the configured EMBEDDING_MODEL_NAME before running retrieval."
+            )
+
     def _search(self, query_vector: list[float], limit: int, selected_panel: str | None) -> list[Any]:
         try:
             client = self._get_qdrant_client()
+            self._validate_collection_dimension(query_vector)
             query_filter = self._panel_filter(selected_panel)
             response = client.query_points(
                 collection_name=self.collection_name,
@@ -154,6 +192,8 @@ class EvidenceRetrievalAgent:
                 with_payload=True,
             )
             return list(response.points if hasattr(response, "points") else response)
+        except RuntimeError:
+            raise
         except Exception as error:
             logger.warning("Evidence retrieval search failed; returning no sources: %s", error)
             return []

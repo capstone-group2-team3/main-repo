@@ -19,7 +19,8 @@ class FakeModel:
 class FakeEmbeddingService(EmbeddingService):
     def _load_model(self):
         self.model = FakeModel()
-        self.model_name = "fake-test-model"
+        self.active_model_name = "fake-test-model"
+        self.vector_dimension = 3
         return self.model
 
 
@@ -73,6 +74,6 @@ def test_model_info_before_loading():
 
     info = service.get_model_info()
 
-    assert info["preferred_model_name"] == "NeuML/pubmedbert-base-embeddings"
-    assert info["fallback_model_name"] == "sentence-transformers/all-MiniLM-L6-v2"
+    assert info["configured_model_name"] == "NeuML/pubmedbert-base-embeddings"
     assert info["active_model_name"] is None
+    assert info["expected_dimension"] == 768

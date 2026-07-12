@@ -118,6 +118,8 @@ class AgentOrchestrator:
                 abnormal_labs=abnormal_labs,
                 symptoms=symptoms,
             )
+        except RuntimeError:
+            raise
         except Exception:
             return []
 

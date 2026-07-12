@@ -1,9 +1,14 @@
 import hashlib
+import os
 from typing import Iterable
 
 
+DEFAULT_EMBEDDING_MODEL_NAME = "NeuML/pubmedbert-base-embeddings"
+DEFAULT_EMBEDDING_VECTOR_DIMENSION = 768
+
+
 class DeterministicFallbackEmbeddingModel:
-    def __init__(self, dimensions: int = 384):
+    def __init__(self, dimensions: int = DEFAULT_EMBEDDING_VECTOR_DIMENSION):
         self.dimensions = dimensions
 
     def _encode_one(self, text: str):
@@ -37,22 +42,48 @@ class EmbeddingService:
     """
     Service responsible for converting text into vector embeddings.
 
-    It first tries to load the preferred biomedical embedding model:
-    NeuML/pubmedbert-base-embeddings
-
-    If that fails, it falls back to:
-    sentence-transformers/all-MiniLM-L6-v2
+    The model is configured with EMBEDDING_MODEL_NAME and defaults to the
+    canonical biomedical model used by indexing, retrieval, and evaluation.
     """
 
     def __init__(
         self,
-        preferred_model_name: str = "NeuML/pubmedbert-base-embeddings",
-        fallback_model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
+        model_name: str | None = None,
+        local_files_only: bool | None = None,
+        expected_dimension: int | None = None,
     ):
-        self.preferred_model_name = preferred_model_name
-        self.fallback_model_name = fallback_model_name
-        self.model_name: str | None = None
+        self.configured_model_name = model_name or os.getenv(
+            "EMBEDDING_MODEL_NAME",
+            DEFAULT_EMBEDDING_MODEL_NAME,
+        )
+        self.local_files_only = (
+            self._read_bool("EMBEDDING_LOCAL_FILES_ONLY", default=True)
+            if local_files_only is None
+            else local_files_only
+        )
+        self.expected_dimension = expected_dimension or int(
+            os.getenv("EMBEDDING_VECTOR_DIMENSION", str(DEFAULT_EMBEDDING_VECTOR_DIMENSION))
+        )
+        self.active_model_name: str | None = None
+        self.vector_dimension: int | None = None
         self.model = None
+
+    def _read_bool(self, name: str, default: bool = False) -> bool:
+        if os.getenv("HF_HUB_OFFLINE") == "1" or os.getenv("TRANSFORMERS_OFFLINE") == "1":
+            return True
+        raw_value = os.getenv(name)
+        if raw_value is None:
+            return default
+        return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+
+    def _model_dimension(self, model) -> int | None:
+        for attribute in ("get_embedding_dimension", "get_sentence_embedding_dimension"):
+            method = getattr(model, attribute, None)
+            if callable(method):
+                dimension = method()
+                if dimension is not None:
+                    return int(dimension)
+        return getattr(model, "dimensions", None)
 
     def _load_model(self):
         """
@@ -68,22 +99,30 @@ class EmbeddingService:
         try:
             from sentence_transformers import SentenceTransformer
 
-            self.model = SentenceTransformer(self.preferred_model_name, local_files_only=True)
-            self.model_name = self.preferred_model_name
-            return self.model
+            self.model = SentenceTransformer(
+                self.configured_model_name,
+                local_files_only=self.local_files_only,
+            )
+            self.active_model_name = self.configured_model_name
+        except Exception as error:
+            raise RuntimeError(
+                "Embedding model could not be loaded. "
+                f"Configured EMBEDDING_MODEL_NAME={self.configured_model_name!r}; "
+                f"local_files_only={self.local_files_only}. "
+                "Install/cache the canonical model or allow model download, then reindex "
+                "the Qdrant medical_knowledge collection."
+            ) from error
 
-        except Exception as preferred_error:
-            try:
-                from sentence_transformers import SentenceTransformer
+        self.vector_dimension = self._model_dimension(self.model)
+        if self.vector_dimension != self.expected_dimension:
+            raise RuntimeError(
+                "Embedding model dimension mismatch. "
+                f"{self.configured_model_name!r} produced {self.vector_dimension}; "
+                f"expected {self.expected_dimension}. Update EMBEDDING_VECTOR_DIMENSION "
+                "or reconfigure EMBEDDING_MODEL_NAME consistently."
+            )
 
-                self.model = SentenceTransformer(self.fallback_model_name, local_files_only=True)
-                self.model_name = self.fallback_model_name
-                return self.model
-
-            except Exception as fallback_error:
-                self.model = DeterministicFallbackEmbeddingModel()
-                self.model_name = "deterministic-local-fallback"
-                return self.model
+        return self.model
 
     def _validate_text(self, text: str) -> str:
         """
@@ -145,7 +184,13 @@ class EmbeddingService:
 
         return embeddings.astype(float).tolist()
 
-    def get_model_info(self) -> dict[str, str | None]:
+    def get_vector_dimension(self) -> int:
+        self._load_model()
+        if self.vector_dimension is None:
+            raise RuntimeError("Active embedding model did not expose a vector dimension.")
+        return self.vector_dimension
+
+    def get_model_info(self) -> dict[str, str | int | bool | None]:
         """
         Return information about the loaded model.
 
@@ -154,7 +199,9 @@ class EmbeddingService:
         """
 
         return {
-            "preferred_model_name": self.preferred_model_name,
-            "fallback_model_name": self.fallback_model_name,
-            "active_model_name": self.model_name,
+            "configured_model_name": self.configured_model_name,
+            "active_model_name": self.active_model_name,
+            "vector_dimension": self.vector_dimension,
+            "expected_dimension": self.expected_dimension,
+            "local_files_only": self.local_files_only,
         }

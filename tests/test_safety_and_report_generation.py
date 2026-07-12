@@ -4,6 +4,7 @@ from pathlib import Path
 from app.api.routes import _safe_report_path
 from app.services.report_generator_agent import REPORT_OUTPUT_DIR
 from app.services.report_generator_agent import ReportGeneratorAgent
+from app.services.report_generator_agent import format_clinician_datetime, report_timezone_label
 from app.services.safety_agent import (
     SAFETY_NOTICE,
     ensure_safety_notice,
@@ -87,6 +88,13 @@ def test_build_dashboard_emits_timezone_aware_generated_at():
     parsed = datetime.fromisoformat(dashboard["generated_at"])
 
     assert parsed.tzinfo is not None
+
+
+def test_report_datetime_formats_utc_timestamp_in_amman_time(monkeypatch):
+    monkeypatch.setenv("REPORT_TIMEZONE", "Asia/Amman")
+
+    assert format_clinician_datetime("2026-07-12T11:44:19+00:00") == "12 Jul 2026 • 2:44 PM"
+    assert report_timezone_label() == "Asia/Amman"
 
 
 def test_report_generator_builds_markdown_html_and_saves(tmp_path, monkeypatch):

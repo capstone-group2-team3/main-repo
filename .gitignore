@@ -1,5 +1,10 @@
 __pycache__/
 *.pyc
+.cache/
+.cache/huggingface/
+**/.cache/
+huggingface/
+hf_cache/
 .env
 .venv/
 venv/

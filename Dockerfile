@@ -16,7 +16,7 @@ COPY data ./data
 COPY medical_knowledge ./medical_knowledge
 COPY reports ./reports
 
-RUN mkdir -p /app/data /app/reports/generated_reports /app/models/severity_classifier \
+RUN mkdir -p /app/data /app/reports/generated_reports /app/models/severity_classifier /app/.cache/huggingface \
     && chown -R app:app /app
 
 USER app

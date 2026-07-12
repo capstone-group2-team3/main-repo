@@ -18,6 +18,9 @@ class FakeClient:
         self.relaxed_hits = relaxed_hits if relaxed_hits is not None else strict_hits
         self.filters = []
 
+    def get_collection(self, collection_name):
+        return SimpleNamespace(config=SimpleNamespace(params=SimpleNamespace(vectors=SimpleNamespace(size=3))))
+
     def query_points(self, **kwargs):
         self.filters.append(kwargs.get("query_filter"))
         hits = self.strict_hits if kwargs.get("query_filter") is not None else self.relaxed_hits

@@ -104,6 +104,8 @@ def analyze_report(payload: ReportRequest, db: Session = Depends(get_db)):
         return orchestrator.analyze_report(payload, db)
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
+    except RuntimeError as error:
+        raise HTTPException(status_code=500, detail=str(error)) from error
 
 
 @router.get("/reports/{case_id}/download/markdown")

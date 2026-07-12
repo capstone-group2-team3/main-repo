@@ -9,9 +9,11 @@ class FakeEmbeddingService:
 
     def get_model_info(self):
         return {
-            "preferred_model_name": "fake",
-            "fallback_model_name": "fake",
+            "configured_model_name": "fake",
             "active_model_name": "fake-test-model",
+            "vector_dimension": 3,
+            "expected_dimension": 3,
+            "local_files_only": True,
         }
 
 
