@@ -43,6 +43,25 @@ class SeverityClassifierService:
 
         return threshold
 
+    def _model_artifact_status(self) -> tuple[bool, str | None]:
+        if not self.model_path.exists():
+            return False, f"path does not exist: {self.model_path}"
+
+        if not self.model_path.is_dir():
+            return False, f"path is not a directory: {self.model_path}"
+
+        required_files = [
+            "config.json",
+            "tokenizer_config.json",
+            "tokenizer.json",
+            "model.safetensors",
+        ]
+        missing = [name for name in required_files if not (self.model_path / name).is_file()]
+        if missing:
+            return False, f"missing required artifact(s): {', '.join(missing)}"
+
+        return True, None
+
     def initialize(self) -> bool:
         if self._initialized:
             return self.model_available
@@ -51,10 +70,12 @@ class SeverityClassifierService:
         self.model_path = Path(os.getenv("SEVERITY_MODEL_PATH", str(self.model_path)))
         self.confidence_threshold = self._read_confidence_threshold()
 
-        if not self.model_path.exists():
+        artifacts_available, reason = self._model_artifact_status()
+        if not artifacts_available:
             logger.warning(
-                "Severity classifier model path %s does not exist; using rule-based fallback.",
+                "Severity classifier model unavailable at %s; rule-based fallback active (reason: %s).",
                 self.model_path,
+                reason,
             )
             self.model_available = False
             return False
@@ -76,10 +97,15 @@ class SeverityClassifierService:
                     if label in {"Routine", "Urgent", "Critical"}
                 } or self.id2label
             self.model_available = True
-            logger.info("Severity classifier loaded from %s.", self.model_path)
+            logger.warning(
+                "Severity classifier loaded successfully from %s (labels=%s, threshold=%.2f).",
+                self.model_path,
+                self.id2label,
+                self.confidence_threshold,
+            )
         except Exception as error:
             logger.warning(
-                "Severity classifier could not be loaded from %s; using rule-based fallback: %s",
+                "Severity classifier model unavailable at %s; rule-based fallback active (reason: %s).",
                 self.model_path,
                 error,
             )

@@ -1,4 +1,5 @@
 from eval.run_eval import calculate_summary
+from eval.run_baseline import DEFAULT_HELDOUT_PATH, calculate_majority_baseline
 
 
 def _result(expected: str, predicted: str) -> dict:
@@ -36,3 +37,14 @@ def test_calculate_summary_handles_zero_expected_critical_cases():
 
     assert summary["severity_accuracy"] == 1.0
     assert summary["critical_recall"] == 1.0
+
+
+def test_majority_baseline_uses_same_heldout_severity_metric():
+    output = calculate_majority_baseline(DEFAULT_HELDOUT_PATH, final_results_path=None)
+
+    assert output["summary"]["baseline_name"] == "majority_severity_class"
+    assert output["summary"]["majority_label"] == "Urgent"
+    assert output["summary"]["heldout_cases"] == 57
+    assert output["summary"]["primary_metric"] == "severity_accuracy"
+    assert output["summary"]["severity_accuracy"] == 0.9123
+    assert output["summary"]["critical_recall"] == 0.0

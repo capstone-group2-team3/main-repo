@@ -14,6 +14,8 @@ from app.db.models import ClinicalPatternResult, GeneratedReport, LabResult, Rep
 from app.db.severity_models import CaseSeverity
 from app.db.severity_repositories import get_case_severity_by_case_id
 from app.models.schemas import ReportRequest
+from app.services.lab_analysis_agent import LabAnalysisAgent
+from app.services.lab_normalizer import LabNormalizer
 
 
 class RouteResponse:
@@ -325,6 +327,75 @@ def test_case_severity_table_exists(test_db):
     db = test_db()
     try:
         assert db.query(CaseSeverity).count() == 0
+    finally:
+        db.close()
+
+
+def test_potassium_critical_threshold_and_high_non_critical_classification():
+    normalizer = LabNormalizer()
+    analyzer = LabAnalysisAgent(normalizer=normalizer)
+
+    high_result = analyzer.analyze_labs(
+        "Electrolytes_Calcium_Panel",
+        normalizer.normalize_labs([
+            {"name": "Potassium", "value": 5.8, "unit": "mEq/L"},
+        ]),
+    )[0]
+    critical_result = analyzer.analyze_labs(
+        "Electrolytes_Calcium_Panel",
+        normalizer.normalize_labs([
+            {"name": "Potassium", "value": 7.4, "unit": "mEq/L"},
+        ]),
+    )[0]
+
+    assert high_result["status"] == "High"
+    assert high_result["critical_high"] == 6.5
+    assert critical_result["status"] == "Critical"
+    assert critical_result["critical_high"] == 6.5
+
+
+def test_critical_electrolyte_api_response_preserves_override_and_reports(client, test_db):
+    payload = {
+        "age": 72,
+        "sex": "female",
+        "selected_panel": "Electrolytes_Calcium_Panel",
+        "symptoms": ["confusion"],
+        "clinical_notes": "Critical electrolyte review.",
+        "labs": [
+            {"name": "Sodium", "value": 139, "unit": "mEq/L"},
+            {"name": "Potassium", "value": 7.4, "unit": "mEq/L"},
+            {"name": "Calcium", "value": 9.2, "unit": "mg/dL"},
+        ],
+    }
+
+    response = client.post("/reports/analyze", json=payload)
+    data = response.json()
+
+    assert response.status_code == 200
+    assert data["severity"] == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
+    assert [lab["status"] for lab in data["lab_results"]] == ["Normal", "Critical", "Normal"]
+    assert data["safety_notice"] == "For clinicians only — supports review, not diagnosis or prescribing."
+
+    markdown = Path(data["report"]["markdown_path"]).read_text(encoding="utf-8")
+    html = Path(data["report"]["html_path"]).read_text(encoding="utf-8")
+    pdf_bytes = Path(data["report"]["pdf_path"]).read_bytes()
+
+    assert "Severity label: Critical" in markdown
+    assert "Critical lab override" in markdown
+    assert "<strong>Severity label:</strong> Critical" in html
+    assert b"Severity Support Alert" in pdf_bytes
+
+    db = test_db()
+    try:
+        severity = get_case_severity_by_case_id(db, data["report_case_id"])
+        assert severity is not None
+        assert severity.severity_label == "Critical"
+        assert severity.confidence == 1.0
+        assert severity.source == "critical_override"
     finally:
         db.close()
 

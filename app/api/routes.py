@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
@@ -13,6 +13,7 @@ from app.db.repositories import (
 from app.models.schemas import ReportRequest
 from app.services.agent_orchestrator import AgentOrchestrator, SAFETY_NOTICE
 from app.services.knowledge_indexer import KnowledgeIndexer
+from app.services.observability import metrics_registry, metrics_response
 from app.services.panel_template_service import PanelTemplateService
 from app.services.report_generator_agent import REPORT_OUTPUT_DIR
 router = APIRouter()
@@ -70,6 +71,11 @@ def health():
     return {"status": "ok"}
 
 
+@router.get("/metrics")
+def metrics() -> Response:
+    return metrics_response()
+
+
 @router.get("/templates")
 def get_templates():
     return {
@@ -101,7 +107,9 @@ def get_template(panel_name: str):
 @router.post("/reports/analyze")
 def analyze_report(payload: ReportRequest, db: Session = Depends(get_db)):
     try:
-        return orchestrator.analyze_report(payload, db)
+        result = orchestrator.analyze_report(payload, db)
+        metrics_registry.record_analysis(result)
+        return result
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
     except RuntimeError as error:

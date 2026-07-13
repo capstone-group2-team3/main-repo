@@ -29,6 +29,19 @@ function sourceCount(pattern: ClinicalPattern): number {
   return pattern.retrieved_sources?.length || 0;
 }
 
+function formatPanelLabel(value?: string): string {
+  if (!value) return "Not provided";
+  const mapping: Record<string, string> = {
+    Diabetic_Panel: "Diabetic / Rapid Glucose Panel",
+    Cardiac_Enzymes_Panel: "Cardiac Enzymes Panel",
+    Electrolytes_Calcium_Panel: "Electrolytes & Calcium Panel",
+    Lipids_Inflammation_Panel: "Lipids & Inflammation Panel",
+    Albumin_Protein_Panel: "Albumin & Protein Panel",
+    Renal_Thyroid_Panel: "Renal & Thyroid Panel",
+  };
+  return mapping[value] || value;
+}
+
 export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
   const patient = result.patient_summary || result.received || {};
   const labs = result.lab_results || result.labs || result.findings || [];
@@ -46,7 +59,7 @@ export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
         <div className="text-xs font-bold uppercase tracking-[.16em] text-cyan-200">Clinical Review</div>
         <h2 className="mt-2 text-3xl font-bold">Case {caseId}</h2>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
-          <span>Panel: {patient.selected_panel || "Not provided"}</span><span>Age: {patient.age ?? "Not provided"}</span>
+          <span>Panel: {formatPanelLabel(patient.selected_panel)}</span><span>Age: {patient.age ?? "Not provided"}</span>
           <span>Sex: {patient.sex || "Not provided"}</span><span>Symptoms: {patient.symptoms?.join(", ") || "Not provided"}</span>
         </div>
         <div className="mt-5 flex flex-wrap gap-2">
@@ -68,7 +81,7 @@ export function ResultsDashboard({ result }: { result: AnalyzeResponse }) {
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           <SummaryItem label="Age" value={patient.age ?? "Not provided"} />
           <SummaryItem label="Sex" value={patient.sex || "Not provided"} />
-          <SummaryItem label="Selected Panel" value={patient.selected_panel || "Not provided"} />
+          <SummaryItem label="Selected Panel" value={formatPanelLabel(patient.selected_panel)} />
           <SummaryItem label="Symptoms" value={patient.symptoms?.join(", ") || "Not provided"} />
           <SummaryItem label="Generated At" value={formatDate(result.generated_at)} />
         </div>
@@ -154,7 +167,7 @@ function SummaryItem({ label, value }: { label: string; value: string | number }
 function SourceCard({ source, index }: { source: RetrievedSource | string; index: number }) {
   if (typeof source === "string") return <Insight title={`Source ${index + 1}`} body={source} />;
   const score = source.similarity_score == null ? "N/A" : Number(source.similarity_score).toFixed(2);
-  return <div className="rounded-2xl border border-slate-200 bg-white p-3 text-xs"><strong>{source.title || "Evidence source"}</strong><p className="mt-2 leading-5 text-slate-500">{source.snippet || "No snippet available."}</p><div className="mt-2 flex flex-wrap gap-2"><span className="rounded-full bg-slate-100 px-2 py-1">Similarity {score}</span>{(source.source_id || source.id) && <span className="rounded-full bg-slate-100 px-2 py-1">ID {source.source_id || source.id}</span>}{source.pattern_code && <span className="rounded-full bg-slate-100 px-2 py-1">Pattern {source.pattern_code}</span>}</div></div>;
+  return <div className="rounded-2xl border border-slate-200 bg-white p-3 text-xs"><div className="space-y-2"><div><strong className="text-sm text-slate-800">{source.title || "Evidence source"}</strong></div><div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] font-bold uppercase tracking-wide text-slate-500">Relevant Finding</div><p className="mt-1 leading-5 text-slate-600">{source.snippet || "No snippet available."}</p></div><div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] font-bold uppercase tracking-wide text-slate-500">Clinical Context</div><p className="mt-1 leading-5 text-slate-600">{source.pattern_code || "No pattern context available."}</p></div><div className="mt-2 flex flex-wrap gap-2"><span className="rounded-full bg-slate-100 px-2 py-1">Similarity Score {score}</span>{(source.source_id || source.id) && <span className="rounded-full bg-slate-100 px-2 py-1">Source ID {source.source_id || source.id}</span>}</div></div></div>;
 }
 function ConfidenceBadge({ value }: { value?: string }) {
   const key = String(value || "unknown").toLowerCase();

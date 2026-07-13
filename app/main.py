@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import router
 from app.db.database import Base, engine
 from app.db import models, severity_models  # noqa: F401
+from app.services.observability import ObservabilityMiddleware
 from app.services.severity_classifier_service import severity_service
 
 
@@ -21,6 +22,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(ObservabilityMiddleware)
 
 
 @app.on_event("startup")

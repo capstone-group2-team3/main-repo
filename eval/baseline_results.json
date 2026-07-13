@@ -1,0 +1,485 @@
+{
+  "run_metadata": {
+    "run_at_utc": "2026-07-13T00:18:16.979436+00:00",
+    "heldout_path": "eval/heldout.jsonl",
+    "baseline": "Predict the majority expected severity label for every held-out case.",
+    "determinism": "Deterministic; no random seed is used."
+  },
+  "summary": {
+    "baseline_name": "majority_severity_class",
+    "heldout_cases": 57,
+    "majority_label": "Urgent",
+    "severity_distribution": {
+      "Critical": 5,
+      "Urgent": 52
+    },
+    "primary_metric": "severity_accuracy",
+    "severity_accuracy": 0.9123,
+    "critical_recall": 0.0
+  },
+  "comparison_to_final_system": {
+    "final_system_primary_metric": 0.6316,
+    "baseline_primary_metric": 0.9123,
+    "absolute_improvement": -0.2807,
+    "final_system_critical_recall": 1.0,
+    "baseline_critical_recall": 0.0
+  },
+  "cases": [
+    {
+      "case_id": "heldout-001",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-002",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-003",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-004",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-005",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-006",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-007",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-008",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-009",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-010",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-011",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-012",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-013",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-014",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-015",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-016",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-017",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-018",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-019",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-020",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-021",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-022",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-023",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-024",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-025",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-026",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-027",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Critical",
+      "predicted_severity": "Urgent",
+      "severity_correct": false,
+      "critical_misclassification": true
+    },
+    {
+      "case_id": "heldout-028",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-029",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-030",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Critical",
+      "predicted_severity": "Urgent",
+      "severity_correct": false,
+      "critical_misclassification": true
+    },
+    {
+      "case_id": "heldout-031",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-032",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Critical",
+      "predicted_severity": "Urgent",
+      "severity_correct": false,
+      "critical_misclassification": true
+    },
+    {
+      "case_id": "heldout-033",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-034",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-035",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-036",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-037",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-038",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-039",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-040",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-041",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Critical",
+      "predicted_severity": "Urgent",
+      "severity_correct": false,
+      "critical_misclassification": true
+    },
+    {
+      "case_id": "heldout-042",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-043",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-044",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-045",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-046",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-047",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-048",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-049",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-050",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-051",
+      "selected_panel": "CBC_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-052",
+      "selected_panel": "Electrolytes_Calcium_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-053",
+      "selected_panel": "Renal_Thyroid_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-054",
+      "selected_panel": "Cardiac_Enzymes_Panel",
+      "expected_severity": "Critical",
+      "predicted_severity": "Urgent",
+      "severity_correct": false,
+      "critical_misclassification": true
+    },
+    {
+      "case_id": "heldout-055",
+      "selected_panel": "Lipids_Inflammation_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-056",
+      "selected_panel": "Diabetic_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    },
+    {
+      "case_id": "heldout-057",
+      "selected_panel": "Albumin_Protein_Panel",
+      "expected_severity": "Urgent",
+      "predicted_severity": "Urgent",
+      "severity_correct": true,
+      "critical_misclassification": false
+    }
+  ]
+}

@@ -12,7 +12,7 @@
   "Troponin": {"min": 0, "max": 14, "unit": "ng/L", "critical_high": 52},
   "CPK": {"min": 30, "max": 200, "unit": "U/L", "critical_high": 1000},
   "Sodium": {"min": 135, "max": 145, "unit": "mEq/L"},
-  "Potassium": {"min": 3.5, "max": 5.0, "unit": "mEq/L"},
+  "Potassium": {"min": 3.5, "max": 5.0, "unit": "mEq/L", "critical_high": 6.5},
   "Calcium": {"min": 8.5, "max": 10.5, "unit": "mg/dL"},
   "Albumin": {"min": 3.4, "max": 5.4, "unit": "g/dL"}
 }
