@@ -1,0 +1,67 @@
+{
+  "CBC_Panel": {
+    "display_name": "Complete Blood Count (CBC)",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Hemoglobin", "unit": "g/dL", "required": true, "description": "Measures oxygen-carrying protein", "critical_low": 7.0, "critical_high": 18.0},     
+      {"name": "WBC", "unit": "10^9/L", "required": true, "description": "Measures immune cells"},
+      {"name": "Platelets", "unit": "10^9/L", "required": true, "description": "Measures clotting cells"}
+    ],
+    "suggested_symptoms": ["fatigue", "dizziness", "fever", "pale skin", "bruising"]
+  },
+  "Diabetic_Panel": {
+    "display_name": "Diabetic & Glucose Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Glucose", "unit": "mg/dL", "required": true, "description": "Blood sugar level"},
+      {"name": "HbA1c", "unit": "%", "required": true, "description": "3-month average blood sugar"}
+    ],
+    "suggested_symptoms": ["increased thirst", "frequent urination", "blurred vision", "fatigue"]
+  },
+  "Renal_Thyroid_Panel": {
+    "display_name": "Renal & Thyroid Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Creatinine", "unit": "mg/dL", "required": true, "description": "Indicator of kidney function"},
+      {"name": "TSH", "unit": "mIU/L", "required": true, "description": "Thyroid stimulating hormone"}
+    ],
+    "suggested_symptoms": ["swelling", "fatigue", "weight changes", "cold intolerance"]
+  },
+  "Lipids_Inflammation_Panel": {
+    "display_name": "Lipids & Inflammation Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "LDL", "unit": "mg/dL", "required": true, "description": "Low-density lipoprotein (bad cholesterol)"},
+      {"name": "HDL", "unit": "mg/dL", "required": true, "description": "High-density lipoprotein (good cholesterol)"},
+      {"name": "CRP", "unit": "mg/L", "required": true, "description": "C-reactive protein, marker of inflammation"}
+    ],
+    "suggested_symptoms": ["chest pain", "shortness of breath", "joint pain", "fever"]
+  },
+  "Cardiac_Enzymes_Panel": {
+    "display_name": "Cardiac Enzymes Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Troponin", "unit": "ng/L", "required": true, "description": "Marker of myocardial injury"},
+      {"name": "CPK", "unit": "U/L", "required": true, "description": "Creatine phosphokinase enzyme level"}
+    ],
+    "suggested_symptoms": ["chest pain", "shortness of breath", "sweating", "nausea"]
+  },
+  "Electrolytes_Calcium_Panel": {
+    "display_name": "Electrolytes & Calcium Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Sodium", "unit": "mEq/L", "required": true, "description": "Crucial for nerve and muscle function"},
+      {"name": "Potassium", "unit": "mEq/L", "required": true, "description": "Important for heart and muscle function"},
+      {"name": "Calcium", "unit": "mg/dL", "required": true, "description": "Vital for bone health and muscle contraction"}
+    ],
+    "suggested_symptoms": ["muscle weakness", "cramps", "irregular heartbeat", "confusion"]
+  },
+  "Albumin_Protein_Panel": {
+    "display_name": "Albumin & Protein Panel",
+    "required_patient_fields": ["age", "sex", "symptoms"],
+    "tests": [
+      {"name": "Albumin", "unit": "g/dL", "required": true, "description": "Main protein in blood, indicates liver/kidney health"}
+    ],
+    "suggested_symptoms": ["swelling", "fatigue", "unexplained weight loss", "jaundice"]
+  }
+}

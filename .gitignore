@@ -1,35 +1,18 @@
-# Python virtual environment
+__pycache__/
+*.pyc
+.cache/
+.cache/huggingface/
+**/.cache/
+huggingface/
+hf_cache/
+.env
 .venv/
 venv/
-env/
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Environment files
-.env
-.env.*
-
-# Test / tooling cache
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-
-# Build files
-build/
-dist/
-*.egg-info/
-
-# Editor / OS files
-.vscode/
-.idea/
+*.db
+qdrant_storage/
+reports/generated_reports/*.pdf
+reports/generated_reports/*.md
+reports/generated_reports/*.html
 .DS_Store
-Thumbs.db
-
-# Node if added later
-node_modules/
-.next/
+meddx.db
+models/severity_classifier/

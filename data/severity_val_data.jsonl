@@ -1,0 +1,200 @@
+{"text": "Age: 49, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 12, Sex: Male, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 38, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (43). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 21, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 62, Sex: Male, Panel: CBC. Abnormal: Platelets Critical Low (40). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 74, Sex: Female, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 11, Sex: Unknown, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 38, Sex: Unknown, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 33, Sex: Female, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 47, Sex: Male, Panel: CBC. Abnormal: WBC High (17.0). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 22, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (5.2). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 20, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 3, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 27, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 80, Sex: Unknown, Panel: CBC. Abnormal: WBC High (18.3). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 69, Sex: Unknown, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 54, Sex: Unknown, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 78, Sex: Male, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.7). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 40, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (4.81). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 75, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 87, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 55, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 28, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 14, Sex: Male, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.1). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 88, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 86, Sex: Unknown, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 62, Sex: Male, Panel: CBC. Abnormal: WBC High (21.3). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 19, Sex: Unknown, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 11, Sex: Male, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 80, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.7). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 19, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 30, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 81, Sex: Male, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 41, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (24). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 27, Sex: Female, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 41, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (5.62). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 88, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (7.74). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 18, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 17, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (2.83). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 59, Sex: Male, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 73, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 63, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (11). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 12, Sex: Female, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 56, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 23, Sex: Unknown, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 56, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 27, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 62, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 27, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 15, Sex: Female, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 23, Sex: Unknown, Panel: CBC. Abnormal: Platelets Critical Low (33). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 88, Sex: Unknown, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 67, Sex: Female, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 74, Sex: Male, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 83, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 1, Sex: Female, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 47, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 69, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (27). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 59, Sex: Unknown, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 47, Sex: Unknown, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 17, Sex: Unknown, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 89, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (7.15). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 50, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.8). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 79, Sex: Unknown, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 54, Sex: Female, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 40, Sex: Unknown, Panel: CBC. Abnormal: Platelets Critical Low (45). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 22, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 59, Sex: Unknown, Panel: CBC. Abnormal: Platelets Critical Low (38). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 18, Sex: Male, Panel: CBC. Abnormal: WBC High (15.4). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 82, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 49, Sex: Male, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 29, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 62, Sex: Female, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 65, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 28, Sex: Unknown, Panel: CBC. Abnormal: Platelets Critical Low (36). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 56, Sex: Female, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 37, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 73, Sex: Female, Panel: CBC. Abnormal: WBC High (23.8). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 70, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (34). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 27, Sex: Female, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 26, Sex: Female, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 64, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 45, Sex: Female, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 3, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 20, Sex: Female, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 10, Sex: Unknown, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 43, Sex: Male, Panel: CBC. Abnormal: WBC High (18.2). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 24, Sex: Female, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 83, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 69, Sex: Female, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 17, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (12). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 79, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 88, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (9.87). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 58, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 70, Sex: Male, Panel: CBC. Abnormal: Platelets Critical Low (41). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 23, Sex: Male, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 90, Sex: Unknown, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 83, Sex: Male, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.1). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 2, Sex: Unknown, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 79, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 17, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 81, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 70, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (38). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 7, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 3, Sex: Unknown, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 43, Sex: Male, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 37, Sex: Unknown, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 45, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 12, Sex: Female, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.1). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 1, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 83, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 67, Sex: Female, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 50, Sex: Female, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.1). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 66, Sex: Unknown, Panel: CBC. Abnormal: WBC High (15.8). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 15, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 71, Sex: Female, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 40, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (6.42). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 36, Sex: Male, Panel: CBC. Abnormal: Platelets Critical Low (40). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 42, Sex: Male, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.7). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 34, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 57, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 39, Sex: Unknown, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 70, Sex: Male, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 41, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 58, Sex: Male, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 48, Sex: Unknown, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 56, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 62, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 73, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 35, Sex: Female, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 5, Sex: Female, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 83, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (7.97). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 54, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 47, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.6). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 8, Sex: Female, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 43, Sex: Male, Panel: CBC. Abnormal: Platelets Critical Low (40). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 26, Sex: Male, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 78, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (4.48). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 11, Sex: Female, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 89, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 38, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 36, Sex: Unknown, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 54, Sex: Male, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 5, Sex: Male, Panel: Cardiac. Abnormal: Troponin High (6.5). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 4, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 4, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 18, Sex: Male, Panel: CBC. Abnormal: Platelets Critical Low (42). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 69, Sex: Male, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 19, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (2.78). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 7, Sex: Male, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 28, Sex: Unknown, Panel: Comprehensive. Abnormal: Cholesterol High. Symptoms: mild fatigue. Top pattern: Lipid Dysregulation.", "label": "Routine"}
+{"text": "Age: 59, Sex: Female, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 57, Sex: Unknown, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 4, Sex: Unknown, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 62, Sex: Male, Panel: CBC. Abnormal: WBC High (15.6). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 38, Sex: Female, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 1, Sex: Female, Panel: CBC. Abnormal: Platelets Critical Low (32). Symptoms: active bleeding, severe bruising, epistaxis. Top pattern: Severe Thrombocytopenia.", "label": "Critical"}
+{"text": "Age: 17, Sex: Unknown, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 78, Sex: Male, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 81, Sex: Female, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.1). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 82, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (3.8). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 83, Sex: Male, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 65, Sex: Unknown, Panel: Metabolic. Abnormal: Potassium High, Creatinine High. Symptoms: muscle weakness, nausea, decreased urination. Top pattern: Renal Insufficiency.", "label": "Urgent"}
+{"text": "Age: 32, Sex: Male, Panel: Liver. Abnormal: ALT High, AST High. Symptoms: severe abdominal pain, jaundice, nausea. Top pattern: Hepatic Stress.", "label": "Urgent"}
+{"text": "Age: 88, Sex: Female, Panel: Cardiac. Abnormal: Troponin High (1.77). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 61, Sex: Female, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 56, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 74, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 80, Sex: Unknown, Panel: CBC. Abnormal: WBC High (17.5). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 62, Sex: Male, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 81, Sex: Female, Panel: CBC. Abnormal: WBC High (19.0). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 67, Sex: Unknown, Panel: Cardiac. Abnormal: Troponin High (8.42). Symptoms: crushing chest pain, dyspnea, left arm numbness. Top pattern: Acute Coronary Syndrome.", "label": "Critical"}
+{"text": "Age: 58, Sex: Male, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 38, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 44, Sex: Female, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 51, Sex: Female, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 85, Sex: Male, Panel: Metabolic. Abnormal: Glucose High, HbA1c High. Symptoms: increased thirst, polyuria. Top pattern: Diabetes Management.", "label": "Routine"}
+{"text": "Age: 48, Sex: Male, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 45, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.3). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 62, Sex: Male, Panel: Thyroid. Abnormal: TSH Slightly High. Symptoms: mild weight gain, dry skin. Top pattern: Subclinical Hypothyroidism.", "label": "Routine"}
+{"text": "Age: 30, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (3.9). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 54, Sex: Male, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 27, Sex: Unknown, Panel: CBC. Abnormal: WBC High (22.9). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 5, Sex: Female, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 5, Sex: Female, Panel: CBC. Abnormal: Hemoglobin Critical Low (5.7). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 51, Sex: Unknown, Panel: CBC. Abnormal: Leukocytosis detected. Symptoms: fever, body aches, painful urination. Top pattern: Urinary Tract Infection.", "label": "Urgent"}
+{"text": "Age: 65, Sex: Unknown, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.2). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 73, Sex: Unknown, Panel: CBC. Abnormal: WBC High (22.8). Symptoms: high fever, localized pain, chills, productive cough. Top pattern: Acute Infection.", "label": "Urgent"}
+{"text": "Age: 77, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 70, Sex: Female, Panel: CBC. Abnormal: Hemoglobin Critical Low (4.0). Symptoms: severe dizziness, shortness of breath, syncope. Top pattern: Severe Anemia.", "label": "Critical"}
+{"text": "Age: 78, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 31, Sex: Female, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 45, Sex: Male, Panel: CBC. Abnormal: Platelets Normal. Symptoms: routine checkup. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 2, Sex: Female, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}
+{"text": "Age: 54, Sex: Unknown, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 51, Sex: Unknown, Panel: Metabolic. Abnormal: Sodium Low. Symptoms: confusion, headache, mild vomiting. Top pattern: Electrolyte Imbalance.", "label": "Urgent"}
+{"text": "Age: 2, Sex: Female, Panel: Liver. Abnormal: ALT Mildly Elevated. Symptoms: none. Top pattern: Fatty Liver Screening.", "label": "Routine"}
+{"text": "Age: 88, Sex: Unknown, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 83, Sex: Male, Panel: Unknown. Abnormal: None. Symptoms: severe chest pain, radiating jaw pain, sweating, pressure in chest. Top pattern: Suspected Myocardial Infarction.", "label": "Critical"}
+{"text": "Age: 66, Sex: Unknown, Panel: CBC. Abnormal: None. Symptoms: None. Top pattern: None.", "label": "Routine"}

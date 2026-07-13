@@ -1,0 +1,14 @@
+{
+  "Hemoglobin": ["Hb", "Hgb", "Hemoglobin"],
+  "WBC": ["WBC", "White Blood Cells", "Leukocytes"],
+  "Platelets": ["Platelets", "PLT"],
+  "Glucose": ["Glucose", "Blood Sugar", "Fasting Glucose", "Random Glucose", "Rapid Glucose"],
+  "HbA1c": ["HbA1c", "A1C", "Glycated Hemoglobin"],
+  "Creatinine": ["Creatinine", "Cr"],
+  "TSH": ["TSH", "Thyroid Stimulating Hormone"],
+  "LDL": ["LDL", "Low Density Lipoprotein"],
+  "HDL": ["HDL", "High Density Lipoprotein"],
+  "CRP": ["CRP", "C-Reactive Protein"],
+  "Troponin": ["Troponin", "Tn", "TnI", "TnT"],
+  "CPK": ["CPK", "CK", "Creatine Kinase", "Creatine Phosphokinase"]
+}
