@@ -4,6 +4,7 @@ from pathlib import Path
 from app.api.routes import _safe_report_path
 from app.services.report_generator_agent import REPORT_OUTPUT_DIR
 from app.services.report_generator_agent import ReportGeneratorAgent
+from app.services.report_generator_agent import CANONICAL_LIMITATION_SENTENCE
 from app.services.report_generator_agent import format_clinician_datetime, report_timezone_label
 from app.services.safety_agent import (
     SAFETY_NOTICE,
@@ -37,6 +38,36 @@ def test_sanitize_text_rewrites_required_audit_phrases():
     for phrase in ["diagnose", "prescription", "medication advice", "treatment recommendation"]:
         assert phrase not in lowered
     assert "clinician review" in lowered or "clinician-directed" in lowered
+
+
+def test_report_preserves_canonical_limitation_but_sanitizes_unsafe_dynamic_content():
+    generator = ReportGeneratorAgent()
+    dashboard = generator.build_dashboard(
+        case_data={
+            "age": 44,
+            "sex": "female",
+            "selected_panel": "CBC_Panel",
+            "symptoms": ["fatigue"],
+            "clinical_notes": "Confirmed diagnosis and treatment recommendation should be removed.",
+        },
+        lab_results=[],
+        clinical_patterns=[],
+        retrieved_sources=[],
+        clinical_warnings=["Medication advice and treatment plan should be removed."],
+        missing_required_labs=[],
+    )
+
+    markdown = generator.render_markdown(dashboard)
+    html_report = generator.render_html(dashboard)
+    combined = f"{markdown}\n{html_report}"
+    lowered = combined.lower()
+
+    assert CANONICAL_LIMITATION_SENTENCE in combined
+    assert "No medication or clinician review consideration is provided." not in combined
+    assert "confirmed diagnosis" not in lowered
+    assert "medication advice" not in lowered
+    assert "treatment plan" not in lowered
+    assert "treatment recommendation should be removed" not in lowered
 
 
 def test_ensure_safety_notice_appends_when_missing():
@@ -248,6 +279,9 @@ def test_review_summary_includes_severity_and_not_available_card_is_removed(tmp_
     assert "Confidence" in markdown
     assert "Not available" not in summary_section
     assert "<small>Not available</small>" not in html_report
+    assert "<small>Low findings count</small>" not in html_report
+    assert "<small>High findings count</small>" not in html_report
+    assert "<small>Critical findings count</small>" not in html_report
 
 
 def test_pattern_metadata_starts_on_separate_lines_and_sources_are_well_formatted(tmp_path):
@@ -292,6 +326,85 @@ def test_pattern_metadata_starts_on_separate_lines_and_sources_are_well_formatte
     assert "- Similarity Score:" in markdown
     assert "- Source ID:" in markdown
     assert len(dashboard["retrieved_sources"]) == 2
+
+
+def test_pdf_text_quality_for_patterns_sources_summary_and_limitations(tmp_path):
+    generator = ReportGeneratorAgent()
+    dashboard = _sample_dashboard(generator)
+    dashboard["severity"] = {"label": "Urgent", "confidence": 0.8423, "source": "fine_tuned_model"}
+    dashboard["clinical_patterns"] = [
+        {
+            "rank": 1,
+            "pattern_code": "anemia_pattern",
+            "pattern_name": "Low Hemoglobin levels indicating potential anemia",
+            "score": 2.0,
+            "confidence_level": "Moderate",
+            "evidence_for": ["Hemoglobin is Low"],
+            "missing_evidence": [],
+            "warnings": [],
+            "retrieved_sources": [],
+        }
+    ]
+    dashboard["retrieved_sources"] = [
+        {
+            "source_id": "anemia_patterns",
+            "title": "Anemia Patterns Interpretation",
+            "snippet": "Low Hemoglobin supports review with clinical context.",
+            "similarity_score": 0.91,
+            "pattern_code": "anemia_pattern",
+        }
+    ]
+    dashboard = generator.build_dashboard(
+        case_data=dashboard["patient_summary"],
+        lab_results=dashboard["lab_results"],
+        clinical_patterns=dashboard["clinical_patterns"],
+        retrieved_sources=dashboard["retrieved_sources"],
+        clinical_warnings=dashboard["clinical_warnings"],
+        missing_required_labs=dashboard["missing_required_labs"],
+        generated_at=dashboard["generated_at"],
+    )
+    dashboard["severity"] = {"label": "Urgent", "confidence": 0.8423, "source": "fine_tuned_model"}
+
+    pdf_path = generator.render_pdf({**dashboard, "report_case_id": 41}, tmp_path / "report.pdf")
+    pdf_bytes = Path(pdf_path).read_bytes()
+    pdf_text = pdf_bytes.decode("latin-1", errors="ignore")
+
+    assert pdf_bytes.startswith(b"%PDF-")
+    assert b"/FontFile2" in pdf_bytes
+    assert 2 <= pdf_bytes.count(b"/Type /Page") <= 8
+    for expected in [
+        "MedDx Assistant",
+        "Clinical Review Report",
+        "Severity label",
+        "Laboratory Results",
+        "Clinical Patterns",
+        "Retrieved Evidence Sources",
+        "Clinical Interpretation Limitations",
+        CANONICAL_LIMITATION_SENTENCE,
+        "For clinicians only",
+        "supports review",
+        "not diagnosis or prescribing",
+        "Rank:",
+        "Confidence:",
+        "Score:",
+        "Retrieved Sources:",
+        "Evidence:",
+        "Relevant Finding:",
+        "Clinical Context:",
+        "Similarity Score:",
+        "Source ID:",
+    ]:
+        assert expected in pdf_text
+
+    for defect in [
+        "anemia.Rank",
+        "InterpretationRelevant",
+        "ContextRelated",
+        "No medication or clinician review consideration is provided.",
+    ]:
+        assert defect not in pdf_text
+
+    assert pdf_text.count("Not available") < 2
 
 
 def test_safe_report_path_blocks_path_traversal():

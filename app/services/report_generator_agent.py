@@ -20,6 +20,12 @@ DEFAULT_REPORT_TIMEZONE = "Asia/Amman"
 SEVERITY_DISCLAIMER = (
     "This is a supportive prioritization signal only and does not replace clinician judgment."
 )
+CANONICAL_LIMITATION_SENTENCE = "No medication or treatment recommendation is provided."
+_CANONICAL_LIMITATION_PLACEHOLDER = "__MEDDX_CANONICAL_LIMITATION_SENTENCE__"
+PDF_FONT_REGULAR = "MedDxSans"
+PDF_FONT_BOLD = "MedDxSans-Bold"
+PDF_FONT_ITALIC = "MedDxSans-Italic"
+PDF_FONT_BOLD_ITALIC = "MedDxSans-BoldItalic"
 
 
 def normalize_terminal_punctuation(text: Any, ensure_period: bool = False) -> str:
@@ -30,6 +36,55 @@ def normalize_terminal_punctuation(text: Any, ensure_period: bool = False) -> st
     if ensure_period and value[-1] not in ".!?":
         value += "."
     return value
+
+
+def sanitize_report_text(text: str) -> str:
+    protected = text.replace(CANONICAL_LIMITATION_SENTENCE, _CANONICAL_LIMITATION_PLACEHOLDER)
+    sanitized = sanitize_text(protected)
+    return sanitized.replace(_CANONICAL_LIMITATION_PLACEHOLDER, CANONICAL_LIMITATION_SENTENCE)
+
+
+def register_pdf_fonts() -> tuple[str, str, str, str]:
+    from reportlab.lib.fonts import addMapping
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    from reportlab.rl_config import TTFSearchPath
+
+    if PDF_FONT_REGULAR in pdfmetrics.getRegisteredFontNames():
+        return PDF_FONT_REGULAR, PDF_FONT_BOLD, PDF_FONT_ITALIC, PDF_FONT_BOLD_ITALIC
+
+    font_files = {
+        PDF_FONT_REGULAR: "Vera.ttf",
+        PDF_FONT_BOLD: "VeraBd.ttf",
+        PDF_FONT_ITALIC: "VeraIt.ttf",
+        PDF_FONT_BOLD_ITALIC: "VeraBI.ttf",
+    }
+    resolved: dict[str, Path] = {}
+    for font_name, filename in font_files.items():
+        for directory in TTFSearchPath:
+            candidate = Path(directory) / filename
+            if candidate.exists():
+                resolved[font_name] = candidate
+                break
+
+    if len(resolved) != len(font_files):
+        return "Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"
+
+    for font_name, path in resolved.items():
+        pdfmetrics.registerFont(TTFont(font_name, str(path)))
+
+    pdfmetrics.registerFontFamily(
+        PDF_FONT_REGULAR,
+        normal=PDF_FONT_REGULAR,
+        bold=PDF_FONT_BOLD,
+        italic=PDF_FONT_ITALIC,
+        boldItalic=PDF_FONT_BOLD_ITALIC,
+    )
+    addMapping(PDF_FONT_REGULAR, 0, 0, PDF_FONT_REGULAR)
+    addMapping(PDF_FONT_REGULAR, 1, 0, PDF_FONT_BOLD)
+    addMapping(PDF_FONT_REGULAR, 0, 1, PDF_FONT_ITALIC)
+    addMapping(PDF_FONT_REGULAR, 1, 1, PDF_FONT_BOLD_ITALIC)
+    return PDF_FONT_REGULAR, PDF_FONT_BOLD, PDF_FONT_ITALIC, PDF_FONT_BOLD_ITALIC
 
 
 def report_timezone_name() -> str:
@@ -285,7 +340,7 @@ class ReportGeneratorAgent:
             ]
         )
 
-        return ensure_safety_notice(sanitize_text("\n".join(lines)))
+        return ensure_safety_notice(sanitize_report_text("\n".join(lines)))
 
     def render_html(self, dashboard_json: dict[str, Any]) -> str:
         patient = dashboard_json.get("patient_summary", {})
@@ -372,7 +427,7 @@ class ReportGeneratorAgent:
 </body>
 </html>"""
 
-        return sanitize_text(html_report)
+        return sanitize_report_text(html_report)
 
     def render_pdf(self, dashboard_json: dict[str, Any], output_path: str | Path) -> str:
         from reportlab.lib import colors
@@ -385,6 +440,7 @@ class ReportGeneratorAgent:
         dashboard = sanitize_dashboard(dashboard_json)
         path = Path(output_path)
         path.parent.mkdir(parents=True, exist_ok=True)
+        font_regular, font_bold, _font_italic, _font_bold_italic = register_pdf_fonts()
         styles = getSampleStyleSheet()
         navy = colors.HexColor("#0F172A")
         teal = colors.HexColor("#0F766E")
@@ -393,23 +449,30 @@ class ReportGeneratorAgent:
         muted = colors.HexColor("#475569")
         subtle_gray = colors.HexColor("#F8FAFC")
         light_warn = colors.HexColor("#FEF2F2")
-        styles.add(ParagraphStyle(name="ReportTitle", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=20, leading=24, textColor=navy, spaceAfter=2 * mm))
-        styles.add(ParagraphStyle(name="ReportSubtitle", parent=styles["BodyText"], fontName="Helvetica", fontSize=9.5, leading=12, textColor=muted, spaceAfter=4 * mm))
-        styles.add(ParagraphStyle(name="SectionTitle", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=11.5, leading=14, textColor=navy, spaceBefore=5 * mm, spaceAfter=2.2 * mm))
-        styles.add(ParagraphStyle(name="BodySafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=8.5, leading=11.5, textColor=muted, spaceAfter=1.3 * mm))
-        styles.add(ParagraphStyle(name="SmallSafe", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=9.5, textColor=muted))
-        styles.add(ParagraphStyle(name="Notice", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=8.8, leading=11.5, textColor=colors.HexColor("#134E4A"), alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name="MetricValue", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=12.5, leading=14, textColor=navy, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name="MetricLabel", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.2, leading=9.5, textColor=muted, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name="CardTitle", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=9.2, leading=12, textColor=navy, spaceAfter=1.2 * mm))
-        styles.add(ParagraphStyle(name="CardBody", parent=styles["BodyText"], fontName="Helvetica", fontSize=7.8, leading=10.2, textColor=muted))
-        styles.add(ParagraphStyle(name="Label", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=7.8, leading=10.2, textColor=navy, spaceAfter=0.6 * mm))
-        styles.add(ParagraphStyle(name="Badge", parent=styles["BodyText"], fontName="Helvetica-Bold", fontSize=7, leading=9, textColor=navy, alignment=TA_CENTER))
+        for style_name in ("Normal", "BodyText", "Title", "Heading1", "Heading2", "Heading3"):
+            if style_name in styles:
+                styles[style_name].fontName = font_regular
+        styles["Title"].fontName = font_bold
+        styles["Heading1"].fontName = font_bold
+        styles["Heading2"].fontName = font_bold
+        styles["Heading3"].fontName = font_bold
+        styles.add(ParagraphStyle(name="ReportTitle", parent=styles["Title"], fontName=font_bold, fontSize=20, leading=24, textColor=navy, spaceAfter=2 * mm))
+        styles.add(ParagraphStyle(name="ReportSubtitle", parent=styles["BodyText"], fontName=font_regular, fontSize=9.5, leading=12, textColor=muted, spaceAfter=4 * mm))
+        styles.add(ParagraphStyle(name="SectionTitle", parent=styles["Heading2"], fontName=font_bold, fontSize=11.5, leading=14, textColor=navy, spaceBefore=5 * mm, spaceAfter=2.2 * mm))
+        styles.add(ParagraphStyle(name="BodySafe", parent=styles["BodyText"], fontName=font_regular, fontSize=8.5, leading=11.5, textColor=muted, spaceAfter=1.3 * mm))
+        styles.add(ParagraphStyle(name="SmallSafe", parent=styles["BodyText"], fontName=font_regular, fontSize=7.2, leading=9.5, textColor=muted))
+        styles.add(ParagraphStyle(name="Notice", parent=styles["BodyText"], fontName=font_bold, fontSize=8.8, leading=11.5, textColor=colors.HexColor("#134E4A"), alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="MetricValue", parent=styles["BodyText"], fontName=font_bold, fontSize=12.5, leading=14, textColor=navy, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="MetricLabel", parent=styles["BodyText"], fontName=font_regular, fontSize=7.2, leading=9.5, textColor=muted, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name="CardTitle", parent=styles["BodyText"], fontName=font_bold, fontSize=9.2, leading=12, textColor=navy, spaceAfter=1.2 * mm))
+        styles.add(ParagraphStyle(name="CardBody", parent=styles["BodyText"], fontName=font_regular, fontSize=7.8, leading=10.2, textColor=muted))
+        styles.add(ParagraphStyle(name="Label", parent=styles["BodyText"], fontName=font_bold, fontSize=7.8, leading=10.2, textColor=navy, spaceAfter=0.6 * mm))
+        styles.add(ParagraphStyle(name="Badge", parent=styles["BodyText"], fontName=font_bold, fontSize=7, leading=9, textColor=navy, alignment=TA_CENTER))
 
         def safe(value: Any) -> str:
             if value is None or value == "":
                 return "Not available"
-            return html.escape(sanitize_text(str(value)))
+            return html.escape(sanitize_report_text(str(value)))
 
         def paragraph(value: Any, style: str = "BodySafe"):
             return Paragraph(safe(value), styles[style])
@@ -440,20 +503,21 @@ class ReportGeneratorAgent:
             return Paragraph(f"<b>{safe(label)}</b>", styles["Badge"])
 
         def source_card(source: dict[str, Any]) -> KeepTogether:
-            relevant, context = self._pdf_source_sections(source)
             title = safe(source.get("title"))
-            body_parts = [
-                f"<b>{title}</b>",
-                "",
-                f"<b>Relevant Finding</b>",
+            relevant = safe(source.get("snippet"))
+            context = safe(f"Related pattern: {self._display(source.get('pattern_code'))}")
+            similarity = safe(self._format_score(source.get("similarity_score")))
+            source_id = safe(source.get("source_id"))
+            rows = [
+                [Paragraph(f"<b>{title}</b>", styles["CardTitle"])],
+                [Paragraph(f"<b>Relevant Finding:</b><br/>{relevant}", styles["CardBody"])],
+                [Paragraph(f"<b>Clinical Context:</b><br/>{context}", styles["CardBody"])],
+                [Paragraph(f"<b>Similarity Score:</b> {similarity}", styles["CardBody"])],
+                [Paragraph(f"<b>Source ID:</b> {source_id}", styles["CardBody"])],
             ]
-            body_parts.extend(f"• {safe(item)}<br/>" for item in relevant)
-            body_parts.extend(["", f"<b>Clinical Context</b>"])
-            body_parts.extend(f"• {safe(item)}<br/>" for item in context)
-            body_parts.extend(["", f"<b>Source ID</b><br/>{safe(source.get('source_id'))}"])
             return KeepTogether(
                 Table(
-                    [[Paragraph("".join(body_parts), styles["CardBody"])]],
+                    rows,
                     colWidths=[A4[0] - 40 * mm],
                     style=TableStyle([
                         ("BOX", (0, 0), (-1, -1), 0.6, border),
@@ -472,20 +536,19 @@ class ReportGeneratorAgent:
             confidence = safe(pattern.get("confidence_level"))
             score = pattern.get("score")
             evidence_for = [self._display(item) for item in pattern.get("evidence_for", []) if self._display(item) != "Not available"]
-            score_text = f"<b>Score:</b> {safe(score)}<br/>" if score is not None and str(score).strip() not in {"", "None", "Not available"} else ""
+            score_text = safe(score) if score is not None and str(score).strip() not in {"", "None", "Not available"} else "Not available"
             evidence_text = "<br/>".join(f"• {safe(item)}" for item in evidence_for) if evidence_for else "• Not available"
-            body_parts = [
-                f"<b>{pattern_name}</b>",
-                "",
-                f"<b>Rank:</b> {rank}<br/>",
-                f"<b>Confidence:</b> {confidence}<br/>",
-                score_text,
-                f"<b>Retrieved Sources:</b> {len(pattern.get('retrieved_sources', []))}<br/>",
-                f"<b>Evidence:</b><br/>{evidence_text}",
+            rows = [
+                [Paragraph(f"<b>{pattern_name}</b>", styles["CardTitle"])],
+                [Paragraph(f"<b>Rank:</b> {rank}", styles["CardBody"])],
+                [Paragraph(f"<b>Confidence:</b> {confidence}", styles["CardBody"])],
+                [Paragraph(f"<b>Score:</b> {score_text}", styles["CardBody"])],
+                [Paragraph(f"<b>Retrieved Sources:</b> {len(pattern.get('retrieved_sources', []))}", styles["CardBody"])],
+                [Paragraph(f"<b>Evidence:</b><br/>{evidence_text}", styles["CardBody"])],
             ]
             return KeepTogether(
                 Table(
-                    [[Paragraph("".join(body_parts), styles["CardBody"])]],
+                    rows,
                     colWidths=[A4[0] - 40 * mm],
                     style=TableStyle([
                         ("BOX", (0, 0), (-1, -1), 0.6, border),
@@ -502,10 +565,10 @@ class ReportGeneratorAgent:
             canvas.saveState()
             canvas.setStrokeColor(border)
             canvas.line(18 * mm, 14 * mm, A4[0] - 18 * mm, 14 * mm)
-            canvas.setFont("Helvetica-Bold", 7.5)
+            canvas.setFont(font_bold, 7.5)
             canvas.setFillColor(navy)
             canvas.drawString(18 * mm, 10 * mm, "MedDx Assistant")
-            canvas.setFont("Helvetica", 7)
+            canvas.setFont(font_regular, 7)
             canvas.setFillColor(muted)
             canvas.drawString(18 * mm, 7 * mm, "Clinical Review Report")
             canvas.drawString(18 * mm, 4 * mm, f"Case ID: {safe(case_id)}")
@@ -527,15 +590,7 @@ class ReportGeneratorAgent:
         patient = dashboard.get("patient_summary", {})
         case_id = dashboard.get("report_case_id") or dashboard.get("case_id")
         summary = self._review_summary(dashboard)
-        summary_items = [
-            ("Total Labs Reviewed", summary.get("Total labs reviewed", 0)),
-            ("Normal Findings", summary.get("Normal findings count", 0)),
-            ("Abnormal Findings", summary.get("Total abnormal findings", 0)),
-            ("Clinical Warnings", summary.get("Total clinical warnings", 0)),
-            ("Clinical Patterns", summary.get("Total clinical patterns", 0)),
-            ("Retrieved Sources", summary.get("Total retrieved sources", 0)),
-            ("Missing Required Labs", summary.get("Missing required labs count", 0)),
-        ]
+        summary_items = self._summary_card_items(summary)
 
         story: list[Any] = [
             Paragraph("MedDx Assistant", styles["ReportTitle"]),
@@ -597,19 +652,21 @@ class ReportGeneratorAgent:
         ])
 
         story.extend(section("Review Summary"))
-        summary_rows: list[list[Any]] = []
+        summary_tables: list[Any] = []
         for index in range(0, len(summary_items), 4):
             row = summary_items[index:index + 4]
-            while len(row) < 4:
-                row = [*row, ("", "")]
-            summary_rows.append([metric_card(label, value) for label, value in row])
-        story.append(KeepTogether(Table(summary_rows, colWidths=[(A4[0] - 42 * mm) / 4] * 4, style=TableStyle([
-            ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("LEFTPADDING", (0, 0), (-1, -1), 1 * mm),
-            ("RIGHTPADDING", (0, 0), (-1, -1), 1 * mm),
-            ("TOPPADDING", (0, 0), (-1, -1), 1 * mm),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 1 * mm),
-        ]))))
+            summary_tables.append(Table(
+                [[metric_card(label, value) for label, value in row]],
+                colWidths=[(A4[0] - 42 * mm) / 4] * len(row),
+                style=TableStyle([
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 1 * mm),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 1 * mm),
+                    ("TOPPADDING", (0, 0), (-1, -1), 1 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 1 * mm),
+                ]),
+            ))
+        story.extend(summary_tables)
         story.append(Spacer(1, 2 * mm))
         story.append(PageBreak())
 
@@ -704,7 +761,7 @@ class ReportGeneratorAgent:
             "Configured ranges are educational and may differ by laboratory, age, sex, method, and clinical context.",
             "This output supports review and does not replace clinician judgment.",
             "This output is not a final diagnosis.",
-            "No medication or treatment recommendation is provided.",
+            CANONICAL_LIMITATION_SENTENCE,
         ]:
             story.append(Paragraph(f"• {safe(limitation)}", styles["BodySafe"]))
         story.extend([Spacer(1, 3 * mm), Paragraph("Final Safety Notice", styles["SectionTitle"]), Paragraph(safe(SAFETY_NOTICE), styles["Notice"])])
@@ -806,6 +863,17 @@ class ReportGeneratorAgent:
             "Total retrieved sources": len(dashboard_json.get("retrieved_sources", [])),
             "Missing required labs count": len(dashboard_json.get("missing_required_labs", [])),
         }
+
+    def _summary_card_items(self, summary: dict[str, int]) -> list[tuple[str, int]]:
+        return [
+            ("Total Labs Reviewed", summary.get("Total labs reviewed", 0)),
+            ("Normal Findings", summary.get("Normal findings count", 0)),
+            ("Abnormal Findings", summary.get("Total abnormal findings", 0)),
+            ("Clinical Warnings", summary.get("Total clinical warnings", 0)),
+            ("Clinical Patterns", summary.get("Total clinical patterns", 0)),
+            ("Retrieved Sources", summary.get("Total retrieved sources", 0)),
+            ("Missing Required Labs", summary.get("Missing required labs count", 0)),
+        ]
 
     def _lab_result(self, lab: dict[str, Any]) -> dict[str, Any]:
         return {
@@ -953,7 +1021,7 @@ class ReportGeneratorAgent:
     def _html_summary(self, summary: dict[str, int]) -> str:
         cards = "".join(
             f'<div class="card"><small>{self._esc(label)}</small><strong>{value}</strong></div>'
-            for label, value in summary.items()
+            for label, value in self._summary_card_items(summary)
         )
         return f"<section><h2>Review Summary</h2><div class=\"grid\">{cards}</div></section>"
 
@@ -1073,7 +1141,7 @@ class ReportGeneratorAgent:
             "<li>Ranges may differ by lab, age, sex, method, and clinical context.</li>"
             "<li>This output supports review and does not replace clinician judgment.</li>"
             "<li>This output is not a final diagnosis.</li>"
-            "<li>No medication or treatment recommendation is provided.</li>"
+            f"<li>{CANONICAL_LIMITATION_SENTENCE}</li>"
             "</ul></section>"
         )
 
@@ -1135,7 +1203,7 @@ class ReportGeneratorAgent:
     def _display(self, value: Any) -> str:
         if value is None or value == "":
             return "Not available"
-        return sanitize_text(str(value))
+        return sanitize_report_text(str(value))
 
     def _format_panel_label(self, value: Any) -> str:
         if value is None or value == "":
