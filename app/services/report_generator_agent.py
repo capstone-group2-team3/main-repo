@@ -73,7 +73,7 @@ class ReportGeneratorAgent:
         missing_required_labs: list[str] | None = None,
         generated_at: str | None = None,
     ) -> dict[str, Any]:
-        sources = retrieved_sources or []
+        sources = self._deduplicate_sources(retrieved_sources or [])
         source_map = self._sources_by_pattern(sources)
         if generated_at is None:
             generated_at = datetime.now(timezone.utc).isoformat()
@@ -141,13 +141,14 @@ class ReportGeneratorAgent:
                 ]
             )
 
+        selected_panel_label = self._format_panel_label(patient.get("selected_panel"))
         lines.extend(
             [
             "## Case Overview",
             f"- Case ID: {case_id}",
             f"- Generated date/time: {generated_at}",
             f"- Display timezone: {generated_timezone}",
-            f"- Selected panel: {self._display(patient.get('selected_panel'))}",
+            f"- Selected panel: {selected_panel_label}",
             f"- Patient age: {self._display(patient.get('age'))}",
             f"- Patient sex: {self._display(patient.get('sex'))}",
             f"- Symptoms: {self._join(patient.get('symptoms', []))}",
@@ -157,8 +158,14 @@ class ReportGeneratorAgent:
             ]
         )
 
+        if isinstance(severity, dict):
+            lines.append(f"- Severity label: {self._display(severity.get('label'))}")
+            lines.append(f"- Confidence: {self._format_confidence(severity.get('confidence'))}")
+            lines.append(f"- Severity source: {self._source_label(severity.get('source'))}")
+
         for label, value in summary.items():
-            lines.append(f"- {label}: {value}")
+            if label in {"Total labs reviewed", "Total abnormal findings", "Total clinical patterns", "Total retrieved sources"}:
+                lines.append(f"- {label}: {value}")
 
         lines.extend(
             [
@@ -222,12 +229,10 @@ class ReportGeneratorAgent:
                     [
                         f"### Rank {self._display(pattern.get('rank'))}: {normalize_terminal_punctuation(self._display(pattern.get('pattern_name')))}",
                         "This pattern may be consistent with the submitted findings and requires clinician review.",
-                        f"- Confidence level: {self._display(pattern.get('confidence_level'))}",
+                        f"- Rank: {self._display(pattern.get('rank'))}",
+                        f"- Confidence: {self._display(pattern.get('confidence_level'))}",
                         f"- Score: {self._display(pattern.get('score'))}",
-                        f"- Evidence for: {self._join(pattern.get('evidence_for', []))}",
-                        f"- Missing evidence: {self._join(pattern.get('missing_evidence', []))}",
-                        f"- Warnings: {self._join(pattern.get('warnings', []))}",
-                        f"- Retrieved evidence sources: {len(pattern.get('retrieved_sources', []))}",
+                        f"- Retrieved Sources: {len(pattern.get('retrieved_sources', []))}",
                     ]
                 )
         else:
@@ -247,10 +252,10 @@ class ReportGeneratorAgent:
                 lines.extend(
                     [
                         f"### {self._display(source.get('title'))}",
+                        f"- Relevant Finding: {self._display(source.get('snippet'))}",
+                        f"- Clinical Context: {self._display(source.get('pattern_code'))}",
+                        f"- Similarity Score: {self._format_score(source.get('similarity_score'))}",
                         f"- Source ID: {self._display(source.get('source_id'))}",
-                        f"- Similarity score: {self._format_score(source.get('similarity_score'))}",
-                        f"- Snippet: {self._display(source.get('snippet'))}",
-                        f"- Related pattern: {self._display(source.get('pattern_code'))}",
                     ]
                 )
         else:
@@ -584,7 +589,7 @@ class ReportGeneratorAgent:
             bullet("Case ID", case_id),
             bullet("Generated", format_clinician_datetime(dashboard.get("generated_at"))),
             bullet("Display timezone", report_timezone_label()),
-            bullet("Selected panel", patient.get("selected_panel")),
+            bullet("Selected panel", self._format_panel_label(patient.get("selected_panel"))),
             bullet("Age", patient.get("age")),
             bullet("Sex", patient.get("sex")),
             bullet("Symptoms", ", ".join(patient.get("symptoms", [])) or None),
@@ -871,6 +876,32 @@ class ReportGeneratorAgent:
             "pattern_code": source.get("pattern_code"),
         }
 
+    def _deduplicate_sources(self, sources: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        seen: dict[tuple[str, str, str], dict[str, Any]] = {}
+        for source in sources:
+            if not isinstance(source, dict):
+                continue
+            key = (
+                self._display(source.get("source_id")),
+                self._display(source.get("title")),
+                self._display(source.get("snippet")),
+            )
+            current = seen.get(key)
+            if current is None:
+                seen[key] = self._retrieved_source(source)
+                continue
+            current_score = self._float_score(current.get("similarity_score"))
+            incoming_score = self._float_score(source.get("similarity_score"))
+            if incoming_score is not None and (current_score is None or incoming_score > current_score):
+                seen[key] = self._retrieved_source(source)
+        return list(seen.values())
+
+    def _float_score(self, value: Any) -> float | None:
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
     def _sources_by_pattern(self, sources: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         source_map: dict[str, list[dict[str, Any]]] = {}
 
@@ -911,7 +942,7 @@ class ReportGeneratorAgent:
             ("Case ID", case_id),
             ("Generated", generated_at),
             ("Display timezone", generated_timezone),
-            ("Selected panel", patient.get("selected_panel")),
+            ("Selected panel", self._format_panel_label(patient.get("selected_panel"))),
             ("Patient age", patient.get("age")),
             ("Patient sex", patient.get("sex")),
             ("Symptoms", self._join(patient.get("symptoms", []))),
@@ -1002,11 +1033,9 @@ class ReportGeneratorAgent:
                 "<div class=\"card\">"
                 f"<h3>Rank {self._esc(pattern.get('rank'))}: {self._esc(normalize_terminal_punctuation(pattern.get('pattern_name')))}</h3>"
                 "<p>This pattern may be consistent with the submitted findings and requires clinician review.</p>"
-                f"<p><strong>Confidence:</strong> {self._esc(pattern.get('confidence_level'))} "
-                f"<strong>Score:</strong> {self._esc(pattern.get('score'))}</p>"
-                f"<p><strong>Evidence for:</strong> {self._esc(self._join(pattern.get('evidence_for', [])))}</p>"
-                f"<p><strong>Missing evidence:</strong> {self._esc(self._join(pattern.get('missing_evidence', [])))}</p>"
-                f"<p><strong>Warnings:</strong> {self._esc(self._join(pattern.get('warnings', [])))}</p>"
+                f"<p><strong>Rank:</strong> {self._esc(pattern.get('rank'))}</p>"
+                f"<p><strong>Confidence:</strong> {self._esc(pattern.get('confidence_level'))}</p>"
+                f"<p><strong>Score:</strong> {self._esc(pattern.get('score'))}</p>"
                 f"<p><strong>Retrieved sources:</strong> {len(pattern.get('retrieved_sources', []))}</p>"
                 "</div>"
             )
@@ -1029,10 +1058,10 @@ class ReportGeneratorAgent:
             cards.append(
                 "<div class=\"card\">"
                 f"<h3>{self._esc(source.get('title'))}</h3>"
+                f"<p><strong>Relevant Finding:</strong> {self._esc(source.get('snippet'))}</p>"
+                f"<p><strong>Clinical Context:</strong> {self._esc(source.get('pattern_code'))}</p>"
+                f"<p><strong>Similarity Score:</strong> {self._esc(self._format_score(source.get('similarity_score')))}</p>"
                 f"<p><strong>Source ID:</strong> {self._esc(source.get('source_id'))}</p>"
-                f"<p><strong>Similarity score:</strong> {self._esc(self._format_score(source.get('similarity_score')))}</p>"
-                f"<p><strong>Related pattern:</strong> {self._esc(source.get('pattern_code'))}</p>"
-                f"<p>{self._esc(source.get('snippet'))}</p>"
                 "</div>"
             )
         return f"<section><h2>Retrieved Evidence Sources</h2>{''.join(cards)}</section>"
@@ -1107,6 +1136,20 @@ class ReportGeneratorAgent:
         if value is None or value == "":
             return "Not available"
         return sanitize_text(str(value))
+
+    def _format_panel_label(self, value: Any) -> str:
+        if value is None or value == "":
+            return "Not available"
+        text = self._display(value)
+        mapping = {
+            "Diabetic_Panel": "Diabetic / Rapid Glucose Panel",
+            "Cardiac_Enzymes_Panel": "Cardiac Enzymes Panel",
+            "Electrolytes_Calcium_Panel": "Electrolytes & Calcium Panel",
+            "Lipids_Inflammation_Panel": "Lipids & Inflammation Panel",
+            "Albumin_Protein_Panel": "Albumin & Protein Panel",
+            "Renal_Thyroid_Panel": "Renal & Thyroid Panel",
+        }
+        return mapping.get(text, text)
 
     def _md_cell(self, value: Any) -> str:
         return self._display(value).replace("|", "\\|").replace("\n", " ")

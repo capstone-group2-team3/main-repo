@@ -13,6 +13,16 @@ class LowConfidenceModel:
         return type("Output", (), {"logits": torch.tensor([[0.0, 0.0, 0.0]])})()
 
 
+class PredictingModel:
+    def __init__(self, logits):
+        self.logits = torch.tensor([logits])
+        self.called = False
+
+    def __call__(self, **kwargs):
+        self.called = True
+        return type("Output", (), {"logits": self.logits})()
+
+
 class FailingModel:
     def __call__(self, **kwargs):
         raise RuntimeError("inference unavailable")
@@ -22,6 +32,16 @@ def unavailable_service() -> SeverityClassifierService:
     service = SeverityClassifierService()
     service._initialized = True
     service.model_available = False
+    return service
+
+
+def available_service_with_model(model) -> SeverityClassifierService:
+    service = SeverityClassifierService()
+    service._initialized = True
+    service.model_available = True
+    service.tokenizer = FakeTokenizer()
+    service.model = model
+    service.confidence_threshold = 0.60
     return service
 
 
@@ -72,6 +92,83 @@ def test_critical_lab_returns_critical_override_with_full_confidence():
         "confidence": 1.0,
         "source": "critical_override",
     }
+
+
+def test_critical_override_wins_over_routine_model_prediction():
+    model = PredictingModel([12.0, 0.0, 0.0])
+    result = available_service_with_model(model).predict_severity(
+        case_text="Model would call this routine.",
+        lab_results=[{"test_name": "Potassium", "status": "Critical"}],
+    )
+
+    assert result == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
+    assert model.called is False
+
+
+def test_critical_override_wins_over_urgent_model_prediction():
+    model = PredictingModel([0.0, 12.0, 0.0])
+    result = available_service_with_model(model).predict_severity(
+        case_text="Model would call this urgent.",
+        lab_results=[{"test_name": "Potassium", "status": "Critical"}],
+    )
+
+    assert result == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
+    assert model.called is False
+
+
+def test_critical_override_wins_regardless_of_model_confidence():
+    model = PredictingModel([0.0, 0.0, 0.0])
+    result = available_service_with_model(model).predict_severity(
+        case_text="Model confidence would be below threshold.",
+        lab_results=[{"test_name": "Potassium", "status": "Critical"}],
+    )
+
+    assert result == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
+    assert model.called is False
+
+
+def test_critical_override_wins_before_rule_based_fallback():
+    result = unavailable_service().predict_severity(
+        case_text="Critical result with otherwise urgent fallback context.",
+        lab_results=[
+            {"test_name": "Potassium", "status": "Critical"},
+            {"test_name": "Sodium", "status": "Low"},
+        ],
+        clinical_patterns=[{"pattern_code": "electrolyte_imbalance"}],
+    )
+
+    assert result == {
+        "label": "Critical",
+        "confidence": 1.0,
+        "source": "critical_override",
+    }
+
+
+def test_multiple_labs_are_critical_when_any_one_is_critical():
+    result = unavailable_service().predict_severity(
+        case_text="One critical lab among multiple results.",
+        lab_results=[
+            {"test_name": "Sodium", "status": "Normal"},
+            {"test_name": "Potassium", "status": "Critical"},
+            {"test_name": "Calcium", "status": "Normal"},
+        ],
+    )
+
+    assert result["label"] == "Critical"
+    assert result["confidence"] == 1.0
+    assert result["source"] == "critical_override"
 
 
 def test_symptoms_alone_do_not_force_critical():

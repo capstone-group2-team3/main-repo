@@ -287,7 +287,7 @@ def run_eval(heldout_path: Path, output_path: Path, failure_path: Path, limit: i
     output = {
         "run_metadata": {
             "run_at_utc": run_at,
-            "heldout_path": str(heldout_path),
+            "heldout_path": str(heldout_path.relative_to(ROOT)),
             "pipeline": "app.services.agent_orchestrator.AgentOrchestrator.analyze_report",
             "case_limit": limit,
         },

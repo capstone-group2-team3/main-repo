@@ -1,0 +1,427 @@
+{
+  "generated_at_utc": "2026-07-13T00:18:17.008916+00:00",
+  "source_results": "eval/results.json",
+  "total_cases": 57,
+  "failure_count": 22,
+  "grouped_by_panel": {
+    "Albumin_Protein_Panel": 3,
+    "CBC_Panel": 5,
+    "Cardiac_Enzymes_Panel": 2,
+    "Diabetic_Panel": 4,
+    "Lipids_Inflammation_Panel": 4,
+    "Renal_Thyroid_Panel": 4
+  },
+  "grouped_by_failure_reason": {
+    "evidence_grounding": 4,
+    "severity_accuracy": 21
+  },
+  "grouped_by_severity_source": {
+    "fine_tuned_model": 21,
+    "rule_based_fallback": 1
+  },
+  "panel_reason_heatmap": {
+    "Albumin_Protein_Panel": {
+      "severity_accuracy": 3
+    },
+    "CBC_Panel": {
+      "evidence_grounding": 4,
+      "severity_accuracy": 4
+    },
+    "Cardiac_Enzymes_Panel": {
+      "severity_accuracy": 2
+    },
+    "Diabetic_Panel": {
+      "severity_accuracy": 4
+    },
+    "Lipids_Inflammation_Panel": {
+      "severity_accuracy": 4
+    },
+    "Renal_Thyroid_Panel": {
+      "severity_accuracy": 4
+    }
+  },
+  "documented_failure_cases": [
+    {
+      "case_id": "heldout-001",
+      "input_summary": {
+        "age": 34,
+        "sex": "female",
+        "selected_panel": "CBC_Panel",
+        "symptoms": [
+          "fatigue",
+          "dizziness",
+          "pale skin"
+        ],
+        "labs": [
+          {
+            "name": "Hemoglobin",
+            "value": 9.4,
+            "unit": "g/dL"
+          },
+          {
+            "name": "WBC",
+            "value": 7.0,
+            "unit": "10^9/L"
+          },
+          {
+            "name": "Platelets",
+            "value": 260,
+            "unit": "10^9/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "anemia_pattern"
+      ],
+      "predicted_top3": [
+        "anemia_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Critical",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-003",
+      "input_summary": {
+        "age": 29,
+        "sex": "female",
+        "selected_panel": "CBC_Panel",
+        "symptoms": [
+          "bruising",
+          "gum bleeding"
+        ],
+        "labs": [
+          {
+            "name": "Hemoglobin",
+            "value": 12.6,
+            "unit": "g/dL"
+          },
+          {
+            "name": "WBC",
+            "value": 6.1,
+            "unit": "10^9/L"
+          },
+          {
+            "name": "Platelets",
+            "value": 92,
+            "unit": "10^9/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "thrombocytopenia_concern"
+      ],
+      "predicted_top3": [
+        "thrombocytopenia_concern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Critical",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "evidence_grounding",
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-005",
+      "input_summary": {
+        "age": 54,
+        "sex": "female",
+        "selected_panel": "CBC_Panel",
+        "symptoms": [
+          "headache"
+        ],
+        "labs": [
+          {
+            "name": "Hemoglobin",
+            "value": 13.0,
+            "unit": "g/dL"
+          },
+          {
+            "name": "WBC",
+            "value": 8.0,
+            "unit": "10^9/L"
+          },
+          {
+            "name": "Platelets",
+            "value": 560,
+            "unit": "10^9/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "platelet_elevation_concern"
+      ],
+      "predicted_top3": [
+        "platelet_elevation_concern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "evidence_grounding",
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-007",
+      "input_summary": {
+        "age": 72,
+        "sex": "female",
+        "selected_panel": "CBC_Panel",
+        "symptoms": [
+          "fever",
+          "fatigue",
+          "easy bruising"
+        ],
+        "labs": [
+          {
+            "name": "Hemoglobin",
+            "value": 10.8,
+            "unit": "g/dL"
+          },
+          {
+            "name": "WBC",
+            "value": 18.2,
+            "unit": "10^9/L"
+          },
+          {
+            "name": "Platelets",
+            "value": 118,
+            "unit": "10^9/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "anemia_pattern",
+        "infection_inflammation_pattern",
+        "thrombocytopenia_concern"
+      ],
+      "predicted_top3": [
+        "anemia_pattern",
+        "infection_inflammation_pattern",
+        "thrombocytopenia_concern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Critical",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "evidence_grounding",
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-011",
+      "input_summary": {
+        "age": 46,
+        "sex": "female",
+        "selected_panel": "Diabetic_Panel",
+        "symptoms": [
+          "fatigue"
+        ],
+        "labs": [
+          {
+            "name": "Glucose",
+            "value": 96,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "HbA1c",
+            "value": 6.7,
+            "unit": "%"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [
+        "hyperglycemia_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-012",
+      "input_summary": {
+        "age": 39,
+        "sex": "male",
+        "selected_panel": "Diabetic_Panel",
+        "symptoms": [
+          "weight loss",
+          "increased thirst"
+        ],
+        "labs": [
+          {
+            "name": "Glucose",
+            "value": 215,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "HbA1c",
+            "value": 7.4,
+            "unit": "%"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [
+        "hyperglycemia_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-013",
+      "input_summary": {
+        "age": 58,
+        "sex": "female",
+        "selected_panel": "Diabetic_Panel",
+        "symptoms": [
+          "loss of consciousness"
+        ],
+        "labs": [
+          {
+            "name": "Glucose",
+            "value": 38,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "HbA1c",
+            "value": 5.5,
+            "unit": "%"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "hypoglycemia_concern"
+      ],
+      "predicted_top3": [
+        "hypoglycemia_concern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-014",
+      "input_summary": {
+        "age": 49,
+        "sex": "male",
+        "selected_panel": "Diabetic_Panel",
+        "symptoms": [],
+        "labs": [
+          {
+            "name": "Glucose",
+            "value": 112,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "HbA1c",
+            "value": 6.0,
+            "unit": "%"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "hyperglycemia_pattern"
+      ],
+      "predicted_top3": [
+        "hyperglycemia_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-016",
+      "input_summary": {
+        "age": 36,
+        "sex": "female",
+        "selected_panel": "Renal_Thyroid_Panel",
+        "symptoms": [
+          "fatigue",
+          "weight gain",
+          "cold intolerance"
+        ],
+        "labs": [
+          {
+            "name": "Creatinine",
+            "value": 0.8,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "TSH",
+            "value": 8.9,
+            "unit": "mIU/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [
+        "thyroid_imbalance_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    },
+    {
+      "case_id": "heldout-020",
+      "input_summary": {
+        "age": 51,
+        "sex": "female",
+        "selected_panel": "Renal_Thyroid_Panel",
+        "symptoms": [],
+        "labs": [
+          {
+            "name": "Creatinine",
+            "value": 0.9,
+            "unit": "mg/dL"
+          },
+          {
+            "name": "TSH",
+            "value": 11.6,
+            "unit": "mIU/L"
+          }
+        ]
+      },
+      "expected_patterns": [
+        "thyroid_imbalance_pattern"
+      ],
+      "predicted_top3": [
+        "thyroid_imbalance_pattern"
+      ],
+      "expected_severity": "Urgent",
+      "predicted_severity": "Routine",
+      "severity_source": "fine_tuned_model",
+      "failure_reasons": [
+        "severity_accuracy"
+      ]
+    }
+  ],
+  "next_iteration_hypothesis": "Most observed failures are severity-accuracy mismatches on non-critical cases; rebalance and calibrate the severity classifier while preserving the deterministic critical override that protects Critical recall."
+}

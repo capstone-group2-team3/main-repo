@@ -1,6 +1,6 @@
 # Held-out Evaluation Failure Cases
 
-Generated from `eval/results.json` for the evaluation run at `2026-07-12T12:03:16.923533+00:00`. These are observed pipeline failures, not invented clinical cases.
+Generated from `eval/results.json` for the evaluation run at `2026-07-13T00:18:08.884302+00:00`. These are observed pipeline failures, not invented clinical cases.
 
 ## heldout-001
 
@@ -312,7 +312,7 @@ Generated from `eval/results.json` for the evaluation run at `2026-07-12T12:03:1
 - Expected severity: Urgent
 - Predicted severity: Routine (source=fine_tuned_model, confidence=0.8135)
 - Critical misclassification: False
-- Retrieved sources count: 4
+- Retrieved sources count: 3
 - Likely root cause: The predicted severity label did not match the deterministic expected severity label.
 - Proposed fix: Review severity rules, confidence threshold behavior, and model calibration against held-out cases.
 - Issue category: severity classifier

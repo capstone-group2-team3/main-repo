@@ -15,6 +15,10 @@ UNSAFE_REPLACEMENTS: list[tuple[re.Pattern[str], str]] = [
         r"findings may be consistent with \1, pending clinician review",
     ),
     (
+        re.compile(r"\bdiagnose\b", re.IGNORECASE),
+        "clinician review",
+    ),
+    (
         re.compile(r"\bdiagnosis is\s+([a-z0-9 ,./+-]+)", re.IGNORECASE),
         r"clinical pattern may suggest \1, requiring clinician review",
     ),
@@ -27,12 +31,24 @@ UNSAFE_REPLACEMENTS: list[tuple[re.Pattern[str], str]] = [
         "clinician review considerations",
     ),
     (
+        re.compile(r"\btreatment recommendation\b", re.IGNORECASE),
+        "clinician review consideration",
+    ),
+    (
         re.compile(r"\bprescribed\b", re.IGNORECASE),
         "considered according to clinician judgment and local protocols",
     ),
     (
+        re.compile(r"\bprescription\b", re.IGNORECASE),
+        "clinician-directed medication decision",
+    ),
+    (
         re.compile(r"\bprescribe\b", re.IGNORECASE),
         "consider according to clinician judgment and local protocols",
+    ),
+    (
+        re.compile(r"\bmedication advice\b", re.IGNORECASE),
+        "clinician review considerations",
     ),
     (
         re.compile(r"\bstart medication\b", re.IGNORECASE),
