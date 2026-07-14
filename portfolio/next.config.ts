@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath: "/main-repo",
   assetPrefix: "/main-repo/",
+  devIndicators: false,
   images: {
     unoptimized: true,
   },
