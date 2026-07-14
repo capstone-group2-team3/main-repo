@@ -16,3 +16,9 @@ reports/generated_reports/*.html
 .DS_Store
 meddx.db
 models/severity_classifier/
+
+# Portfolio site build artifacts
+portfolio/node_modules/
+portfolio/.next/
+portfolio/out/
+portfolio/tsconfig.tsbuildinfo
